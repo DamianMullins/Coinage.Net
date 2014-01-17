@@ -1,6 +1,6 @@
 ﻿using System.Web;
 
-namespace Coinage.Web.Models.Product
+namespace Coinage.Domain.Concrete.Entities
 {
     public class Product
     {

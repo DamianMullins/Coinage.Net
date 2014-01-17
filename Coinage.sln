@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Coinage.Web", "Coinage.Web\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Coinage.Web.Tests", "Coinage.Web.Tests\Coinage.Web.Tests.csproj", "{F875CDDE-9B4B-47B8-9245-CD420B691E12}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Coinage.Domain", "Coinage.Domain\Coinage.Domain.csproj", "{F76E5445-0028-4377-913F-768424025B5A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{F875CDDE-9B4B-47B8-9245-CD420B691E12}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F875CDDE-9B4B-47B8-9245-CD420B691E12}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F875CDDE-9B4B-47B8-9245-CD420B691E12}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F76E5445-0028-4377-913F-768424025B5A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F76E5445-0028-4377-913F-768424025B5A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F76E5445-0028-4377-913F-768424025B5A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F76E5445-0028-4377-913F-768424025B5A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

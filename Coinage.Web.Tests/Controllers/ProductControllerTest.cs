@@ -1,5 +1,7 @@
-﻿using Coinage.Web.Controllers;
-using Coinage.Web.Models.Product;
+﻿using Coinage.Domain.Abstract.Services;
+using Coinage.Domain.Concrete.Entities;
+using Coinage.Web.Controllers;
+using Moq;
 using NUnit.Framework;
 using System.Collections.Generic;
 using System.Web.Mvc;
@@ -30,6 +32,8 @@ namespace Coinage.Web.Tests.Controllers
             {
                 // Arrange
                 var controller = TestableProductController.Create();
+                var product = new Product { ProductId = 1, Name = "First Product" };
+                controller.SetupProductServiceGetProduct(product);
                 int existingProductId = 1;
 
                 // Act
@@ -48,7 +52,8 @@ namespace Coinage.Web.Tests.Controllers
             public void List_RequestWithNoProducts_ReturnsWithView()
             {
                 // Arrange
-                var controller = TestableProductController.Create(new List<Product>());
+                var controller = TestableProductController.Create();
+                controller.SetupProductServiceGetProducts(new List<Product>());
 
                 // Act
                 var result = (ViewResult)controller.List();
@@ -63,6 +68,12 @@ namespace Coinage.Web.Tests.Controllers
             {
                 // Arrange
                 var controller = TestableProductController.Create();
+                var products = new List<Product>
+                {
+                    new Product {ProductId = 1, Name = "First Product"},
+                    new Product {ProductId = 2, Name = "Second Product"}
+                };
+                controller.SetupProductServiceGetProducts(products);
 
                 // Act
                 var result = (ViewResult)controller.List();
@@ -75,35 +86,31 @@ namespace Coinage.Web.Tests.Controllers
 
         private class TestableProductController : ProductController
         {
-            public readonly List<Product> Products;
+            public readonly Mock<IProductService> ProductService;
 
-            private static readonly List<Product> _products = new List<Product>
+            private TestableProductController(Mock<IProductService> productService)
+                : base(productService.Object)
             {
-                new Product {ProductId = 1, Name = "First Product"},
-                new Product {ProductId = 2, Name = "Second Product"}
-            };
-
-            private TestableProductController(List<Product> products)
-                : base(products)
-            {
-                Products = products;
+                ProductService = productService;
             }
 
             public static TestableProductController Create()
             {
-                return new TestableProductController(_products);
+                return new TestableProductController(new Mock<IProductService>());
             }
 
-            public static TestableProductController Create(List<Product> products)
+            public void SetupProductServiceGetProducts(List<Product> products)
             {
-                return new TestableProductController(products);
+                ProductService
+                    .Setup(s => s.GetProducts())
+                    .Returns(products);
             }
 
-            public void SetupClient()
+            public void SetupProductServiceGetProduct(Product product)
             {
-                //Client
-                //    .Setup(c => c.Blah())
-                //    .Returns(Blah);
+                ProductService
+                    .Setup(s => s.GetProduct(It.IsAny<int>()))
+                    .Returns(product);
             }
         }
     }

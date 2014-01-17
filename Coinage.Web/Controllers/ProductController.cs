@@ -1,27 +1,21 @@
-﻿using Coinage.Web.Models.Product;
-using System.Collections.Generic;
-using System.Linq;
+﻿using Coinage.Domain.Abstract.Services;
+using Coinage.Domain.Concrete.Entities;
 using System.Web.Mvc;
 
 namespace Coinage.Web.Controllers
 {
     public class ProductController : Controller
     {
-        private List<Product> _products;
+        private readonly IProductService _productService;
 
-        public ProductController()
+        public ProductController(IProductService productService)
         {
-            
-        }
-
-        public ProductController(List<Product> products)
-        {
-            _products = products;
+            _productService = productService;
         }
 
         public ActionResult Index(int id)
         {
-            var product = _products.FirstOrDefault(p => p.ProductId == id);
+            Product product = _productService.GetProduct(id);
 
             if (product != null)
             {
@@ -32,7 +26,8 @@ namespace Coinage.Web.Controllers
 
         public ActionResult List()
         {
-            return View(_products);
+            var products = _productService.GetProducts();
+            return View(products);
         }
     }
 }

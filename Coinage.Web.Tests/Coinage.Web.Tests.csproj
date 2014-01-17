@@ -99,6 +99,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Coinage.Domain\Coinage.Domain.csproj">
+      <Project>{F76E5445-0028-4377-913F-768424025B5A}</Project>
+      <Name>Coinage.Domain</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Coinage.Web\Coinage.Web.csproj">
       <Project>{78D400D0-57A7-435B-8EC8-81C9CF13EEA4}</Project>
       <Name>Coinage.Web</Name>
