@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Coinage.Domain", "Coinage.D
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Coinage.Data.EntityFramework", "Coinage.Data.EntityFramework\Coinage.Data.EntityFramework.csproj", "{4A34BEC4-A253-4294-9E31-093D8AFF8F8D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Coinage.DI", "Coinage.DI\Coinage.DI.csproj", "{ACB458C9-1FEA-4C69-84FA-F4AEAA78CF2D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{4A34BEC4-A253-4294-9E31-093D8AFF8F8D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4A34BEC4-A253-4294-9E31-093D8AFF8F8D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4A34BEC4-A253-4294-9E31-093D8AFF8F8D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ACB458C9-1FEA-4C69-84FA-F4AEAA78CF2D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ACB458C9-1FEA-4C69-84FA-F4AEAA78CF2D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ACB458C9-1FEA-4C69-84FA-F4AEAA78CF2D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ACB458C9-1FEA-4C69-84FA-F4AEAA78CF2D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
