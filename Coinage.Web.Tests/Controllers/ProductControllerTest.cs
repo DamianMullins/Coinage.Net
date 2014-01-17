@@ -11,19 +11,33 @@ namespace Coinage.Web.Tests.Controllers
         public class Index
         {
             [Test]
-            public void Index_RequestWithId_ReturnsWithView()
+            public void Index_RequestWithExistingProductId_ReturnsWithView()
             {
                 // Arrange
                 var controller = TestableProductController.Create();
-                int productId = 1;
+                int existingProductId = 1;
 
                 // Act
-                ViewResult result = controller.Index(productId);
+                var result = (ViewResult)controller.Index(existingProductId);
 
                 // Assert
-                var resultModel = ((Product) result.Model);
+                var resultModel = ((Product)result.Model);
                 Assert.IsInstanceOf<Product>(result.Model);
-                Assert.AreEqual(productId, resultModel.ProductId);
+                Assert.AreEqual(existingProductId, resultModel.ProductId);
+            }
+
+            [Test]
+            public void Index_RequestWithNonExistingProductId_ReturnsHttpNotFound()
+            {
+                // Arrange
+                var controller = TestableProductController.Create();
+                int nonExitingProductId = 3;
+
+                // Act
+                ActionResult result = controller.Index(nonExitingProductId);
+
+                // Assert
+                Assert.IsInstanceOf<HttpNotFoundResult>(result);
             }
         }
 
