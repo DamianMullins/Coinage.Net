@@ -9,6 +9,11 @@ namespace Coinage.Web.Controllers
     {
         private List<Product> _products;
 
+        public ProductController()
+        {
+            
+        }
+
         public ProductController(List<Product> products)
         {
             _products = products;
@@ -23,6 +28,11 @@ namespace Coinage.Web.Controllers
                 return View(product);
             }
             return HttpNotFound("Product was not found.");
+        }
+
+        public ActionResult List()
+        {
+            return View(_products);
         }
     }
 }

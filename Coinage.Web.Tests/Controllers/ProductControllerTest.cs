@@ -12,6 +12,20 @@ namespace Coinage.Web.Tests.Controllers
         public class Index
         {
             [Test]
+            public void Index_RequestWithNonExistingProductId_ReturnsHttpNotFound()
+            {
+                // Arrange
+                var controller = TestableProductController.Create();
+                int nonExitingProductId = 3;
+
+                // Act
+                ActionResult result = controller.Index(nonExitingProductId);
+
+                // Assert
+                Assert.IsInstanceOf<HttpNotFoundResult>(result);
+            }
+
+            [Test]
             public void Index_RequestWithExistingProductId_ReturnsWithView()
             {
                 // Arrange
@@ -26,19 +40,36 @@ namespace Coinage.Web.Tests.Controllers
                 Assert.IsInstanceOf<Product>(result.Model);
                 Assert.AreEqual(existingProductId, resultModel.ProductId);
             }
+        }
+
+        public class List
+        {
+            [Test]
+            public void List_RequestWithNoProducts_ReturnsWithView()
+            {
+                // Arrange
+                var controller = TestableProductController.Create(new List<Product>());
+
+                // Act
+                var result = (ViewResult)controller.List();
+
+                // Assert
+                Assert.IsInstanceOf<List<Product>>(result.Model);
+                Assert.IsTrue(((List<Product>)result.Model).Count == 0);
+            }
 
             [Test]
-            public void Index_RequestWithNonExistingProductId_ReturnsHttpNotFound()
+            public void List_RequestWithProducts_ReturnsWithView()
             {
                 // Arrange
                 var controller = TestableProductController.Create();
-                int nonExitingProductId = 3;
 
                 // Act
-                ActionResult result = controller.Index(nonExitingProductId);
+                var result = (ViewResult)controller.List();
 
                 // Assert
-                Assert.IsInstanceOf<HttpNotFoundResult>(result);
+                Assert.IsInstanceOf<List<Product>>(result.Model);
+                Assert.IsTrue(((List<Product>)result.Model).Count == 2);
             }
         }
 
@@ -61,6 +92,11 @@ namespace Coinage.Web.Tests.Controllers
             public static TestableProductController Create()
             {
                 return new TestableProductController(_products);
+            }
+
+            public static TestableProductController Create(List<Product> products)
+            {
+                return new TestableProductController(products);
             }
 
             public void SetupClient()
