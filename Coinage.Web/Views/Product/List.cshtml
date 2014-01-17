@@ -1,0 +1,16 @@
+﻿@model List<Coinage.Web.Models.Product.Product>
+
+@{
+    ViewBag.Title = "Products";
+}
+
+<h2>Products</h2>
+
+@if (Model != null && Model.Any())
+{
+    
+}
+else
+{
+    <p><strong>Sorry, we have no products available.</strong></p>
+}
