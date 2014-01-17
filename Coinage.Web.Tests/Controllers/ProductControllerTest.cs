@@ -1,7 +1,8 @@
-﻿using System.Web.Mvc;
-using Coinage.Web.Controllers;
+﻿using Coinage.Web.Controllers;
 using Coinage.Web.Models.Product;
 using NUnit.Framework;
+using System.Collections.Generic;
+using System.Web.Mvc;
 
 namespace Coinage.Web.Tests.Controllers
 {
@@ -43,17 +44,23 @@ namespace Coinage.Web.Tests.Controllers
 
         private class TestableProductController : ProductController
         {
-            //public readonly Mock<IClient> Client;
+            public readonly List<Product> Products;
 
-            private TestableProductController(/*Mock<IClient> client*/)
-                : base(/*client.Object*/)
+            private static readonly List<Product> _products = new List<Product>
             {
-                //Client = client;
+                new Product {ProductId = 1, Name = "First Product"},
+                new Product {ProductId = 2, Name = "Second Product"}
+            };
+
+            private TestableProductController(List<Product> products)
+                : base(products)
+            {
+                Products = products;
             }
 
             public static TestableProductController Create()
             {
-                return new TestableProductController(/*new Mock<IClient>()*/);
+                return new TestableProductController(_products);
             }
 
             public void SetupClient()

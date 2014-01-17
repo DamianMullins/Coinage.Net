@@ -7,15 +7,16 @@ namespace Coinage.Web.Controllers
 {
     public class ProductController : Controller
     {
+        private List<Product> _products;
+
+        public ProductController(List<Product> products)
+        {
+            _products = products;
+        }
+
         public ActionResult Index(int id)
         {
-            var products = new List<Product> 
-            {
-                new Product { ProductId = 1, Name = "First Product" }, 
-                new Product { ProductId = 2, Name = "Second Product" }
-            };
-
-            var product = products.FirstOrDefault(p => p.ProductId == id);
+            var product = _products.FirstOrDefault(p => p.ProductId == id);
 
             if (product != null)
             {
