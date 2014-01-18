@@ -6,5 +6,6 @@ namespace Coinage.Domain.Concrete.Entities
     {
         public int ProductId { get; set; }
         public string Name { get; set; }
+        public bool IsFeatured { get; set; }
     }
 }

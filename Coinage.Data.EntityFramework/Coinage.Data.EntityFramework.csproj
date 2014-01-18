@@ -54,6 +54,10 @@
     <Compile Include="Migrations\201401171723221_Product_Add_Class.Designer.cs">
       <DependentUpon>201401171723221_Product_Add_Class.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201401181529151_Product_Add_IsFeatured.cs" />
+    <Compile Include="Migrations\201401181529151_Product_Add_IsFeatured.Designer.cs">
+      <DependentUpon>201401181529151_Product_Add_IsFeatured.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -70,6 +74,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201401171723221_Product_Add_Class.resx">
       <DependentUpon>201401171723221_Product_Add_Class.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201401181529151_Product_Add_IsFeatured.resx">
+      <DependentUpon>201401181529151_Product_Add_IsFeatured.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
