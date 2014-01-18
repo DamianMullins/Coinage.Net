@@ -29,5 +29,12 @@ namespace Coinage.Web.Controllers
             var products = _productService.GetProducts();
             return View(products);
         }
+
+        [ChildActionOnly]
+        public ActionResult FeaturedList()
+        {
+            var products = _productService.GetFeaturedProducts();
+            return View(products);
+        }
     }
 }

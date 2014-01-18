@@ -20,6 +20,11 @@ namespace Coinage.Domain.Concrete.Services
             return _productRepository.Table.ToList();
         }
 
+        public List<Product> GetFeaturedProducts()
+        {
+            return _productRepository.Table.Where(p => p.IsFeatured).ToList();
+        }
+
         public Product GetProduct(int id)
         {
             return _productRepository.GetById(id);

@@ -6,6 +6,7 @@ namespace Coinage.Domain.Abstract.Services
     public interface IProductService
     {
         List<Product> GetProducts();
+        List<Product> GetFeaturedProducts();
         Product GetProduct(int id);
         void Update(Product product);
     }

@@ -84,6 +84,44 @@ namespace Coinage.Web.Tests.Controllers
             }
         }
 
+        public class FeaturedList
+        {
+            [Test]
+            public void FeaturedList_RequestWithNoProducts_ReturnsWithView()
+            {
+                // Arrange
+                var controller = TestableProductController.Create();
+                controller.SetupProductServiceGetProducts(new List<Product>());
+
+                // Act
+                var result = (ViewResult)controller.List();
+
+                // Assert
+                Assert.IsInstanceOf<List<Product>>(result.Model);
+                Assert.IsTrue(((List<Product>)result.Model).Count == 0);
+            }
+
+            [Test]
+            public void List_RequestWithProducts_ReturnsWithView()
+            {
+                // Arrange
+                var controller = TestableProductController.Create();
+                var products = new List<Product>
+                {
+                    new Product {ProductId = 1, Name = "First Product"},
+                    new Product {ProductId = 2, Name = "Second Product"}
+                };
+                controller.SetupProductServiceGetProducts(products);
+
+                // Act
+                var result = (ViewResult)controller.List();
+
+                // Assert
+                Assert.IsInstanceOf<List<Product>>(result.Model);
+                Assert.IsTrue(((List<Product>)result.Model).Count == 2);
+            }
+        }
+
         private class TestableProductController : ProductController
         {
             public readonly Mock<IProductService> ProductService;
