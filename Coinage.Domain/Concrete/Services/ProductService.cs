@@ -24,5 +24,10 @@ namespace Coinage.Domain.Concrete.Services
         {
             return _productRepository.GetById(id);
         }
+
+        public void Update(Product product)
+        {
+            _productRepository.Update(product);
+        }
     }
 }

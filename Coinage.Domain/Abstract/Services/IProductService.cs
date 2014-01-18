@@ -7,5 +7,6 @@ namespace Coinage.Domain.Abstract.Services
     {
         List<Product> GetProducts();
         Product GetProduct(int id);
+        void Update(Product product);
     }
 }
