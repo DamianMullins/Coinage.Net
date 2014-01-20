@@ -6,24 +6,31 @@
 
 <h2>Products</h2>
 
-<table class="table table-condensed table-responsive">
-    <thead>
-        <tr>
-            <th>&nbsp;</th>
-            <th>ID</th>
-            <th>Name</th>
-            <th>Featured</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (Product product in Model)
-        {
+@if (Model.Any())
+{
+    <table class="table table-condensed table-responsive">
+        <thead>
             <tr>
-                <td>@Html.ActionLink("Edit", "Edit", "Product", new { id = product.ProductId }, new { @class = "btn btn-default" })</td>
-                <td>@product.ProductId</td>
-                <td>@product.Name</td>
-                <td>@product.IsFeatured</td>
+                <th>&nbsp;</th>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Featured</th>
             </tr>
-        }
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            @foreach (Product product in Model)
+            {
+                <tr>
+                    <td>@Html.ActionLink("Edit", "Edit", "Product", new {id = product.Id}, new {@class = "btn btn-default"})</td>
+                    <td>@product.Id</td>
+                    <td>@product.Name</td>
+                    <td>@product.IsFeatured</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <div class="alert alert-danger">No products were found.</div>
+}
