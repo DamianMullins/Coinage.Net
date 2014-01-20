@@ -1,4 +1,5 @@
-﻿using Coinage.Domain.Abstract.Services;
+﻿using System.Collections.Generic;
+using Coinage.Domain.Abstract.Services;
 using Coinage.Domain.Concrete.Entities;
 using System.Web.Mvc;
 
@@ -15,7 +16,8 @@ namespace Coinage.Web.Areas.Admin.Controllers
 
         public ActionResult Index()
         {
-            return View();
+            List<Product> products = _productService.GetProducts();
+            return View(products);
         }
 
         public ActionResult Edit(int id)
