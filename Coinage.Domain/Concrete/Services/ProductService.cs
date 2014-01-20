@@ -39,7 +39,10 @@ namespace Coinage.Domain.Concrete.Services
 
                 _productRepository.Update(product);
             }
-            throw new Exception("Product was null");
+            else
+            {
+                throw new Exception("Product was null");
+            }
         }
 
         public void Create(Product product)
@@ -50,7 +53,10 @@ namespace Coinage.Domain.Concrete.Services
 
                 _productRepository.Insert(product);
             }
-            throw new Exception("Product was null");
+            else
+            {
+                throw new Exception("Product was null");
+            }
         }
     }
 }
