@@ -33,16 +33,24 @@ namespace Coinage.Domain.Concrete.Services
 
         public void Update(Product product)
         {
-            product.ModifiedOn = DateTime.Now;
+            if (product != null)
+            {
+                product.ModifiedOn = DateTime.Now;
 
-            _productRepository.Update(product);
+                _productRepository.Update(product);
+            }
+            throw new Exception("Product was null");
         }
 
         public void Create(Product product)
         {
-            product.CreatedOn = DateTime.Now;
+            if (product != null)
+            {
+                product.CreatedOn = DateTime.Now;
 
-            _productRepository.Insert(product);
+                _productRepository.Insert(product);
+            }
+            throw new Exception("Product was null");
         }
     }
 }
