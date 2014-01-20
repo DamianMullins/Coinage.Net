@@ -1,4 +1,5 @@
 ﻿using Coinage.Data.EntityFramework.Context;
+using Coinage.Domain.Concrete.Entities;
 using Coinage.Domain.Data;
 using System;
 using System.Data.Entity;
@@ -7,7 +8,7 @@ using System.Linq;
 
 namespace Coinage.Data.EntityFramework
 {
-    public class EfRepository<T> : IRepository<T> where T : class //BaseEntity;
+    public class EfRepository<T> : IRepository<T> where T : EditableEntity
     {
         private readonly IDbContext _context;
         private IDbSet<T> _entities;
@@ -51,6 +52,9 @@ namespace Coinage.Data.EntityFramework
                     throw new ArgumentNullException("entity");
                 }
 
+                Entities.Attach(entity);
+
+                _context.Entry(entity).State = EntityState.Modified;
                 _context.SaveChanges();
             }
             catch (DbEntityValidationException dbException)

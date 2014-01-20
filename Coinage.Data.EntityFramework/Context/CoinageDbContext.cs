@@ -1,5 +1,7 @@
-﻿using System;
+﻿using Coinage.Domain.Concrete.Entities;
+using System;
 using System.Data.Entity;
+using System.Data.Entity.Infrastructure;
 using System.Data.Entity.ModelConfiguration;
 using System.Linq;
 using System.Reflection;
@@ -32,7 +34,12 @@ namespace Coinage.Data.EntityFramework.Context
             base.OnModelCreating(modelBuilder);
         }
 
-        public new IDbSet<TEntity> Set<TEntity>() where TEntity : class
+        public new DbEntityEntry<TEntity> Entry<TEntity>(TEntity entity) where TEntity : EditableEntity
+        {
+            return base.Entry(entity);
+        }
+
+        public new IDbSet<TEntity> Set<TEntity>() where TEntity : EditableEntity
         {
             return base.Set<TEntity>();
         }

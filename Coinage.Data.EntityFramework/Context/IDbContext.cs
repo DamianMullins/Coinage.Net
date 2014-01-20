@@ -1,4 +1,6 @@
-﻿using System.Data.Entity;
+﻿using Coinage.Domain.Concrete.Entities;
+using System.Data.Entity;
+using System.Data.Entity.Infrastructure;
 
 namespace Coinage.Data.EntityFramework.Context
 {
@@ -9,7 +11,14 @@ namespace Coinage.Data.EntityFramework.Context
         /// </summary>
         /// <typeparam name="TEntity"></typeparam>
         /// <returns></returns>
-        IDbSet<TEntity> Set<TEntity>() where TEntity : class; //BaseEntity;
+        DbEntityEntry<TEntity> Entry<TEntity>(TEntity entity) where TEntity : EditableEntity;
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="TEntity"></typeparam>
+        /// <returns></returns>
+        IDbSet<TEntity> Set<TEntity>() where TEntity : EditableEntity;
 
         /// <summary>
         /// 
