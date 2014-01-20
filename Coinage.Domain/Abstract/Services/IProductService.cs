@@ -9,5 +9,6 @@ namespace Coinage.Domain.Abstract.Services
         List<Product> GetFeaturedProducts();
         Product GetProduct(int id);
         void Update(Product product);
+        void Create(Product product);
     }
 }

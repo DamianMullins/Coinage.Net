@@ -39,6 +39,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Abstract\Entites\ITimestamps.cs" />
     <Compile Include="Abstract\Services\IProductService.cs" />
     <Compile Include="Concrete\Entities\Product.cs" />
     <Compile Include="Concrete\Services\ProductService.cs" />

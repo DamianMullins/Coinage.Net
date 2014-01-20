@@ -16,7 +16,7 @@ namespace Coinage.DI
             kernel.Bind<IDbContext>().To<CoinageDbContext>();
 
             // Repository
-            kernel.Bind(typeof (IRepository<>)).To(typeof (EfRepository<>)).InRequestScope();
+            kernel.Bind(typeof(IRepository<>)).To(typeof(EfRepository<>)).InRequestScope();
 
             // Services
             kernel.Bind<IProductService>().To<ProductService>();

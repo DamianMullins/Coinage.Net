@@ -1,4 +1,5 @@
-﻿using Coinage.Domain.Abstract.Services;
+﻿using System;
+using Coinage.Domain.Abstract.Services;
 using Coinage.Domain.Concrete.Entities;
 using Coinage.Domain.Data;
 using System.Collections.Generic;
@@ -32,7 +33,17 @@ namespace Coinage.Domain.Concrete.Services
 
         public void Update(Product product)
         {
+            product.ModifiedOn = DateTime.Now;
+
             _productRepository.Update(product);
+        }
+
+        public void Create(Product product)
+        {
+            product.CreatedOn = DateTime.Now;
+            product.ModifiedOn = DateTime.Now;
+
+            _productRepository.Insert(product);
         }
     }
 }
