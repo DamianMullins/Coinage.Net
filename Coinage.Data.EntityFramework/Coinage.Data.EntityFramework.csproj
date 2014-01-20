@@ -62,6 +62,10 @@
     <Compile Include="Migrations\201401201430550_Product_Add_Description.Designer.cs">
       <DependentUpon>201401201430550_Product_Add_Description.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201401201445529_Product_Update_CreatedOn.cs" />
+    <Compile Include="Migrations\201401201445529_Product_Update_CreatedOn.Designer.cs">
+      <DependentUpon>201401201445529_Product_Update_CreatedOn.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -84,6 +88,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201401201430550_Product_Add_Description.resx">
       <DependentUpon>201401201430550_Product_Add_Description.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201401201445529_Product_Update_CreatedOn.resx">
+      <DependentUpon>201401201445529_Product_Update_CreatedOn.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
