@@ -11,14 +11,14 @@ namespace Coinage.Data.EntityFramework.Context
         /// </summary>
         /// <typeparam name="TEntity"></typeparam>
         /// <returns></returns>
-        DbEntityEntry<TEntity> Entry<TEntity>(TEntity entity) where TEntity : EditableEntity;
+        DbEntityEntry<TEntity> Entry<TEntity>(TEntity entity) where TEntity : Entity;
 
         /// <summary>
         /// 
         /// </summary>
         /// <typeparam name="TEntity"></typeparam>
         /// <returns></returns>
-        IDbSet<TEntity> Set<TEntity>() where TEntity : EditableEntity;
+        IDbSet<TEntity> Set<TEntity>() where TEntity : Entity;
 
         /// <summary>
         /// 

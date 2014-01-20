@@ -8,7 +8,7 @@ namespace Coinage.Data.EntityFramework.Configuration.Product
         {
             ToTable("Product");
 
-            HasKey(p => p.ProductId);
+            HasKey(p => p.Id);
 
             Property(p => p.Name).IsRequired().HasMaxLength(500);
         }

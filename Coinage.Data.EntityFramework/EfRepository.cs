@@ -8,7 +8,7 @@ using System.Linq;
 
 namespace Coinage.Data.EntityFramework
 {
-    public class EfRepository<T> : IRepository<T> where T : EditableEntity
+    public class EfRepository<T> : IRepository<T> where T : Entity
     {
         private readonly IDbContext _context;
         private IDbSet<T> _entities;

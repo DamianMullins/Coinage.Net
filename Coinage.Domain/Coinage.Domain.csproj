@@ -42,6 +42,7 @@
     <Compile Include="Abstract\Entites\ITimestamps.cs" />
     <Compile Include="Abstract\Services\IProductService.cs" />
     <Compile Include="Concrete\Entities\EditableEntity.cs" />
+    <Compile Include="Concrete\Entities\Entity.cs" />
     <Compile Include="Concrete\Entities\Product.cs" />
     <Compile Include="Concrete\Services\ProductService.cs" />
     <Compile Include="Data\IRepository.cs" />

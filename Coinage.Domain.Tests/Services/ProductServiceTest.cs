@@ -35,8 +35,8 @@ namespace Coinage.Domain.Tests.Services
                 var service = TestableProductService.Create();
                 var products = new List<Product>
                 {
-                    new Product {ProductId = 1, Name = "First Product"},
-                    new Product {ProductId = 2, Name = "Second Product"}
+                    new Product {Id = 1, Name = "First Product"},
+                    new Product {Id = 2, Name = "Second Product"}
                 };
                 service.SetupRepoGetProducts(products);
 
@@ -71,8 +71,8 @@ namespace Coinage.Domain.Tests.Services
                 var service = TestableProductService.Create();
                 var products = new List<Product>
                 {
-                    new Product {ProductId = 1, Name = "First Product", IsFeatured = true},
-                    new Product {ProductId = 2, Name = "Second Product", IsFeatured = false}
+                    new Product {Id = 1, Name = "First Product", IsFeatured = true},
+                    new Product {Id = 2, Name = "Second Product", IsFeatured = false}
                 };
                 service.SetupRepoGetProducts(products);
 
@@ -91,8 +91,8 @@ namespace Coinage.Domain.Tests.Services
                 var service = TestableProductService.Create();
                 var products = new List<Product>
                 {
-                    new Product {ProductId = 1, Name = "First Product", IsFeatured = true},
-                    new Product {ProductId = 2, Name = "Second Product", IsFeatured = true}
+                    new Product {Id = 1, Name = "First Product", IsFeatured = true},
+                    new Product {Id = 2, Name = "Second Product", IsFeatured = true}
                 };
                 service.SetupRepoGetProducts(products);
 
@@ -111,8 +111,8 @@ namespace Coinage.Domain.Tests.Services
                 var service = TestableProductService.Create();
                 var products = new List<Product>
                 {
-                    new Product {ProductId = 1, Name = "First Product", IsFeatured = false},
-                    new Product {ProductId = 2, Name = "Second Product", IsFeatured = false}
+                    new Product {Id = 1, Name = "First Product", IsFeatured = false},
+                    new Product {Id = 2, Name = "Second Product", IsFeatured = false}
                 };
                 service.SetupRepoGetProducts(products);
 
@@ -146,15 +146,15 @@ namespace Coinage.Domain.Tests.Services
             {
                 // Arrange
                 var service = TestableProductService.Create();
-                var product = new Product { ProductId = 1 };
+                var product = new Product { Id = 1 };
                 service.SetupRepoGetById(product);
 
                 // Act
-                var result = service.GetProduct(product.ProductId);
+                var result = service.GetProduct(product.Id);
 
                 // Assert
                 Assert.IsNotNull(result);
-                Assert.AreEqual(1, product.ProductId);
+                Assert.AreEqual(1, product.Id);
             }
         }
 

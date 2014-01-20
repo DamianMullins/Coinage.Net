@@ -32,7 +32,7 @@ namespace Coinage.Web.Tests.Controllers
             {
                 // Arrange
                 var controller = TestableProductController.Create();
-                var product = new Product { ProductId = 1, Name = "First Product" };
+                var product = new Product { Id = 1, Name = "First Product" };
                 controller.SetupProductServiceGetProduct(product);
                 int existingProductId = 1;
 
@@ -43,7 +43,7 @@ namespace Coinage.Web.Tests.Controllers
                 Assert.IsNotNull(result);
                 var resultModel = ((Product)result.Model);
                 Assert.IsInstanceOf<Product>(result.Model);
-                Assert.AreEqual(existingProductId, resultModel.ProductId);
+                Assert.AreEqual(existingProductId, resultModel.Id);
             }
         }
 
@@ -72,8 +72,8 @@ namespace Coinage.Web.Tests.Controllers
                 var controller = TestableProductController.Create();
                 var products = new List<Product>
                 {
-                    new Product {ProductId = 1, Name = "First Product"},
-                    new Product {ProductId = 2, Name = "Second Product"}
+                    new Product {Id = 1, Name = "First Product"},
+                    new Product {Id = 2, Name = "Second Product"}
                 };
                 controller.SetupProductServiceGetProducts(products);
 
@@ -112,8 +112,8 @@ namespace Coinage.Web.Tests.Controllers
                 var controller = TestableProductController.Create();
                 var products = new List<Product>
                 {
-                    new Product {ProductId = 1, Name = "First Product"},
-                    new Product {ProductId = 2, Name = "Second Product"}
+                    new Product {Id = 1, Name = "First Product"},
+                    new Product {Id = 2, Name = "Second Product"}
                 };
                 controller.SetupProductServiceGetProducts(products);
 

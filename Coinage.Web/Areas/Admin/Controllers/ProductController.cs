@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
-using Coinage.Domain.Abstract.Services;
+﻿using Coinage.Domain.Abstract.Services;
 using Coinage.Domain.Concrete.Entities;
+using System.Collections.Generic;
 using System.Web.Mvc;
 
 namespace Coinage.Web.Areas.Admin.Controllers
@@ -49,7 +49,7 @@ namespace Coinage.Web.Areas.Admin.Controllers
         {
             _productService.Create(product);
             TempData["alert-success"] = string.Format("{0} was created successfully", product.Name);
-            return RedirectToAction("Edit", new { id = product.ProductId });
+            return RedirectToAction("Edit", new { id = product.Id });
         }
     }
 }

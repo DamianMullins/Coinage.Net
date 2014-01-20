@@ -34,12 +34,12 @@ namespace Coinage.Data.EntityFramework.Context
             base.OnModelCreating(modelBuilder);
         }
 
-        public new DbEntityEntry<TEntity> Entry<TEntity>(TEntity entity) where TEntity : EditableEntity
+        public new DbEntityEntry<TEntity> Entry<TEntity>(TEntity entity) where TEntity : Entity
         {
             return base.Entry(entity);
         }
 
-        public new IDbSet<TEntity> Set<TEntity>() where TEntity : EditableEntity
+        public new IDbSet<TEntity> Set<TEntity>() where TEntity : Entity
         {
             return base.Set<TEntity>();
         }
