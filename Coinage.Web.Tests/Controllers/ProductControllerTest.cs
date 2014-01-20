@@ -37,9 +37,10 @@ namespace Coinage.Web.Tests.Controllers
                 int existingProductId = 1;
 
                 // Act
-                var result = (ViewResult)controller.Index(existingProductId);
+                var result = controller.Index(existingProductId) as ViewResult;
 
                 // Assert
+                Assert.IsNotNull(result);
                 var resultModel = ((Product)result.Model);
                 Assert.IsInstanceOf<Product>(result.Model);
                 Assert.AreEqual(existingProductId, resultModel.ProductId);
@@ -56,9 +57,10 @@ namespace Coinage.Web.Tests.Controllers
                 controller.SetupProductServiceGetProducts(new List<Product>());
 
                 // Act
-                var result = (ViewResult)controller.List();
+                var result = controller.List() as ViewResult;
 
                 // Assert
+                Assert.IsNotNull(result);
                 Assert.IsInstanceOf<List<Product>>(result.Model);
                 Assert.IsTrue(((List<Product>)result.Model).Count == 0);
             }
@@ -76,9 +78,10 @@ namespace Coinage.Web.Tests.Controllers
                 controller.SetupProductServiceGetProducts(products);
 
                 // Act
-                var result = (ViewResult)controller.List();
+                ViewResult result = controller.List() as ViewResult;
 
                 // Assert
+                Assert.IsNotNull(result);
                 Assert.IsInstanceOf<List<Product>>(result.Model);
                 Assert.IsTrue(((List<Product>)result.Model).Count == 2);
             }
@@ -94,9 +97,10 @@ namespace Coinage.Web.Tests.Controllers
                 controller.SetupProductServiceGetProducts(new List<Product>());
 
                 // Act
-                var result = (ViewResult)controller.List();
+                var result = controller.List() as ViewResult;
 
                 // Assert
+                Assert.IsNotNull(result);
                 Assert.IsInstanceOf<List<Product>>(result.Model);
                 Assert.IsTrue(((List<Product>)result.Model).Count == 0);
             }
@@ -114,9 +118,10 @@ namespace Coinage.Web.Tests.Controllers
                 controller.SetupProductServiceGetProducts(products);
 
                 // Act
-                var result = (ViewResult)controller.List();
+                var result = controller.List() as ViewResult;
 
                 // Assert
+                Assert.IsNotNull(result);
                 Assert.IsInstanceOf<List<Product>>(result.Model);
                 Assert.IsTrue(((List<Product>)result.Model).Count == 2);
             }
