@@ -35,6 +35,7 @@ namespace Coinage.Web.Areas.Admin.Controllers
         public ActionResult Edit(Product product)
         {
             _productService.Update(product);
+            TempData["alert-success"] = string.Format("{0} was updated successfully", product.Name);
             return View(product);
         }
 
@@ -47,6 +48,7 @@ namespace Coinage.Web.Areas.Admin.Controllers
         public ActionResult Create(Product product)
         {
             _productService.Create(product);
+            TempData["alert-success"] = string.Format("{0} was created successfully", product.Name);
             return RedirectToAction("Edit", new { id = product.ProductId });
         }
     }
