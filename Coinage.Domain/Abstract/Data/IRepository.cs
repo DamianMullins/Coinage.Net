@@ -1,6 +1,6 @@
 ﻿using System.Linq;
 
-namespace Coinage.Domain.Data
+namespace Coinage.Domain.Abstract.Data
 {
     public interface IRepository<T>
     {

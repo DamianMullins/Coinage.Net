@@ -1,7 +1,7 @@
-﻿using System;
+﻿using Coinage.Domain.Abstract.Data;
 using Coinage.Domain.Abstract.Services;
 using Coinage.Domain.Concrete.Entities;
-using Coinage.Domain.Data;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 

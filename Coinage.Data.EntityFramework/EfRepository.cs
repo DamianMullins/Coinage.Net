@@ -1,6 +1,6 @@
 ﻿using Coinage.Data.EntityFramework.Context;
+using Coinage.Domain.Abstract.Data;
 using Coinage.Domain.Concrete.Entities;
-using Coinage.Domain.Data;
 using System;
 using System.Data.Entity;
 using System.Data.Entity.Validation;

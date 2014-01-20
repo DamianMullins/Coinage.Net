@@ -1,8 +1,8 @@
 ﻿using Coinage.Data.EntityFramework;
 using Coinage.Data.EntityFramework.Context;
+using Coinage.Domain.Abstract.Data;
 using Coinage.Domain.Abstract.Services;
 using Coinage.Domain.Concrete.Services;
-using Coinage.Domain.Data;
 using Ninject;
 using Ninject.Web.Common;
 
