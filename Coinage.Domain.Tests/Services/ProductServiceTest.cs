@@ -1,4 +1,5 @@
-﻿using Coinage.Domain.Abstract.Data;
+﻿using System;
+using Coinage.Domain.Abstract.Data;
 using Coinage.Domain.Concrete.Entities;
 using Coinage.Domain.Concrete.Services;
 using Moq;
@@ -121,6 +122,72 @@ namespace Coinage.Domain.Tests.Services
                 // Assert
                 Assert.IsInstanceOf<List<Product>>(result);
                 Assert.AreEqual(0, result.Count);
+            }
+        }
+
+        public class GetLatestProducts
+        {
+            [Test]
+            public void GetLatestProducts_NoProducts_ReturnsEmptyList()
+            {
+                // Arrange
+                var service = TestableProductService.Create();
+                int count = 100;
+
+                // Act
+                var result = service.GetLatestProducts(count);
+
+                // Assert
+                Assert.IsInstanceOf<List<Product>>(result);
+                Assert.AreEqual(0, result.Count);
+            }
+
+            [Test]
+            public void GetLatestProducts_NumberOfProductsLessThanCount_ReturnsAllProductsInCorrectOrder()
+            {
+                // Arrange
+                var service = TestableProductService.Create();
+                var products = new List<Product>
+                {
+                    new Product {Id = 1, Name = "First Product", CreatedOn = DateTime.Now.AddHours(-1)},
+                    new Product {Id = 2, Name = "Second Product", CreatedOn = DateTime.Now}
+                };
+                service.SetupRepoGetProducts(products);
+                int count = 100;
+
+                // Act
+                var result = service.GetLatestProducts(count);
+
+                // Assert
+                Assert.IsInstanceOf<List<Product>>(result);
+                Assert.AreEqual(2, result.Count);
+                Assert.AreEqual(2, result[0].Id);
+                Assert.AreEqual(1, result[1].Id);
+            }
+
+            [Test]
+            public void GetLatestProducts_NumberOfProductsGreaterThanCount_ReturnsCorrectNumberOfProductsInCorrectOrder()
+            {
+                // Arrange
+                var service = TestableProductService.Create();
+                var products = new List<Product>
+                {
+                    new Product {Id = 1, Name = "First Product", CreatedOn = DateTime.Now.AddHours(-3)},
+                    new Product {Id = 2, Name = "Second Product", CreatedOn = DateTime.Now.AddHours(-2)},
+                    new Product {Id = 3, Name = "Third Product", CreatedOn = DateTime.Now.AddHours(-1)},
+                    new Product {Id = 4, Name = "Fourth Product", CreatedOn = DateTime.Now}
+                };
+                service.SetupRepoGetProducts(products);
+                int count = 2;
+
+                // Act
+                var result = service.GetLatestProducts(count);
+
+                // Assert
+                Assert.IsInstanceOf<List<Product>>(result);
+                Assert.AreEqual(2, result.Count);
+                Assert.AreEqual(4, result[0].Id);
+                Assert.AreEqual(3, result[1].Id);
             }
         }
 

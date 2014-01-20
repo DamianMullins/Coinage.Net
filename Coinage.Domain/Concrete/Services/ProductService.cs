@@ -26,6 +26,11 @@ namespace Coinage.Domain.Concrete.Services
             return _productRepository.Table.Where(p => p.IsFeatured).ToList();
         }
 
+        public List<Product> GetLatestProducts(int count)
+        {
+            return _productRepository.Table.OrderByDescending(p => p.CreatedOn).Take(count).ToList();
+        }
+
         public Product GetProduct(int id)
         {
             return _productRepository.GetById(id);
