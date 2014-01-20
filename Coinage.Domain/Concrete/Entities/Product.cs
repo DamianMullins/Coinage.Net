@@ -10,6 +10,6 @@ namespace Coinage.Domain.Concrete.Entities
         public bool IsFeatured { get; set; }
 
         public DateTime CreatedOn { get; set; }
-        public DateTime ModifiedOn { get; set; }
+        public DateTime? ModifiedOn { get; set; }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System.Web.Mvc;
+﻿using System.Linq.Expressions;
+using System.Web.Mvc;
 using System.Web.Routing;
 
 namespace Coinage.Web
@@ -12,7 +13,8 @@ namespace Coinage.Web
             routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
-                defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
+                defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional },
+                namespaces: new[] { "Coinage.Web.Controllers" }
             );
         }
     }

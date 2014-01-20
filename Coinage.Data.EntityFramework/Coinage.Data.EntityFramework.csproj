@@ -58,6 +58,10 @@
     <Compile Include="Migrations\201401181529151_Product_Add_IsFeatured.Designer.cs">
       <DependentUpon>201401181529151_Product_Add_IsFeatured.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201401201113518_Product_Add_Timestamps.cs" />
+    <Compile Include="Migrations\201401201113518_Product_Add_Timestamps.Designer.cs">
+      <DependentUpon>201401201113518_Product_Add_Timestamps.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -77,6 +81,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201401181529151_Product_Add_IsFeatured.resx">
       <DependentUpon>201401181529151_Product_Add_IsFeatured.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201401201113518_Product_Add_Timestamps.resx">
+      <DependentUpon>201401201113518_Product_Add_Timestamps.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

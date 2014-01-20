@@ -41,7 +41,6 @@ namespace Coinage.Domain.Concrete.Services
         public void Create(Product product)
         {
             product.CreatedOn = DateTime.Now;
-            product.ModifiedOn = DateTime.Now;
 
             _productRepository.Insert(product);
         }

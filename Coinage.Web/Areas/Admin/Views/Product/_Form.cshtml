@@ -1,0 +1,15 @@
+﻿@model Coinage.Domain.Concrete.Entities.Product
+@{
+    Layout = null;
+}    
+
+<div class="form-group">
+    @Html.LabelFor(p => p.Name)
+    @Html.TextBoxFor(p => p.Name, new { @class = "form-control", placeholder = "Product name" })
+</div>
+<div class="checkbox">
+    <label>
+        @Html.CheckBoxFor(p => p.IsFeatured) Featured?
+    </label>
+</div>
+@Html.HiddenFor(p => p.ProductId)
