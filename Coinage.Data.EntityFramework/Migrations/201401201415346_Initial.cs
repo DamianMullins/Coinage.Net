@@ -3,7 +3,7 @@ namespace Coinage.Data.EntityFramework.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class Product_Add_Class : DbMigration
+    public partial class Initial : DbMigration
     {
         public override void Up()
         {
@@ -11,10 +11,13 @@ namespace Coinage.Data.EntityFramework.Migrations
                 "dbo.Product",
                 c => new
                     {
-                        ProductId = c.Int(nullable: false, identity: true),
+                        PropertyId = c.Int(nullable: false, identity: true),
                         Name = c.String(nullable: false, maxLength: 500),
+                        IsFeatured = c.Boolean(nullable: false),
+                        CreatedOn = c.DateTime(nullable: false),
+                        ModifiedOn = c.DateTime(),
                     })
-                .PrimaryKey(t => t.ProductId);
+                .PrimaryKey(t => t.PropertyId);
             
         }
         

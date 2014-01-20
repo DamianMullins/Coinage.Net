@@ -10,6 +10,7 @@ namespace Coinage.Data.EntityFramework.Configuration.Product
 
             HasKey(p => p.Id);
 
+            Property(p => p.Id).HasColumnName("PropertyId");
             Property(p => p.Name).IsRequired().HasMaxLength(500);
         }
     }
