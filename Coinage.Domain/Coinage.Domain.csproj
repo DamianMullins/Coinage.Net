@@ -40,11 +40,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Abstract\Entites\ITimestamps.cs" />
+    <Compile Include="Abstract\Services\IBasketService.cs" />
     <Compile Include="Abstract\Services\IProductService.cs" />
+    <Compile Include="Concrete\Entities\Basket.cs" />
     <Compile Include="Concrete\Entities\EditableEntity.cs" />
     <Compile Include="Concrete\Entities\Entity.cs" />
     <Compile Include="Concrete\Entities\Product.cs" />
     <Compile Include="Concrete\EntityActionResponse.cs" />
+    <Compile Include="Concrete\Services\BasketService.cs" />
     <Compile Include="Concrete\Services\ProductService.cs" />
     <Compile Include="Abstract\Data\IRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
