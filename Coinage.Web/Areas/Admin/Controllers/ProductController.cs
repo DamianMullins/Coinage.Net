@@ -43,8 +43,10 @@ namespace Coinage.Web.Areas.Admin.Controllers
                 {
                     TempData["alert-success"] = string.Format("{0} was updated successfully", product.Name);
                 }
-
-                TempData["alert-error"] = response.Exception.Message;
+                else
+                {
+                    TempData["alert-error"] = response.Exception.Message;
+                }
             }
             return View(product);
         }

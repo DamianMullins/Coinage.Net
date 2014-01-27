@@ -1,5 +1,4 @@
-﻿using Coinage.Domain.Concrete;
-using Coinage.Domain.Concrete.Entities;
+﻿using Coinage.Domain.Concrete.Entities;
 using System.Collections.Generic;
 
 namespace Coinage.Domain.Abstract.Services
@@ -7,7 +6,7 @@ namespace Coinage.Domain.Abstract.Services
     /// <summary>
     /// 
     /// </summary>
-    public interface IProductService
+    public interface IProductService : IEditableService<Product>
     {
         /// <summary>
         /// Get a list of all Products.
@@ -29,24 +28,10 @@ namespace Coinage.Domain.Abstract.Services
         List<Product> GetLatestProducts(int count);
 
         /// <summary>
-        /// Get a single Product by its primary key.
+        /// Get a Product by its primary key.
         /// </summary>
         /// <param name="id">Primary key of the Product.</param>
         /// <returns>A Product object.</returns>
         Product GetProduct(int id);
-
-        /// <summary>
-        /// Update a Product entity.
-        /// </summary>
-        /// <param name="product">Product object to update.</param>
-        /// <returns>EntityActionResponse object.</returns>
-        EntityActionResponse Update(Product product);
-
-        /// <summary>
-        /// Create a product entity.
-        /// </summary>
-        /// <param name="product">Product object to create.</param>
-        /// <returns>EntityActionResponse object.</returns>
-        EntityActionResponse Create(Product product);
     }
 }

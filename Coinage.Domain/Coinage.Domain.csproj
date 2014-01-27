@@ -41,6 +41,7 @@
   <ItemGroup>
     <Compile Include="Abstract\Entites\ITimestamps.cs" />
     <Compile Include="Abstract\Services\IBasketService.cs" />
+    <Compile Include="Abstract\Services\IEditableService.cs" />
     <Compile Include="Abstract\Services\IProductService.cs" />
     <Compile Include="Concrete\Entities\Basket.cs" />
     <Compile Include="Concrete\Entities\EditableEntity.cs" />
