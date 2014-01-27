@@ -1,4 +1,5 @@
-﻿using Coinage.Domain.Concrete.Entities;
+﻿using Coinage.Domain.Concrete;
+using Coinage.Domain.Concrete.Entities;
 using System.Collections.Generic;
 
 namespace Coinage.Domain.Abstract.Services
@@ -38,12 +39,14 @@ namespace Coinage.Domain.Abstract.Services
         /// Update a Product entity.
         /// </summary>
         /// <param name="product">Product object to update.</param>
-        void Update(Product product);
+        /// <returns>EntityActionResponse object.</returns>
+        EntityActionResponse Update(Product product);
 
         /// <summary>
         /// Create a product entity.
         /// </summary>
         /// <param name="product">Product object to create.</param>
-        void Create(Product product);
+        /// <returns>EntityActionResponse object.</returns>
+        EntityActionResponse Create(Product product);
     }
 }

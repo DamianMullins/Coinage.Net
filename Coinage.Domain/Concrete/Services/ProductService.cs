@@ -36,32 +36,50 @@ namespace Coinage.Domain.Concrete.Services
             return _productRepository.GetById(id);
         }
 
-        public void Update(Product product)
+        public EntityActionResponse Update(Product product)
         {
+            var response = new EntityActionResponse();
             if (product != null)
             {
-                product.ModifiedOn = DateTime.Now;
-
-                _productRepository.Update(product);
+                try
+                {
+                    product.ModifiedOn = DateTime.Now;
+                    _productRepository.Update(product);
+                    response.Successful = true;
+                }
+                catch (Exception ex)
+                {
+                    response.Exception = ex;
+                }
             }
             else
             {
-                throw new Exception("Product was null");
+                response.Exception = new Exception("Product was null");
             }
+            return response;
         }
 
-        public void Create(Product product)
+        public EntityActionResponse Create(Product product)
         {
+            var response = new EntityActionResponse();
             if (product != null)
             {
-                product.CreatedOn = DateTime.Now;
-
-                _productRepository.Insert(product);
+                try
+                {
+                    product.CreatedOn = DateTime.Now;
+                    _productRepository.Insert(product);
+                    response.Successful = true;
+                }
+                catch (Exception ex)
+                {
+                    response.Exception = ex;
+                }
             }
             else
             {
-                throw new Exception("Product was null");
+                response.Exception = new Exception("Product was null");
             }
+            return response;
         }
     }
 }

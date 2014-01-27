@@ -1,9 +1,10 @@
-﻿using System;
-using Coinage.Domain.Abstract.Data;
+﻿using Coinage.Domain.Abstract.Data;
+using Coinage.Domain.Concrete;
 using Coinage.Domain.Concrete.Entities;
 using Coinage.Domain.Concrete.Services;
 using Moq;
 using NUnit.Framework;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -221,6 +222,110 @@ namespace Coinage.Domain.Tests.Services
                 // Assert
                 Assert.IsNotNull(result);
                 Assert.AreEqual(1, product.Id);
+            }
+        }
+
+        public class Update
+        {
+            [Test]
+            public void Update_NullProduct_ReturnsUnsuccessful()
+            {
+                // Arrange
+                var service = TestableProductService.Create();
+                Product product = null;
+
+                // Act
+                EntityActionResponse result = service.Update(product);
+
+                // Assert
+                Assert.IsNotNull(result);
+                Assert.IsFalse(result.Successful);
+            }
+
+            [Test]
+            public void Update_ProductRepoThrowsError_ReturnsUnsuccessful()
+            {
+                // Arrange
+                var service = TestableProductService.Create();
+                var exception = new Exception("Error");
+                service.ProductRepository.Setup(r => r.Update(It.IsAny<Product>())).Throws(exception);
+                var product = new Product();
+
+                // Act
+                EntityActionResponse result = service.Update(product);
+
+                // Assert
+                Assert.IsNotNull(result);
+                Assert.IsFalse(result.Successful);
+                Assert.AreEqual(exception.Message, result.Exception.Message);
+            }
+
+            [Test]
+            public void Update_ProductRepoUpdatesSuccessfully_ReturnsSuccessful()
+            {
+                // Arrange
+                var service = TestableProductService.Create();
+                var product = new Product();
+
+                // Act
+                EntityActionResponse result = service.Update(product);
+
+                // Assert
+                Assert.IsNotNull(result);
+                Assert.IsTrue(result.Successful);
+                Assert.IsNull(result.Exception);
+            }
+        }
+
+        public class Create
+        {
+            [Test]
+            public void Create_NullProduct_ReturnsUnsuccessful()
+            {
+                // Arrange
+                var service = TestableProductService.Create();
+                Product product = null;
+
+                // Act
+                EntityActionResponse result = service.Update(product);
+
+                // Assert
+                Assert.IsNotNull(result);
+                Assert.IsFalse(result.Successful);
+            }
+
+            [Test]
+            public void Create_ProductRepoThrowsError_ReturnsUnsuccessful()
+            {
+                // Arrange
+                var service = TestableProductService.Create();
+                var exception = new Exception("Error");
+                service.ProductRepository.Setup(r => r.Insert(It.IsAny<Product>())).Throws(exception);
+                var product = new Product();
+
+                // Act
+                EntityActionResponse result = service.Create(product);
+
+                // Assert
+                Assert.IsNotNull(result);
+                Assert.IsFalse(result.Successful);
+                Assert.AreEqual(exception.Message, result.Exception.Message);
+            }
+
+            [Test]
+            public void Create_ProductRepoCreatesSuccessfully_ReturnsSuccessful()
+            {
+                // Arrange
+                var service = TestableProductService.Create();
+                var product = new Product();
+
+                // Act
+                EntityActionResponse result = service.Create(product);
+
+                // Assert
+                Assert.IsNotNull(result);
+                Assert.IsTrue(result.Successful);
+                Assert.IsNull(result.Exception);
             }
         }
 

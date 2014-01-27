@@ -1,4 +1,5 @@
 ﻿using Coinage.Domain.Abstract.Services;
+using Coinage.Domain.Concrete;
 using Coinage.Domain.Concrete.Entities;
 using System.Collections.Generic;
 using System.Web.Mvc;
@@ -36,8 +37,14 @@ namespace Coinage.Web.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-                _productService.Update(product);
-                TempData["alert-success"] = string.Format("{0} was updated successfully", product.Name);
+                EntityActionResponse response = _productService.Update(product);
+
+                if (response.Successful)
+                {
+                    TempData["alert-success"] = string.Format("{0} was updated successfully", product.Name);
+                }
+
+                TempData["alert-error"] = response.Exception.Message;
             }
             return View(product);
         }
@@ -52,9 +59,15 @@ namespace Coinage.Web.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-                _productService.Create(product);
-                TempData["alert-success"] = string.Format("{0} was created successfully", product.Name);
-                return RedirectToAction("Edit", new {id = product.Id});
+                EntityActionResponse response = _productService.Create(product);
+
+                if (response.Successful)
+                {
+                    TempData["alert-success"] = string.Format("{0} was created successfully", product.Name);
+                    return RedirectToAction("Edit", new { id = product.Id });
+                }
+
+                TempData["alert-error"] = response.Exception.Message;
             }
             return View(product);
         }
