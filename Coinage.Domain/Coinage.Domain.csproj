@@ -44,6 +44,7 @@
     <Compile Include="Abstract\Services\IEditableService.cs" />
     <Compile Include="Abstract\Services\IProductService.cs" />
     <Compile Include="Concrete\Entities\Basket.cs" />
+    <Compile Include="Concrete\Entities\BasketItem.cs" />
     <Compile Include="Concrete\Entities\EditableEntity.cs" />
     <Compile Include="Concrete\Entities\Entity.cs" />
     <Compile Include="Concrete\Entities\Product.cs" />

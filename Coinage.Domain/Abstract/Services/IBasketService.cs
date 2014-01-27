@@ -17,5 +17,13 @@ namespace Coinage.Domain.Abstract.Services
         /// <param name="customerId">Primary key of the owning customer.</param>
         /// <returns>A Basket object.</returns>
         Basket GetCustomerBasket(int customerId);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="basket"></param>
+        /// <param name="product"></param>
+        /// <param name="quantity"></param>
+        void AddToCart(Basket basket, Product product, int quantity);
     }
 }

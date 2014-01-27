@@ -24,7 +24,42 @@ namespace Coinage.Domain.Concrete.Services
         {
             return _basketRepository.Table.FirstOrDefault(b => b.CustomerId == customerId);
         }
-        
+
+        public void AddToCart(Basket basket, Product product, int quantity)
+        {
+            if (basket == null)
+            {
+                throw new ArgumentNullException("basket");
+            }
+            if (product == null)
+            {
+                throw new ArgumentNullException("product");
+            }
+            if (quantity <= 0)
+            {
+                return;
+            }
+
+            BasketItem basketItem = basket.BasketItems.FirstOrDefault(b => b.ProductId == product.Id);
+            if (basketItem != null)
+            {
+                // Existing item
+                basketItem.Quantity += quantity;
+                _basketRepository.Update(basket);
+            }
+            else
+            {
+                // New item
+                basketItem = new BasketItem 
+                {
+                    Quantity = quantity, 
+                    Product = product
+                };
+                basket.BasketItems.Add(basketItem);
+                _basketRepository.Update(basket);
+            }
+        }
+
         public EntityActionResponse Update(Basket basket)
         {
             var response = new EntityActionResponse();
@@ -43,7 +78,7 @@ namespace Coinage.Domain.Concrete.Services
             }
             else
             {
-                response.Exception = new Exception("Basket was null");
+                response.Exception = new ArgumentNullException("basket");
             }
             return response;
         }
@@ -66,7 +101,7 @@ namespace Coinage.Domain.Concrete.Services
             }
             else
             {
-                response.Exception = new Exception("Basket was null");
+                response.Exception = new ArgumentNullException("basket");
             }
             return response;
         }
