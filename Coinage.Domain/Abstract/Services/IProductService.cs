@@ -32,6 +32,6 @@ namespace Coinage.Domain.Abstract.Services
         /// </summary>
         /// <param name="id">Primary key of the Product.</param>
         /// <returns>A Product object.</returns>
-        Product GetProduct(int id);
+        Product GetProductById(int id);
     }
 }

@@ -31,7 +31,7 @@ namespace Coinage.Domain.Concrete.Services
             return _productRepository.Table.OrderByDescending(p => p.CreatedOn).Take(count).ToList();
         }
 
-        public Product GetProduct(int id)
+        public Product GetProductById(int id)
         {
             return _productRepository.GetById(id);
         }
