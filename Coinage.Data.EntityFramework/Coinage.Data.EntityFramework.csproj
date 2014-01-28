@@ -54,9 +54,9 @@
     <Compile Include="Context\CoinageDbContext.cs" />
     <Compile Include="EfRepository.cs" />
     <Compile Include="Context\IDbContext.cs" />
-    <Compile Include="Migrations\201401280831498_Inital.cs" />
-    <Compile Include="Migrations\201401280831498_Inital.Designer.cs">
-      <DependentUpon>201401280831498_Inital.cs</DependentUpon>
+    <Compile Include="Migrations\201401280844306_Inital.cs" />
+    <Compile Include="Migrations\201401280844306_Inital.Designer.cs">
+      <DependentUpon>201401280844306_Inital.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -72,8 +72,8 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201401280831498_Inital.resx">
-      <DependentUpon>201401280831498_Inital.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201401280844306_Inital.resx">
+      <DependentUpon>201401280844306_Inital.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

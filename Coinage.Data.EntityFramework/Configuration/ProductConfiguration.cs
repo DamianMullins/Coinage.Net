@@ -10,7 +10,7 @@ namespace Coinage.Data.EntityFramework.Configuration
             ToTable("Product");
 
             HasKey(p => p.Id);
-            Property(p => p.Id).HasColumnName("PropertyId");
+            Property(p => p.Id).HasColumnName("ProductId");
 
             Property(p => p.Name).IsRequired().HasMaxLength(500);
             Property(p => p.Price).IsRequired().HasColumnType("Money");

@@ -39,7 +39,7 @@ namespace Coinage.Data.EntityFramework.Migrations
                 "dbo.Product",
                 c => new
                     {
-                        PropertyId = c.Int(nullable: false, identity: true),
+                        ProductId = c.Int(nullable: false, identity: true),
                         Name = c.String(nullable: false, maxLength: 500),
                         Price = c.Decimal(nullable: false, storeType: "money"),
                         Description = c.String(),
@@ -47,7 +47,7 @@ namespace Coinage.Data.EntityFramework.Migrations
                         CreatedOn = c.DateTime(nullable: false),
                         ModifiedOn = c.DateTime(precision: 7, storeType: "datetime2"),
                     })
-                .PrimaryKey(t => t.PropertyId);
+                .PrimaryKey(t => t.ProductId);
             
         }
         

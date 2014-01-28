@@ -13,7 +13,7 @@ namespace Coinage.Data.EntityFramework.Migrations
         
         string IMigrationMetadata.Id
         {
-            get { return "201401280831498_Inital"; }
+            get { return "201401280844306_Inital"; }
         }
         
         string IMigrationMetadata.Source
