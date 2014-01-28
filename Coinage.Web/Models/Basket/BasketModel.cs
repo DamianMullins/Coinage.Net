@@ -6,6 +6,7 @@ namespace Coinage.Web.Models.Basket
     public class BasketModel
     {
         public IList<BasketItemModel> Items { get; set; }
+        public string Total { get; set; }
 
         public BasketModel()
         {

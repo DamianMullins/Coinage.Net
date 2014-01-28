@@ -7,32 +7,42 @@
 
 @if (Model.Items.Any())
 {
-    <table>
-        <thead>
-            <tr>
-                <th></th>
-                <th>Quantity</th>
-                <th>Unit Price</th>
-                <th>Sub Total</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model.Items)
-            {
+    using (Html.BeginForm("UpdateBasketItems", "Basket"))
+    {
+        <table>
+            <thead>
                 <tr>
-                    <td>@item.ItemName</td>
-                    <td>@Html.TextBoxFor(i => i.Items[Model.Items.IndexOf(item)].Quantity)</td>
-                    <td>@item.UnitPrice</td>
-                    <td>@item.SubTotal</td>
+                    <th>&nbsp;</th>
+                    <th>Quantity</th>
+                    <th>Unit Price</th>
+                    <th>Sub Total</th>
+                    <th>&nbsp;</th>
                 </tr>
-            }
-        </tbody>
-        <tfoot>
-            <tr>
-                <td colspan="2"></td>
-                <td>Total</td>
-                <td></td>
-            </tr>
-        </tfoot>
-    </table>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.Items)
+                {
+                    <tr>
+                        <td>@item.ItemName</td>
+                        <td>@Html.TextBoxFor(i => i.Items[Model.Items.IndexOf(item)].Quantity)</td>
+                        <td>&pound;@item.UnitPrice</td>
+                        <td>&pound;@item.SubTotal</td>
+                        <td>
+                            @Html.HiddenFor(i => i.Items[Model.Items.IndexOf(item)].Id)
+                            @Html.HiddenFor(i => i.Items[Model.Items.IndexOf(item)].ProductId)
+                        </td>
+                    </tr>
+                }
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="2">&nbsp;</td>
+                    <td>Total</td>
+                    <td>&pound;@Model.Total</td>
+                </tr>
+            </tfoot>
+        </table>
+
+        <input type="submit" value="Update" class="btn btn-default" />
+    }
 }

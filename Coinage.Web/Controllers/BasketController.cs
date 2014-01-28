@@ -1,4 +1,6 @@
-﻿using Coinage.Domain.Abstract.Services;
+﻿using System.Data.Entity.Core.Mapping;
+using System.Linq;
+using Coinage.Domain.Abstract.Services;
 using Coinage.Domain.Concrete;
 using Coinage.Domain.Concrete.Entities;
 using Coinage.Web.Models.Basket;
@@ -24,18 +26,18 @@ namespace Coinage.Web.Controllers
 
             if (basket != null)
             {
-                // TODO: Add basket model properties
+                model.Total = basket.TotalAmount.ToString("0.00");
 
                 foreach (BasketItem item in basket.BasketItems)
                 {
                     var basketItem = new BasketModel.BasketItemModel
                     {
-                        Id = item.ProductId,
+                        Id = item.Id,
                         ProductId = item.Product.Id,
                         ItemName = item.Product.Name,
                         Quantity = item.Quantity,
-                        UnitPrice = "", // String formatted individual price
-                        SubTotal = "" // String formatted price * quantity
+                        UnitPrice = item.Product.Price.ToString("0.00"), // String formatted individual price
+                        SubTotal = item.SubTotal.ToString("0.00") // String formatted price * quantity
                     };
                     model.Items.Add(basketItem);
                 }
@@ -47,7 +49,7 @@ namespace Coinage.Web.Controllers
         {
             Basket basket = _basketService.GetBasket(2);
             Product product = _productService.GetProductById(productId);
-            EntityActionResponse response = _basketService.AddToCart(basket, product, quantity);
+            EntityActionResponse response = _basketService.AddProductToBasket(basket, product, quantity);
 
             if (response.Successful)
             {
@@ -59,5 +61,16 @@ namespace Coinage.Web.Controllers
             }
             return RedirectToRoute("Basket");
         }
-	}
+
+        [HttpPost]
+        public ActionResult UpdateBasketItems(BasketModel model)
+        {
+            foreach (var item in model.Items)
+            {
+                // TODO: handle response
+                var response = _basketService.UpdateProductInBasket(item.Id, item.ProductId, item.Quantity);
+            }
+            return RedirectToAction("Index");
+        }
+    }
 }

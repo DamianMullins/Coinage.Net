@@ -14,5 +14,14 @@ namespace Coinage.Domain.Concrete.Entities
         public virtual Product Product { get; set; }
 
         #endregion
+
+        #region Helper Methods
+
+        public decimal SubTotal
+        {
+            get { return Product.Price * Quantity; }
+        }
+
+        #endregion
     }
 }

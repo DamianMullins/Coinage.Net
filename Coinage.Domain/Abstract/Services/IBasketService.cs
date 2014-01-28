@@ -26,6 +26,15 @@ namespace Coinage.Domain.Abstract.Services
         /// <param name="product"></param>
         /// <param name="quantity"></param>
         /// <returns>EntityActionResponse object.</returns>
-        EntityActionResponse AddToCart(Basket basket, Product product, int quantity);
+        EntityActionResponse AddProductToBasket(Basket basket, Product product, int quantity);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="basketItemId"></param>
+        /// <param name="productId"></param>
+        /// <param name="quantity"></param>
+        /// <returns></returns>
+        EntityActionResponse UpdateProductInBasket(int basketItemId, int productId, int quantity);
     }
 }
