@@ -29,6 +29,11 @@ namespace Coinage.Domain.Concrete.Entities
             get { return BasketItems.Sum(item => item.Quantity); }
         }
 
+        public decimal TotalAmount
+        {
+            get { return BasketItems.Sum(item => item.Product.Price * item.Quantity); }
+        }
+
         /// <summary>
         /// Added for tests. TODO: remove or replace
         /// </summary>
