@@ -154,7 +154,7 @@ namespace Coinage.Web.Tests.Controllers
             public void SetupProductServiceGetProduct(Product product)
             {
                 ProductService
-                    .Setup(s => s.GetProduct(It.IsAny<int>()))
+                    .Setup(s => s.GetProductById(It.IsAny<int>()))
                     .Returns(product);
             }
         }
