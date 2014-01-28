@@ -130,16 +130,18 @@ namespace Coinage.Web.Tests.Controllers
         private class TestableProductController : ProductController
         {
             public readonly Mock<IProductService> ProductService;
+            public readonly Mock<IBasketService> BasketService;
 
-            private TestableProductController(Mock<IProductService> productService)
-                : base(productService.Object)
+            private TestableProductController(Mock<IProductService> productService, Mock<IBasketService> basketService)
+                : base(productService.Object, basketService.Object)
             {
                 ProductService = productService;
+                BasketService = basketService;
             }
 
             public static TestableProductController Create()
             {
-                return new TestableProductController(new Mock<IProductService>());
+                return new TestableProductController(new Mock<IProductService>(), new Mock<IBasketService>());
             }
 
             public void SetupProductServiceGetProducts(List<Product> products)

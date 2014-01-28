@@ -7,16 +7,17 @@ namespace Coinage.Web.Controllers
     public class ProductController : Controller
     {
         private readonly IProductService _productService;
+        private readonly IBasketService _basketService;
 
-        public ProductController(IProductService productService)
+        public ProductController(IProductService productService, IBasketService basketService)
         {
             _productService = productService;
+            _basketService = basketService;
         }
 
         public ActionResult Index(int id)
         {
             Product product = _productService.GetProduct(id);
-
             if (product != null)
             {
                 return View(product);

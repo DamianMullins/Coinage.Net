@@ -20,6 +20,7 @@ namespace Coinage.DI
 
             // Services
             kernel.Bind<IProductService>().To<ProductService>();
+            kernel.Bind<IBasketService>().To<BasketService>();
         }
     }
 }
