@@ -1,20 +1,33 @@
 ﻿@model List<Coinage.Domain.Concrete.Entities.Product>
 @{
     Layout = null;
+    bool firstItem = true;
 }
 
 @if (Model.Any())
 {
-    <h2>Featured Products</h2>
-    
-    <div class="row">
-        @foreach (var product in Model)
-        {
-            <div class="col-6 col-sm-6 col-lg-4">
-                <h2>@product.Name</h2>
-                <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
-                <p><a class="btn btn-default" href="#" role="button">View details »</a></p>
-            </div>
-        }
+    <div id="carousel-example-generic" class="slide carousel" data-ride="carousel">
+        <div class="carousel-inner">
+            @foreach (var product in Model)
+            {
+                <div class="item @(firstItem ? "active" : "")">
+                    <img src="http://placehold.it/1170x450&text=@product.Name" alt="@product.Name">
+                    <div class="carousel-caption">
+                        <h3>@product.Name</h3>
+                        <p>@product.Description</p>
+                        <p>@Html.ActionLink("View »", "Index", "Product", new { id = product.Id }, null)
+                    </div>
+                </div>
+                firstItem = false;
+            }
+        </div>
+
+        <!-- Controls -->
+        <a class="left carousel-control" href="#carousel-example-generic" data-slide="prev">
+            <span class="glyphicon glyphicon-chevron-left"></span>
+        </a>
+        <a class="right carousel-control" href="#carousel-example-generic" data-slide="next">
+            <span class="glyphicon glyphicon-chevron-right"></span>
+        </a>
     </div>
 }

@@ -269,6 +269,7 @@
     <Content Include="Views\Product\List.cshtml" />
     <Content Include="Views\Product\FeaturedList.cshtml" />
     <Content Include="Views\Shared\_Alerts.cshtml" />
+    <Content Include="Views\Product\_SingleListProduct.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

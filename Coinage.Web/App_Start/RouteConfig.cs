@@ -1,5 +1,4 @@
-﻿using System.Linq.Expressions;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 using System.Web.Routing;
 
 namespace Coinage.Web
@@ -9,6 +8,13 @@ namespace Coinage.Web
         public static void RegisterRoutes(RouteCollection routes)
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
+
+            routes.MapRoute(
+                name: "Products",
+                url: "product/{id}",
+                defaults: new { controller = "Product", action = "Index" },
+                namespaces: new[] { "Coinage.Web.Controllers" }
+            );
 
             routes.MapRoute(
                 name: "Default",
