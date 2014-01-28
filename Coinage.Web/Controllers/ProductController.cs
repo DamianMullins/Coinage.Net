@@ -4,7 +4,7 @@ using System.Web.Mvc;
 
 namespace Coinage.Web.Controllers
 {
-    public class ProductController : Controller
+    public class ProductController : BaseController
     {
         private readonly IProductService _productService;
         private readonly IBasketService _basketService;
@@ -17,7 +17,7 @@ namespace Coinage.Web.Controllers
 
         public ActionResult Index(int id)
         {
-            Product product = _productService.GetProduct(id);
+            Product product = _productService.GetProductById(id);
             if (product != null)
             {
                 return View(product);

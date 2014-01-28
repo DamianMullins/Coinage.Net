@@ -6,7 +6,7 @@ using System.Web.Mvc;
 
 namespace Coinage.Web.Areas.Admin.Controllers
 {
-    public class ProductController : Controller
+    public class ProductController : BaseAdminController
     {
         private readonly IProductService _productService;
 
@@ -23,7 +23,7 @@ namespace Coinage.Web.Areas.Admin.Controllers
 
         public ActionResult Edit(int id)
         {
-            Product product = _productService.GetProduct(id);
+            Product product = _productService.GetProductById(id);
 
             if (product != null)
             {
@@ -41,11 +41,11 @@ namespace Coinage.Web.Areas.Admin.Controllers
 
                 if (response.Successful)
                 {
-                    TempData["alert-success"] = string.Format("{0} was updated successfully", product.Name);
+                    SuccessAlert(string.Format("{0} was updated successfully", product.Name));
                 }
                 else
                 {
-                    TempData["alert-error"] = response.Exception.Message;
+                    ErrorAlert(response.Exception.Message);
                 }
             }
             return View(product);
@@ -65,11 +65,10 @@ namespace Coinage.Web.Areas.Admin.Controllers
 
                 if (response.Successful)
                 {
-                    TempData["alert-success"] = string.Format("{0} was created successfully", product.Name);
+                    SuccessAlert(string.Format("{0} was created successfully", product.Name));
                     return RedirectToAction("Edit", new { id = product.Id });
                 }
-
-                TempData["alert-error"] = response.Exception.Message;
+                ErrorAlert(response.Exception.Message);
             }
             return View(product);
         }

@@ -1,21 +1,21 @@
-﻿@if (TempData["alert-info"] != null)
+﻿@if (TempData["coinage.alerts.info"] != null)
 {
     <div class="alert alert-info alert-dismissable">
         <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-        @Html.Raw(TempData["alert-info"])
+        @Html.Raw(TempData["coinage.alerts.info"])
     </div>
 }
-@if (TempData["alert-success"] != null)
+@if (TempData["coinage.alerts.success"] != null)
 {
     <div class="alert alert-success alert-dismissable">
         <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-        @Html.Raw(TempData["alert-success"])
+        @Html.Raw(TempData["coinage.alerts.success"])
     </div>
 }
-@if (TempData["alert-error"] != null)
+@if (TempData["coinage.alerts.error"] != null)
 {
     <div class="alert alert-error alert-dismissable">
         <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-        @Html.Raw(TempData["alert-error"])
+        @Html.Raw(TempData["coinage.alerts.error"])
     </div>
 }

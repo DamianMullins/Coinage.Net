@@ -193,14 +193,18 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
+    <Compile Include="Areas\Admin\Controllers\BaseAdminController.cs" />
     <Compile Include="Areas\Admin\Controllers\ProductController.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\BaseController.cs" />
+    <Compile Include="Controllers\BasketController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ProductController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\Basket\BasketModel.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
@@ -270,6 +274,7 @@
     <Content Include="Views\Product\FeaturedList.cshtml" />
     <Content Include="Views\Shared\_Alerts.cshtml" />
     <Content Include="Views\Product\_SingleListProduct.cshtml" />
+    <Content Include="Views\Basket\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -287,6 +292,10 @@
     <ProjectReference Include="..\Coinage.Domain\Coinage.Domain.csproj">
       <Project>{F76E5445-0028-4377-913F-768424025B5A}</Project>
       <Name>Coinage.Domain</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Coinage.Web.Framework\Coinage.Web.Framework.csproj">
+      <Project>{4E5A271B-E2D1-4379-81BE-3C7E51F37681}</Project>
+      <Name>Coinage.Web.Framework</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
