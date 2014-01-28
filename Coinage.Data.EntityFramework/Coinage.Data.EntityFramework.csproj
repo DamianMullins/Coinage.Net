@@ -48,25 +48,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Configuration\Product\ProductConfiguration.cs" />
+    <Compile Include="Configuration\BasketConfiguration.cs" />
+    <Compile Include="Configuration\BasketItemConfiguration.cs" />
+    <Compile Include="Configuration\ProductConfiguration.cs" />
     <Compile Include="Context\CoinageDbContext.cs" />
     <Compile Include="EfRepository.cs" />
     <Compile Include="Context\IDbContext.cs" />
-    <Compile Include="Migrations\201401201415346_Initial.cs" />
-    <Compile Include="Migrations\201401201415346_Initial.Designer.cs">
-      <DependentUpon>201401201415346_Initial.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201401201429307_Product_Add_Price.cs" />
-    <Compile Include="Migrations\201401201429307_Product_Add_Price.Designer.cs">
-      <DependentUpon>201401201429307_Product_Add_Price.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201401201430550_Product_Add_Description.cs" />
-    <Compile Include="Migrations\201401201430550_Product_Add_Description.Designer.cs">
-      <DependentUpon>201401201430550_Product_Add_Description.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201401201445529_Product_Update_CreatedOn.cs" />
-    <Compile Include="Migrations\201401201445529_Product_Update_CreatedOn.Designer.cs">
-      <DependentUpon>201401201445529_Product_Update_CreatedOn.cs</DependentUpon>
+    <Compile Include="Migrations\201401280831498_Inital.cs" />
+    <Compile Include="Migrations\201401280831498_Inital.Designer.cs">
+      <DependentUpon>201401280831498_Inital.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -82,17 +72,8 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201401201415346_Initial.resx">
-      <DependentUpon>201401201415346_Initial.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201401201429307_Product_Add_Price.resx">
-      <DependentUpon>201401201429307_Product_Add_Price.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201401201430550_Product_Add_Description.resx">
-      <DependentUpon>201401201430550_Product_Add_Description.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201401201445529_Product_Update_CreatedOn.resx">
-      <DependentUpon>201401201445529_Product_Update_CreatedOn.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201401280831498_Inital.resx">
+      <DependentUpon>201401280831498_Inital.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
