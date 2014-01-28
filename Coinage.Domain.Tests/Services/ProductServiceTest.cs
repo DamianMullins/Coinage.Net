@@ -192,24 +192,24 @@ namespace Coinage.Domain.Tests.Services
             }
         }
 
-        public class GetProduct
+        public class GetProductById
         {
             [Test]
-            public void GetProduct_NonExistentProductId_ReturnsNull()
+            public void GetProductById_NonExistentProductId_ReturnsNull()
             {
                 // Arrange
                 var service = TestableProductService.Create();
                 int productId = 1;
 
                 // Act
-                var result = service.GetProduct(productId);
+                var result = service.GetProductById(productId);
 
                 // Assert
                 Assert.IsNull(result);
             }
 
             [Test]
-            public void GetProduct_ExistingProductId_ReturnsProduct()
+            public void GetProductById_ExistingProductId_ReturnsProduct()
             {
                 // Arrange
                 var service = TestableProductService.Create();
@@ -217,7 +217,7 @@ namespace Coinage.Domain.Tests.Services
                 service.SetupRepoGetById(product);
 
                 // Act
-                var result = service.GetProduct(product.Id);
+                var result = service.GetProductById(product.Id);
 
                 // Assert
                 Assert.IsNotNull(result);
