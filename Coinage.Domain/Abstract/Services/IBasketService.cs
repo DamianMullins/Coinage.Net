@@ -1,4 +1,5 @@
-﻿using Coinage.Domain.Concrete.Entities;
+﻿using Coinage.Domain.Concrete;
+using Coinage.Domain.Concrete.Entities;
 
 namespace Coinage.Domain.Abstract.Services
 {
@@ -24,6 +25,7 @@ namespace Coinage.Domain.Abstract.Services
         /// <param name="basket"></param>
         /// <param name="product"></param>
         /// <param name="quantity"></param>
-        void AddToCart(Basket basket, Product product, int quantity);
+        /// <returns>EntityActionResponse object.</returns>
+        EntityActionResponse AddToCart(Basket basket, Product product, int quantity);
     }
 }

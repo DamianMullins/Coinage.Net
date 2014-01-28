@@ -25,40 +25,48 @@ namespace Coinage.Domain.Concrete.Services
             return _basketRepository.Table.FirstOrDefault(b => b.CustomerId == customerId);
         }
 
-        public void AddToCart(Basket basket, Product product, int quantity)
+        public EntityActionResponse AddToCart(Basket basket, Product product, int quantity)
         {
             if (basket == null)
             {
-                throw new ArgumentNullException("basket");
+                return new EntityActionResponse { Exception = new ArgumentNullException("basket") };
             }
             if (product == null)
             {
-                throw new ArgumentNullException("product");
+                return new EntityActionResponse { Exception = new ArgumentNullException("product") };
             }
             if (quantity <= 0)
             {
-                return;
+                return new EntityActionResponse { Exception = new Exception("Quantity less than one") };
             }
 
-            BasketItem basketItem = basket.BasketItems.FirstOrDefault(b => b.ProductId == product.Id);
-            if (basketItem != null)
+            try
             {
-                // Existing item
-                basketItem.Quantity += quantity;
-                basketItem.ModifiedOn = DateTime.Now;
-                this.Update(basket);
-            }
-            else
-            {
-                // New item
-                basketItem = new BasketItem
+                BasketItem basketItem = basket.BasketItems.FirstOrDefault(b => b.ProductId == product.Id);
+                if (basketItem != null)
                 {
-                    Quantity = quantity,
-                    ProductId = product.Id,
-                    CreatedOn = DateTime.Now
-                };
-                basket.BasketItems.Add(basketItem);
-                this.Update(basket);
+                    // Existing item
+                    basketItem.Quantity += quantity;
+                    basketItem.ModifiedOn = DateTime.Now;
+                    return Update(basket);
+                }
+                else
+                {
+                    // New item
+                    basketItem = new BasketItem
+                    {
+                        Quantity = quantity,
+                        ProductId = product.Id,
+                        CreatedOn = DateTime.Now
+                    };
+                    basket.BasketItems.Add(basketItem);
+                    return Update(basket);
+                }
+
+            }
+            catch (Exception exception)
+            {
+                return new EntityActionResponse { Exception = exception };
             }
         }
 

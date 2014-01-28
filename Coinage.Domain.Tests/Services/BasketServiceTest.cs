@@ -86,7 +86,7 @@ namespace Coinage.Domain.Tests.Services
         public class AddToCart
         {
             [Test]
-            public void AddToCart_NullBasket_ThrowsArgumentNullException()
+            public void AddToCart_NullBasket_ReturnsUnsuccessfulResponseWithArgumentNullException()
             {
                 // Arrange
                 var service = TestableBasketService.Create();
@@ -94,13 +94,18 @@ namespace Coinage.Domain.Tests.Services
                 var product = new Product();
                 int quantity = 1;
 
-                // Act & Assert
-                Assert.Throws<ArgumentNullException>(() => service.AddToCart(nullBasket, product, quantity));
+                // Act
+                EntityActionResponse response = service.AddToCart(nullBasket, product, quantity);
+                
+                // Assert
+                Assert.IsNotNull(response);
+                Assert.IsFalse(response.Successful);
+                Assert.IsInstanceOf<ArgumentNullException>(response.Exception);
                 service.BasketRepository.Verify(b => b.Update(It.IsAny<Basket>()), Times.Never);
             }
 
             [Test]
-            public void AddToCart_NullProduct_ThrowsArgumentNullException()
+            public void AddToCart_NullProduct_ReturnsUnsuccessfulResponseWithArgumentNullException()
             {
                 // Arrange
                 var service = TestableBasketService.Create();
@@ -108,16 +113,19 @@ namespace Coinage.Domain.Tests.Services
                 Product nullProduct = null;
                 int quantity = 1;
 
-                // Act & Assert
-                Assert.Throws<ArgumentNullException>(() => service.AddToCart(basket, nullProduct, quantity));
+                // Act
+                EntityActionResponse response = service.AddToCart(basket, nullProduct, quantity);
 
                 // Assert
+                Assert.IsNotNull(response);
+                Assert.IsFalse(response.Successful);
+                Assert.IsInstanceOf<ArgumentNullException>(response.Exception);
                 Assert.AreEqual(0, basket.BasketItems.Count);
                 service.BasketRepository.Verify(b => b.Update(It.IsAny<Basket>()), Times.Never);
             }
 
             [Test]
-            public void AddToCart_ZeroQuantity_ReturnsWithoutUpdatingBasket()
+            public void AddToCart_ZeroQuantity_ReturnsUnsuccessfulResponseWithoutUpdatingBasket()
             {
                 // Arrange
                 var service = TestableBasketService.Create();
@@ -126,15 +134,18 @@ namespace Coinage.Domain.Tests.Services
                 int zeroQuantity = 0;
 
                 // Act
-                service.AddToCart(basket, product, zeroQuantity);
+                EntityActionResponse response = service.AddToCart(basket, product, zeroQuantity);
 
                 // Assert
+                Assert.IsNotNull(response);
+                Assert.IsFalse(response.Successful);
+                Assert.IsInstanceOf<Exception>(response.Exception);
                 Assert.AreEqual(0, basket.BasketItems.Count);
                 service.BasketRepository.Verify(b => b.Update(It.IsAny<Basket>()), Times.Never);
             }
 
             [Test]
-            public void AddToCart_NegativeQuantity_ReturnsWithoutUpdatingBasket()
+            public void AddToCart_NegativeQuantity_ReturnsUnsuccessfulResponseWithoutUpdatingBasket()
             {
                 // Arrange
                 var service = TestableBasketService.Create();
@@ -143,15 +154,18 @@ namespace Coinage.Domain.Tests.Services
                 int negativeQuantity = -1;
 
                 // Act
-                service.AddToCart(basket, product, negativeQuantity);
+                EntityActionResponse response = service.AddToCart(basket, product, negativeQuantity);
 
                 // Assert
+                Assert.IsNotNull(response);
+                Assert.IsFalse(response.Successful);
+                Assert.IsInstanceOf<Exception>(response.Exception);
                 Assert.AreEqual(0, basket.BasketItems.Count);
                 service.BasketRepository.Verify(b => b.Update(It.IsAny<Basket>()), Times.Never);
             }
 
             [Test]
-            public void AddToCart_ProductNotAlreadyAdded_UpdatesBasket()
+            public void AddToCart_ProductNotAlreadyAdded_ReturnsSuccessfulAndUpdatesBasket()
             {
                 // Arrange
                 var service = TestableBasketService.Create();
@@ -160,9 +174,11 @@ namespace Coinage.Domain.Tests.Services
                 int quantity = 1;
 
                 // Act
-                service.AddToCart(basket, product, quantity);
+                EntityActionResponse response = service.AddToCart(basket, product, quantity);
 
                 // Assert
+                Assert.IsNotNull(response);
+                Assert.IsTrue(response.Successful);
                 Assert.AreEqual(1, basket.BasketItems.Count);
                 Assert.AreEqual(1, basket.TotalItems); // Bonus assertion!
                 Assert.AreEqual(1, basket.BasketItems.First().Quantity);
@@ -171,7 +187,7 @@ namespace Coinage.Domain.Tests.Services
             }
 
             [Test]
-            public void AddToCart_ProductNotAlreadyAddedOtherProductsAlreadyInBasket_UpdatesBasket()
+            public void AddToCart_ProductNotAlreadyAddedOtherProductsAlreadyInBasket_ReturnsSuccessfulAndUpdatesBasket()
             {
                 // Arrange
                 var service = TestableBasketService.Create();
@@ -181,16 +197,18 @@ namespace Coinage.Domain.Tests.Services
                 int quantity = 1;
 
                 // Act
-                service.AddToCart(basket, product, quantity);
+                EntityActionResponse response = service.AddToCart(basket, product, quantity);
 
                 // Assert
+                Assert.IsNotNull(response);
+                Assert.IsTrue(response.Successful);
                 Assert.AreEqual(2, basket.BasketItems.Count);
                 Assert.AreEqual(2, basket.TotalItems); // Bonus assertion!
                 service.BasketRepository.Verify(b => b.Update(It.IsAny<Basket>()), Times.Once);
             }
 
             [Test]
-            public void AddToCart_ProductAlreadyAdded_UpdatesBasket()
+            public void AddToCart_ProductAlreadyAdded_ReturnsSuccessfulAndUpdatesBasket()
             {
                 // Arrange
                 var service = TestableBasketService.Create();
@@ -200,9 +218,11 @@ namespace Coinage.Domain.Tests.Services
                 int quantity = 1;
 
                 // Act
-                service.AddToCart(basket, product, quantity);
+                EntityActionResponse response = service.AddToCart(basket, product, quantity);
 
                 // Assert
+                Assert.IsNotNull(response);
+                Assert.IsTrue(response.Successful);
                 Assert.AreEqual(1, basket.BasketItems.Count);
                 Assert.AreEqual(2, basket.TotalItems);
                 Assert.AreEqual(2, basket.BasketItems.First().Quantity);
@@ -211,7 +231,7 @@ namespace Coinage.Domain.Tests.Services
             }
 
             [Test]
-            public void AddToCart_ProductAlreadyAddedOtherProductsAlreadyInBasket_UpdatesBasket()
+            public void AddToCart_ProductAlreadyAddedOtherProductsAlreadyInBasket_ReturnsSuccessfulAndUpdatesBasket()
             {
                 // Arrange
                 var service = TestableBasketService.Create();
@@ -222,9 +242,11 @@ namespace Coinage.Domain.Tests.Services
                 int quantity = 1;
 
                 // Act
-                service.AddToCart(basket, product, quantity);
+                EntityActionResponse response = service.AddToCart(basket, product, quantity);
 
                 // Assert
+                Assert.IsNotNull(response);
+                Assert.IsTrue(response.Successful);
                 Assert.AreEqual(2, basket.BasketItems.Count);
                 Assert.AreEqual(3, basket.TotalItems);
                 Assert.AreEqual(2, basket.BasketItems.First(b => b.ProductId == product.Id).Quantity);
