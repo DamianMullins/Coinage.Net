@@ -45,18 +45,20 @@ namespace Coinage.Domain.Concrete.Services
             {
                 // Existing item
                 basketItem.Quantity += quantity;
-                _basketRepository.Update(basket);
+                basketItem.ModifiedOn = DateTime.Now;
+                this.Update(basket);
             }
             else
             {
                 // New item
-                basketItem = new BasketItem 
+                basketItem = new BasketItem
                 {
-                    Quantity = quantity, 
-                    Product = product
+                    Quantity = quantity,
+                    ProductId = product.Id,
+                    CreatedOn = DateTime.Now
                 };
                 basket.BasketItems.Add(basketItem);
-                _basketRepository.Update(basket);
+                this.Update(basket);
             }
         }
 
