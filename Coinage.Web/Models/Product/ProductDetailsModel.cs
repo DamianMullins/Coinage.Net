@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Coinage.Web.Models
+namespace Coinage.Web.Models.Product
 {
     public class ProductDetailsModel
     {

@@ -1,7 +1,7 @@
 ﻿using Coinage.Domain.Abstract.Services;
 using Coinage.Domain.Concrete.Entities;
+using Coinage.Web.Models.Product;
 using System.Web.Mvc;
-using Coinage.Web.Models;
 
 namespace Coinage.Web.Controllers
 {

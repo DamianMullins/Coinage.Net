@@ -1,8 +1,8 @@
 ﻿using Coinage.Domain.Abstract.Services;
 using Coinage.Domain.Concrete;
 using Coinage.Domain.Concrete.Entities;
-using Coinage.Web.Models;
 using Coinage.Web.Models.Basket;
+using Coinage.Web.Models.Product;
 using System.Web;
 using System.Web.Mvc;
 
