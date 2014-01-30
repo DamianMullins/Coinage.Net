@@ -14,7 +14,7 @@
 }
 @if (TempData["coinage.alerts.error"] != null)
 {
-    <div class="alert alert-error alert-dismissable">
+    <div class="alert alert-danger alert-dismissable">
         <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
         @Html.Raw(TempData["coinage.alerts.error"])
     </div>
