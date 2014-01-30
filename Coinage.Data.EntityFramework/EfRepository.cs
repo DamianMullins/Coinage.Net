@@ -52,9 +52,12 @@ namespace Coinage.Data.EntityFramework
                     throw new ArgumentNullException("entity");
                 }
 
-                Entities.Attach(entity);
-
-                _context.Entry(entity).State = EntityState.Modified;
+                var entry = _context.Entry(entity);
+                if (entry.State == EntityState.Detached)
+                {
+                    Entities.Attach(entity);
+                    entry.State = EntityState.Modified;
+                }
                 _context.SaveChanges();
             }
             catch (DbEntityValidationException dbException)
