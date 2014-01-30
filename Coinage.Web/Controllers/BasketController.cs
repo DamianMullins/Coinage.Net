@@ -70,20 +70,17 @@ namespace Coinage.Web.Controllers
         }
 
         [HttpPost]
-        public ActionResult UpdateBasketItems(BasketModel model)
+        public ActionResult UpdateBasketItem(BasketModel.BasketItemModel model)
         {
-            foreach (var item in model.Items)
-            {
-                EntityActionResponse response = _basketService.UpdateProductInBasket(item.Id, item.ProductId, item.Quantity);
+            EntityActionResponse response = _basketService.UpdateProductInBasket(model.Id, model.ProductId, model.Quantity);
 
-                if (response.Successful)
-                {
-                    SuccessAlert("Basket was updated");
-                }
-                else
-                {
-                    ErrorAlert("There was an error updating your basket");
-                }
+            if (response.Successful)
+            {
+                SuccessAlert("Basket was updated");
+            }
+            else
+            {
+                ErrorAlert("There was an error updating your basket");
             }
             return RedirectToAction("Index");
         }

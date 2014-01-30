@@ -1,4 +1,5 @@
-﻿@model Coinage.Web.Models.Basket.BasketModel
+﻿@using Coinage.Web.Models.Basket
+@model BasketModel
 @{
     ViewBag.Title = "Basket";
 }
@@ -7,42 +8,21 @@
 
 @if (Model.Items.Any())
 {
-    using (Html.BeginForm("UpdateBasketItems", "Basket"))
+    <div class="row">
+        <div class="col-md-1"></div>
+        <div class="col-md-4"></div>
+        <div class="col-md-2">Quantity</div>
+        <div class="col-md-1">Unit Price</div>
+        <div class="col-md-1">Sub Total</div>
+        <div class="col-md-1"></div>
+    </div>
+    
+    foreach (BasketModel.BasketItemModel item in Model.Items)
     {
-        <table>
-            <thead>
-                <tr>
-                    <th>&nbsp;</th>
-                    <th>Quantity</th>
-                    <th>Unit Price</th>
-                    <th>Sub Total</th>
-                    <th>&nbsp;</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var item in Model.Items)
-                {
-                    <tr>
-                        <td>@item.ItemName</td>
-                        <td>@Html.TextBoxFor(i => i.Items[Model.Items.IndexOf(item)].Quantity)</td>
-                        <td>&pound;@item.UnitPrice</td>
-                        <td>&pound;@item.SubTotal</td>
-                        <td>
-                            @Html.HiddenFor(i => i.Items[Model.Items.IndexOf(item)].Id)
-                            @Html.HiddenFor(i => i.Items[Model.Items.IndexOf(item)].ProductId)
-                        </td>
-                    </tr>
-                }
-            </tbody>
-            <tfoot>
-                <tr>
-                    <td colspan="2">&nbsp;</td>
-                    <td>Total</td>
-                    <td>&pound;@Model.Total</td>
-                </tr>
-            </tfoot>
-        </table>
-
-        <input type="submit" value="Update" class="btn btn-default" />
+        @Html.Partial("_BasketItem", item)
     }
+    
+    <div class="row">
+        <div class="col-md-4 pull-right">Total &pound;@Model.Total</div>
+    </div>
 }
