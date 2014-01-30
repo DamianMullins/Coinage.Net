@@ -1,0 +1,16 @@
+﻿@model Coinage.Web.Models.ProductDetailsModel.AddToBasketModel
+@{
+    Layout = null;
+}
+
+@using (Html.BeginForm("AddToBasket", "Basket"))
+{
+    <div class="form-group">
+        @Html.LabelFor(p => p.Quantity)
+        @Html.TextBoxFor(p => p.Quantity, new { @class = "form-control" })
+    </div>
+
+    @Html.HiddenFor(p => p.ProductId)
+
+    <button type="submit" class="btn btn-default">Add To Basket</button>
+}

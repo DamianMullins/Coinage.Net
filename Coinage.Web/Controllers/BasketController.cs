@@ -1,9 +1,9 @@
-﻿using System.Data.Entity.Core.Mapping;
-using System.Linq;
-using Coinage.Domain.Abstract.Services;
+﻿using Coinage.Domain.Abstract.Services;
 using Coinage.Domain.Concrete;
 using Coinage.Domain.Concrete.Entities;
+using Coinage.Web.Models;
 using Coinage.Web.Models.Basket;
+using System.Web;
 using System.Web.Mvc;
 
 namespace Coinage.Web.Controllers
@@ -12,11 +12,13 @@ namespace Coinage.Web.Controllers
     {
         private readonly IProductService _productService;
         private readonly IBasketService _basketService;
+        readonly HttpContextBase _httpContext;
 
-        public BasketController(IProductService productService, IBasketService basketService)
+        public BasketController(IProductService productService, IBasketService basketService, HttpContextBase httpContext)
         {
             _productService = productService;
             _basketService = basketService;
+            _httpContext = httpContext;
         }
 
         public ActionResult Index()
@@ -45,11 +47,12 @@ namespace Coinage.Web.Controllers
             return View(model);
         }
 
-        public ActionResult AddToBasket(int productId, int quantity)
+        [HttpPost]
+        public ActionResult AddToBasket(ProductDetailsModel.AddToBasketModel model)
         {
             Basket basket = _basketService.GetBasket(2);
-            Product product = _productService.GetProductById(productId);
-            EntityActionResponse response = _basketService.AddProductToBasket(basket, product, quantity);
+            Product product = _productService.GetProductById(model.ProductId);
+            EntityActionResponse response = _basketService.AddProductToBasket(basket, product, model.Quantity);
 
             if (response.Successful)
             {
@@ -57,7 +60,11 @@ namespace Coinage.Web.Controllers
             }
             else
             {
-                ErrorAlert("was added to your basket");
+                ErrorAlert("There was an error adding the item to your basket");
+                if (_httpContext.Request.UrlReferrer != null)
+                {
+                    return new RedirectResult(_httpContext.Request.UrlReferrer.AbsoluteUri);
+                }
             }
             return RedirectToRoute("Basket");
         }
@@ -67,8 +74,16 @@ namespace Coinage.Web.Controllers
         {
             foreach (var item in model.Items)
             {
-                // TODO: handle response
-                var response = _basketService.UpdateProductInBasket(item.Id, item.ProductId, item.Quantity);
+                EntityActionResponse response = _basketService.UpdateProductInBasket(item.Id, item.ProductId, item.Quantity);
+
+                if (response.Successful)
+                {
+                    SuccessAlert("Basket was updated");
+                }
+                else
+                {
+                    ErrorAlert("There was an error updating your basket");
+                }
             }
             return RedirectToAction("Index");
         }

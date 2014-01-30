@@ -1,6 +1,7 @@
 ﻿using Coinage.Domain.Abstract.Services;
 using Coinage.Domain.Concrete.Entities;
 using System.Web.Mvc;
+using Coinage.Web.Models;
 
 namespace Coinage.Web.Controllers
 {
@@ -18,9 +19,24 @@ namespace Coinage.Web.Controllers
         public ActionResult Index(int id)
         {
             Product product = _productService.GetProductById(id);
+
             if (product != null)
             {
-                return View(product);
+                var model = new ProductDetailsModel
+                {
+                    Name = product.Name, 
+                    Description = product.Description,
+                    ProductPrice = new ProductDetailsModel.ProductPriceModel
+                    {
+                        ProductId = product.Id, 
+                        PriceValue = product.Price
+                    },
+                    AddToBasket = new ProductDetailsModel.AddToBasketModel
+                    {
+                        ProductId = product.Id
+                    }
+                };
+                return View(model);
             }
             return HttpNotFound("Product was not found.");
         }
