@@ -94,10 +94,10 @@ namespace Coinage.Web.Tests.Controllers
             {
                 // Arrange
                 var controller = TestableProductController.Create();
-                controller.SetupProductServiceGetProducts(new List<Product>());
+                controller.SetupProductServiceGetFeaturedProducts(new List<Product>());
 
                 // Act
-                var result = controller.List() as ViewResult;
+                var result = controller.FeaturedList() as ViewResult;
 
                 // Assert
                 Assert.IsNotNull(result);
@@ -106,7 +106,7 @@ namespace Coinage.Web.Tests.Controllers
             }
 
             [Test]
-            public void List_RequestWithProducts_ReturnsWithView()
+            public void FeaturedList_RequestWithProducts_ReturnsWithView()
             {
                 // Arrange
                 var controller = TestableProductController.Create();
@@ -115,15 +115,17 @@ namespace Coinage.Web.Tests.Controllers
                     new Product {Id = 1, Name = "First Product"},
                     new Product {Id = 2, Name = "Second Product"}
                 };
-                controller.SetupProductServiceGetProducts(products);
+                controller.SetupProductServiceGetFeaturedProducts(products);
 
                 // Act
-                var result = controller.List() as ViewResult;
+                var result = controller.FeaturedList() as ViewResult;
 
                 // Assert
                 Assert.IsNotNull(result);
                 Assert.IsInstanceOf<List<Product>>(result.Model);
                 Assert.IsTrue(((List<Product>)result.Model).Count == 2);
+                Assert.AreEqual(1, ((List<Product>)result.Model)[0].Id);
+                Assert.AreEqual(2, ((List<Product>)result.Model)[1].Id);
             }
         }
 
@@ -148,6 +150,13 @@ namespace Coinage.Web.Tests.Controllers
             {
                 ProductService
                     .Setup(s => s.GetProducts())
+                    .Returns(products);
+            }
+
+            public void SetupProductServiceGetFeaturedProducts(List<Product> products)
+            {
+                ProductService
+                    .Setup(s => s.GetFeaturedProducts())
                     .Returns(products);
             }
 
