@@ -7,13 +7,13 @@ namespace Coinage.Data.EntityFramework.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.0.2-21211")]
-    public sealed partial class Product_Update_CreatedOn : IMigrationMetadata
+    public sealed partial class Initial : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(Product_Update_CreatedOn));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(Initial));
         
         string IMigrationMetadata.Id
         {
-            get { return "201401201445529_Product_Update_CreatedOn"; }
+            get { return "201401301700280_Initial"; }
         }
         
         string IMigrationMetadata.Source
