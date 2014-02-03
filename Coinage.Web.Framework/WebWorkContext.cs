@@ -28,13 +28,9 @@ namespace Coinage.Web.Framework
         {
             get
             {
-                if (_cachedCustomer != null)
-                {
-                    return _cachedCustomer;
-                }
+                if (_cachedCustomer != null) return _cachedCustomer;
 
                 Customer customer = _authenticationService.GetAuthenticatedCustomer();
-
 
                 // Load guest Customer
                 if (customer == null || !customer.Active)
@@ -45,10 +41,10 @@ namespace Coinage.Web.Framework
                         Guid customerGuid;
                         if (Guid.TryParse(customerCookie.Value, out customerGuid))
                         {
-                            var customerByCookie = _customerService.GetCustomerByGuid(customerGuid);
-                            if (customerByCookie != null) // TODO: Implement customer extension methods && !customerByCookie.IsRegistered())
+                            Customer customerFromCookie = _customerService.GetCustomerByGuid(customerGuid);
+                            if (customerFromCookie != null) // TODO: Implement customer extension methods && !customerByCookie.IsRegistered())
                             {
-                                customer = customerByCookie;
+                                customer = customerFromCookie;
                             }
                         }
                     }
