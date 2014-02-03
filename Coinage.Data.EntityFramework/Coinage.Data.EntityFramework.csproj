@@ -50,6 +50,7 @@
   <ItemGroup>
     <Compile Include="Configuration\BasketConfiguration.cs" />
     <Compile Include="Configuration\BasketItemConfiguration.cs" />
+    <Compile Include="Configuration\CustomerConfiguration.cs" />
     <Compile Include="Configuration\ProductConfiguration.cs" />
     <Compile Include="Context\CoinageDbContext.cs" />
     <Compile Include="EfRepository.cs" />
@@ -57,6 +58,14 @@
     <Compile Include="Migrations\201401301700280_Initial.cs" />
     <Compile Include="Migrations\201401301700280_Initial.Designer.cs">
       <DependentUpon>201401301700280_Initial.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201402031238584_Customer_Add_Entity.cs" />
+    <Compile Include="Migrations\201402031238584_Customer_Add_Entity.Designer.cs">
+      <DependentUpon>201402031238584_Customer_Add_Entity.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201402031250472_Customer_Add_CustomerGuid.cs" />
+    <Compile Include="Migrations\201402031250472_Customer_Add_CustomerGuid.Designer.cs">
+      <DependentUpon>201402031250472_Customer_Add_CustomerGuid.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -74,6 +83,12 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201401301700280_Initial.resx">
       <DependentUpon>201401301700280_Initial.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201402031238584_Customer_Add_Entity.resx">
+      <DependentUpon>201402031238584_Customer_Add_Entity.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201402031250472_Customer_Add_CustomerGuid.resx">
+      <DependentUpon>201402031250472_Customer_Add_CustomerGuid.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

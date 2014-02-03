@@ -9,12 +9,12 @@ namespace Coinage.Domain.Concrete.Services
     public class BasketService : IBasketService
     {
         private readonly IRepository<Basket> _basketRepository;
-        private readonly IRepository<BasketItem> _BasketItemRepository;
+        private readonly IRepository<BasketItem> _basketItemRepository;
 
         public BasketService(IRepository<Basket> basketRepository, IRepository<BasketItem> basketItemRepository)
         {
             _basketRepository = basketRepository;
-            _BasketItemRepository = basketItemRepository;
+            _basketItemRepository = basketItemRepository;
         }
 
         public Basket GetBasket(int id)
@@ -76,19 +76,19 @@ namespace Coinage.Domain.Concrete.Services
         {
             try
             {
-                var basketItem = _BasketItemRepository.GetById(basketItemId);
+                var basketItem = _basketItemRepository.GetById(basketItemId);
 
                     if (quantity > 0)
                     {
                         // Update item
                         basketItem.Quantity = quantity;
                         basketItem.ModifiedOn = DateTime.Now;
-                        _BasketItemRepository.Update(basketItem);
+                        _basketItemRepository.Update(basketItem);
                     }
                     else
                     {
                         // Delete item
-                        _BasketItemRepository.Delete(basketItem);
+                        _basketItemRepository.Delete(basketItem);
                     }
                     return new EntityActionResponse { Successful = true };
             }
