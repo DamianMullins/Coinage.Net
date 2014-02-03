@@ -51,6 +51,7 @@
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -76,6 +77,10 @@
     <ProjectReference Include="..\Coinage.Domain\Coinage.Domain.csproj">
       <Project>{F76E5445-0028-4377-913F-768424025B5A}</Project>
       <Name>Coinage.Domain</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Coinage.Web.Framework\Coinage.Web.Framework.csproj">
+      <Project>{4E5A271B-E2D1-4379-81BE-3C7E51F37681}</Project>
+      <Name>Coinage.Web.Framework</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -32,6 +32,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -39,10 +40,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Abstract\Authentication\IAuthenticationService.cs" />
     <Compile Include="Abstract\Entites\ITimestamps.cs" />
+    <Compile Include="Abstract\IWorkContext.cs" />
+    <Compile Include="Abstract\Services\FormsAuthenticationService.cs" />
     <Compile Include="Abstract\Services\IBasketService.cs" />
     <Compile Include="Abstract\Services\IEditableService.cs" />
+    <Compile Include="Abstract\Services\ICustomerService.cs" />
     <Compile Include="Abstract\Services\IProductService.cs" />
+    <Compile Include="Concrete\Entities\Customer.cs" />
     <Compile Include="Concrete\Entities\Basket.cs" />
     <Compile Include="Concrete\Entities\BasketItem.cs" />
     <Compile Include="Concrete\Entities\EditableEntity.cs" />
@@ -50,6 +56,7 @@
     <Compile Include="Concrete\Entities\Product.cs" />
     <Compile Include="Concrete\EntityActionResponse.cs" />
     <Compile Include="Concrete\Services\BasketService.cs" />
+    <Compile Include="Concrete\Services\CustomerService.cs" />
     <Compile Include="Concrete\Services\ProductService.cs" />
     <Compile Include="Abstract\Data\IRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

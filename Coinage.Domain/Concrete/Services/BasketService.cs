@@ -1,18 +1,21 @@
-﻿using System;
-using System.Linq;
+﻿using Coinage.Domain.Abstract;
 using Coinage.Domain.Abstract.Data;
 using Coinage.Domain.Abstract.Services;
 using Coinage.Domain.Concrete.Entities;
+using System;
+using System.Linq;
 
 namespace Coinage.Domain.Concrete.Services
 {
     public class BasketService : IBasketService
     {
+        private readonly IWorkContext _workContext;
         private readonly IRepository<Basket> _basketRepository;
         private readonly IRepository<BasketItem> _basketItemRepository;
 
-        public BasketService(IRepository<Basket> basketRepository, IRepository<BasketItem> basketItemRepository)
+        public BasketService(IWorkContext workContext, IRepository<Basket> basketRepository, IRepository<BasketItem> basketItemRepository)
         {
+            _workContext = workContext;
             _basketRepository = basketRepository;
             _basketItemRepository = basketItemRepository;
         }
@@ -22,25 +25,31 @@ namespace Coinage.Domain.Concrete.Services
             return _basketRepository.GetById(id);
         }
 
-        public Basket GetCustomerBasket(int customerId)
+        public Basket GetCustomerBasket()
         {
-            return _basketRepository.Table.FirstOrDefault(b => b.CustomerId == customerId);
+            Customer customer = _workContext.CurrentCustomer;
+            Basket basket = _basketRepository.Table.FirstOrDefault(b => b.CustomerId == customer.Id);
+
+            if (basket == null)
+            {
+                // Create new Basket
+                basket = new Basket { CustomerId = customer.Id };
+                EntityActionResponse response = Create(basket);
+
+                if (!response.Successful)
+                {
+                    throw new Exception("Could not create basket.", response.Exception);
+                }
+            }
+
+            return basket;
         }
 
         public EntityActionResponse AddProductToBasket(Basket basket, Product product, int quantity)
         {
-            if (basket == null)
-            {
-                return new EntityActionResponse { Exception = new ArgumentNullException("basket") };
-            }
-            if (product == null)
-            {
-                return new EntityActionResponse { Exception = new ArgumentNullException("product") };
-            }
-            if (quantity <= 0)
-            {
-                return new EntityActionResponse { Exception = new Exception("Quantity less than one") };
-            }
+            if (basket == null) return new EntityActionResponse { Exception = new ArgumentNullException("basket") };
+            if (product == null) return new EntityActionResponse { Exception = new ArgumentNullException("product") };
+            if (quantity <= 0) return new EntityActionResponse { Exception = new Exception("Quantity less than one") };
 
             try
             {
@@ -78,19 +87,19 @@ namespace Coinage.Domain.Concrete.Services
             {
                 var basketItem = _basketItemRepository.GetById(basketItemId);
 
-                    if (quantity > 0)
-                    {
-                        // Update item
-                        basketItem.Quantity = quantity;
-                        basketItem.ModifiedOn = DateTime.Now;
-                        _basketItemRepository.Update(basketItem);
-                    }
-                    else
-                    {
-                        // Delete item
-                        _basketItemRepository.Delete(basketItem);
-                    }
-                    return new EntityActionResponse { Successful = true };
+                if (quantity > 0)
+                {
+                    // Update item
+                    basketItem.Quantity = quantity;
+                    basketItem.ModifiedOn = DateTime.Now;
+                    _basketItemRepository.Update(basketItem);
+                }
+                else
+                {
+                    // Delete item
+                    _basketItemRepository.Delete(basketItem);
+                }
+                return new EntityActionResponse { Successful = true };
             }
             catch (Exception exception)
             {

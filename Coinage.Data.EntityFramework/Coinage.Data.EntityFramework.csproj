@@ -67,6 +67,10 @@
     <Compile Include="Migrations\201402031250472_Customer_Add_CustomerGuid.Designer.cs">
       <DependentUpon>201402031250472_Customer_Add_CustomerGuid.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201402031417203_Customer_Update_Email.cs" />
+    <Compile Include="Migrations\201402031417203_Customer_Update_Email.Designer.cs">
+      <DependentUpon>201402031417203_Customer_Update_Email.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -89,6 +93,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201402031250472_Customer_Add_CustomerGuid.resx">
       <DependentUpon>201402031250472_Customer_Add_CustomerGuid.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201402031417203_Customer_Update_Email.resx">
+      <DependentUpon>201402031417203_Customer_Update_Email.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

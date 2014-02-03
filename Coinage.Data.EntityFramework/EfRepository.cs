@@ -27,10 +27,7 @@ namespace Coinage.Data.EntityFramework
         {
             try
             {
-                if (entity == null)
-                {
-                    throw new ArgumentNullException("entity");
-                }
+                if (entity == null) throw new ArgumentNullException("entity");
 
                 Entities.Add(entity);
 
@@ -47,10 +44,7 @@ namespace Coinage.Data.EntityFramework
         {
             try
             {
-                if (entity == null)
-                {
-                    throw new ArgumentNullException("entity");
-                }
+                if (entity == null) throw new ArgumentNullException("entity");
 
                 var entry = _context.Entry(entity);
                 if (entry.State == EntityState.Detached)
@@ -71,10 +65,7 @@ namespace Coinage.Data.EntityFramework
         {
             try
             {
-                if (entity == null)
-                {
-                    throw new ArgumentNullException("entity");
-                }
+                if (entity == null) throw new ArgumentNullException("entity");
 
                 Entities.Remove(entity);
 

@@ -15,9 +15,8 @@ namespace Coinage.Domain.Abstract.Services
         /// <summary>
         /// Get a Basket by its owning customer primary key.
         /// </summary>
-        /// <param name="customerId">Primary key of the owning customer.</param>
         /// <returns>A Basket object.</returns>
-        Basket GetCustomerBasket(int customerId);
+        Basket GetCustomerBasket();
 
         /// <summary>
         /// 

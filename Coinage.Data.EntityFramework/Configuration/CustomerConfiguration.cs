@@ -12,7 +12,7 @@ namespace Coinage.Data.EntityFramework.Configuration
             HasKey(p => p.Id);
             Property(p => p.Id).HasColumnName("CustomerId");
 
-            Property(p => p.Email).IsRequired().HasMaxLength(1000);
+            Property(p => p.Email).HasMaxLength(1000);
 
             Property(p => p.ModifiedOn).HasColumnType("datetime2");
         }

@@ -1,4 +1,6 @@
-﻿using Coinage.Domain.Abstract.Services;
+﻿using System.Linq;
+using Coinage.Domain.Abstract;
+using Coinage.Domain.Abstract.Services;
 using Coinage.Domain.Concrete;
 using Coinage.Domain.Concrete.Entities;
 using Coinage.Web.Models.Basket;
@@ -13,8 +15,11 @@ namespace Coinage.Web.Controllers
         private readonly IProductService _productService;
         private readonly IBasketService _basketService;
         readonly HttpContextBase _httpContext;
-
-        public BasketController(IProductService productService, IBasketService basketService, HttpContextBase httpContext)
+        
+        public BasketController(
+            IProductService productService, 
+            IBasketService basketService, 
+            HttpContextBase httpContext)
         {
             _productService = productService;
             _basketService = basketService;
@@ -24,7 +29,7 @@ namespace Coinage.Web.Controllers
         public ActionResult Index()
         {
             var model = new BasketModel();
-            Basket basket = _basketService.GetBasket(2);
+            Basket basket = _basketService.GetCustomerBasket();
 
             if (basket != null)
             {
@@ -50,7 +55,7 @@ namespace Coinage.Web.Controllers
         [HttpPost]
         public ActionResult AddToBasket(ProductDetailsModel.AddToBasketModel model)
         {
-            Basket basket = _basketService.GetBasket(2);
+            Basket basket = _basketService.GetCustomerBasket();
             Product product = _productService.GetProductById(model.ProductId);
             EntityActionResponse response = _basketService.AddProductToBasket(basket, product, model.Quantity);
 
@@ -72,11 +77,22 @@ namespace Coinage.Web.Controllers
         [HttpPost]
         public ActionResult UpdateBasketItem(BasketModel.BasketItemModel model)
         {
-            EntityActionResponse response = _basketService.UpdateProductInBasket(model.Id, model.ProductId, model.Quantity);
-
-            if (response.Successful)
+            Basket basket = _basketService.GetCustomerBasket();
+            
+            // Verify that we are updating the correct basket
+            if (basket.BasketItems.Select(i => i.Id).Contains(model.Id))
             {
-                SuccessAlert("Basket was updated");
+                EntityActionResponse response = _basketService.UpdateProductInBasket(model.Id, model.ProductId,
+                    model.Quantity);
+
+                if (response.Successful)
+                {
+                    SuccessAlert("Basket was updated");
+                }
+                else
+                {
+                    ErrorAlert("There was an error updating your basket");
+                }
             }
             else
             {
