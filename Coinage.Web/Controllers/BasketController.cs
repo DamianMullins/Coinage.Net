@@ -15,10 +15,10 @@ namespace Coinage.Web.Controllers
         private readonly IProductService _productService;
         private readonly IBasketService _basketService;
         readonly HttpContextBase _httpContext;
-        
+
         public BasketController(
-            IProductService productService, 
-            IBasketService basketService, 
+            IProductService productService,
+            IBasketService basketService,
             HttpContextBase httpContext)
         {
             _productService = productService;
@@ -77,27 +77,17 @@ namespace Coinage.Web.Controllers
         [HttpPost]
         public ActionResult UpdateBasketItem(BasketModel.BasketItemModel model)
         {
-            Basket basket = _basketService.GetCustomerBasket();
-            
-            // Verify that we are updating the correct basket
-            if (basket.BasketItems.Select(i => i.Id).Contains(model.Id))
-            {
-                EntityActionResponse response = _basketService.UpdateProductInBasket(model.Id, model.ProductId,
-                    model.Quantity);
+            EntityActionResponse response = _basketService.UpdateProductInBasket(model.Id, model.ProductId, model.Quantity);
 
-                if (response.Successful)
-                {
-                    SuccessAlert("Basket was updated");
-                }
-                else
-                {
-                    ErrorAlert("There was an error updating your basket");
-                }
+            if (response.Successful)
+            {
+                SuccessAlert("Basket was updated");
             }
             else
             {
                 ErrorAlert("There was an error updating your basket");
             }
+
             return RedirectToAction("Index");
         }
     }
