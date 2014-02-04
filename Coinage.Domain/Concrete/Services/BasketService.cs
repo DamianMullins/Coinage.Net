@@ -85,7 +85,13 @@ namespace Coinage.Domain.Concrete.Services
         {
             try
             {
-                var basketItem = _basketItemRepository.GetById(basketItemId);
+                Basket basket = GetCustomerBasket();
+                BasketItem basketItem = _basketItemRepository.GetById(basketItemId);
+
+                if (basketItem == null) throw new NullReferenceException("Basket Item was not found");
+
+                // Verify that we are updating the correct basket
+                if (!basket.BasketItems.Contains(basketItem)) throw new Exception("Basket Item was not found");
 
                 if (quantity > 0)
                 {

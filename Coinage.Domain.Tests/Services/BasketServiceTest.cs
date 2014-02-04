@@ -1,4 +1,5 @@
-﻿using Coinage.Domain.Abstract;
+﻿using System.Collections.ObjectModel;
+using Coinage.Domain.Abstract;
 using Coinage.Domain.Abstract.Data;
 using Coinage.Domain.Concrete;
 using Coinage.Domain.Concrete.Entities;
@@ -50,20 +51,37 @@ namespace Coinage.Domain.Tests.Services
         public class GetCustomerBasket
         {
             [Test]
-            public void GetCustomerBasket_CustomerIdWithNoBasket_ReturnsNull()
+            public void GetCustomerBasket_CustomerIdWithNoBasketRepoThrowsError_ReturnsUnsuccessfulWithException()
             {
                 // Arrange
                 var service = TestableBasketService.Create();
-                int customerId = 1;
+                var customer = new Customer { Id = 1 };
                 var basket = new Basket { Id = 1, CustomerId = 2 };
                 service.SetupRepoTable(new List<Basket> { basket });
+                service.SetupWorkContextCurrentCustomer(customer);
+                service.BasketRepository.Setup(b => b.Insert(It.IsAny<Basket>())).Throws<Exception>();
 
-                // TODO
+                // Act & Assert
+                Assert.Throws<Exception>(() => service.GetCustomerBasket());
+            }
+
+            [Test]
+            public void GetCustomerBasket_CustomerIdWithNoBasket_CreatesAndReturnsNewBasket()
+            {
+                // Arrange
+                var service = TestableBasketService.Create();
+                var customer = new Customer { Id = 1 };
+                var basket = new Basket { Id = 1, CustomerId = 2 };
+                service.SetupRepoTable(new List<Basket> { basket });
+                service.SetupWorkContextCurrentCustomer(customer);
+
                 // Act
-                //var result = service.GetCustomerBasket(customerId);
+                Basket result = service.GetCustomerBasket();
 
                 // Assert
-                //Assert.IsNull(result);
+                Assert.IsNotNull(result);
+                Assert.IsInstanceOf<DateTime>(result.CreatedOn);
+                Assert.AreEqual(customer.Id, result.CustomerId);
             }
 
             [Test]
@@ -71,18 +89,19 @@ namespace Coinage.Domain.Tests.Services
             {
                 // Arrange
                 var service = TestableBasketService.Create();
-                int customerId = 1;
+                var customer = new Customer { Id = 1 };
                 var basket = new Basket { Id = 1, CustomerId = 1 };
                 service.SetupRepoTable(new List<Basket> { basket });
+                service.SetupWorkContextCurrentCustomer(customer);
 
                 // TODO
                 // Act
-                //var result = service.GetCustomerBasket(customerId);
+                var result = service.GetCustomerBasket();
 
                 //// Assert
-                //Assert.IsNotNull(result);
-                //Assert.AreEqual(1, basket.Id);
-                //Assert.AreEqual(customerId, basket.CustomerId);
+                Assert.IsNotNull(result);
+                Assert.AreEqual(1, result.Id);
+                Assert.AreEqual(customer.Id, result.CustomerId);
             }
         }
 
@@ -99,7 +118,7 @@ namespace Coinage.Domain.Tests.Services
 
                 // Act
                 EntityActionResponse response = service.AddProductToBasket(nullBasket, product, quantity);
-                
+
                 // Assert
                 Assert.IsNotNull(response);
                 Assert.IsFalse(response.Successful);
@@ -258,6 +277,115 @@ namespace Coinage.Domain.Tests.Services
             }
         }
 
+        public class UpdateProductInBasket
+        {
+            [Test]
+            public void UpdateProductInBasket_BasketItemNotFound_ReturnsUnsuccessfulResponse()
+            {
+                // Arrange
+                var service = TestableBasketService.Create();
+                service.SetupBasketItemRepositoryGetById(null);
+                int basketItemId = 1;
+                int productId = 1;
+                int quantity = 1;
+
+                // Act
+                EntityActionResponse response = service.UpdateProductInBasket(basketItemId, productId, quantity);
+
+                // Assert
+                Assert.IsNotNull(response);
+                Assert.IsFalse(response.Successful);
+                Assert.IsInstanceOf<NullReferenceException>(response.Exception);
+            }
+
+            [Test]
+            public void UpdateProductInBasket_RepoThrowsError_ReturnsUnsuccessfulResponse()
+            {
+                // Arrange
+                var service = TestableBasketService.Create();
+                service.BasketItemRepository.Setup(bi => bi.GetById(It.IsAny<int>())).Throws<Exception>();
+                int basketItemId = 1;
+                int productId = 1;
+                int quantity = 1;
+
+                // Act
+                EntityActionResponse response = service.UpdateProductInBasket(basketItemId, productId, quantity);
+
+                // Assert
+                Assert.IsNotNull(response);
+                Assert.IsFalse(response.Successful);
+            }
+
+            [Test]
+            public void UpdateProductInBasket_BasketItemNotInBasket_ReturnsUnsuccessfulResponse()
+            {
+                // Arrange
+                var service = TestableBasketService.Create();
+                service.SetupWorkContextCurrentCustomer(new Customer());
+                service.SetupRepoTable(new List<Basket> { new Basket() });
+                service.SetupBasketItemRepositoryGetById(new BasketItem());
+                int basketItemId = 1;
+                int productId = 1;
+                int quantity = 1;
+
+                // Act
+                EntityActionResponse response = service.UpdateProductInBasket(basketItemId, productId, quantity);
+
+                // Assert
+                Assert.IsNotNull(response);
+                Assert.IsFalse(response.Successful);
+            }
+
+            [Test]
+            public void UpdateProductInBasket_BasketItemInBasketQuantityLessThanOne_DeletesBasketItemAndReturnsSuccessfulResponse()
+            {
+                // Arrange
+                var service = TestableBasketService.Create();
+                var basket = new Basket();
+                var basketItem = new BasketItem { Id = 1 };
+                basket.AddBasketItem(basketItem);
+                service.SetupWorkContextCurrentCustomer(new Customer());
+                service.SetupRepoTable(new List<Basket> { basket });
+                service.SetupBasketItemRepositoryGetById(basketItem);
+                int basketItemId = 1;
+                int productId = 1;
+                int quantity = 0;
+
+                // Act
+                EntityActionResponse response = service.UpdateProductInBasket(basketItemId, productId, quantity);
+
+                // Assert
+                Assert.IsNotNull(response);
+                Assert.IsTrue(response.Successful);
+                service.BasketItemRepository.Verify(bi => bi.Delete(It.IsAny<BasketItem>()), Times.Once);
+            }
+
+            [Test]
+            public void UpdateProductInBasket_BasketItemInBasketQuantityGreaterThanZero_UpdatesBasketItemAndReturnsSuccessfulResponse()
+            {
+                // Arrange
+                var service = TestableBasketService.Create();
+                var basket = new Basket();
+                var basketItem = new BasketItem { Id = 1, Quantity = 1 };
+                basket.AddBasketItem(basketItem);
+                service.SetupWorkContextCurrentCustomer(new Customer());
+                service.SetupRepoTable(new List<Basket> { basket });
+                service.SetupBasketItemRepositoryGetById(basketItem);
+                int basketItemId = 1;
+                int productId = 1;
+                int quantity = 2;
+
+                // Act
+                EntityActionResponse response = service.UpdateProductInBasket(basketItemId, productId, quantity);
+
+                // Assert
+                Assert.IsNotNull(response);
+                Assert.IsTrue(response.Successful);
+                Assert.AreEqual(quantity, basketItem.Quantity);
+                service.BasketItemRepository.Verify(bi => bi.Update(It.IsAny<BasketItem>()), Times.Once);
+            }
+        }
+
         public class Update
         {
             [Test]
@@ -379,6 +507,7 @@ namespace Coinage.Domain.Tests.Services
             private TestableBasketService(Mock<IWorkContext> workContext, Mock<IRepository<Basket>> basketRepository, Mock<IRepository<BasketItem>> basketItemRepository)
                 : base(workContext.Object, basketRepository.Object, basketItemRepository.Object)
             {
+                WorkContext = workContext;
                 BasketRepository = basketRepository;
                 BasketItemRepository = basketItemRepository;
             }
@@ -400,6 +529,20 @@ namespace Coinage.Domain.Tests.Services
                 BasketRepository
                     .Setup(s => s.GetById(It.IsAny<int>()))
                     .Returns(basket);
+            }
+
+            public void SetupWorkContextCurrentCustomer(Customer customer)
+            {
+                WorkContext
+                    .Setup(s => s.CurrentCustomer)
+                    .Returns(customer);
+            }
+
+            public void SetupBasketItemRepositoryGetById(BasketItem basketItem)
+            {
+                BasketItemRepository
+                    .Setup(s => s.GetById(It.IsAny<int>()))
+                    .Returns(basketItem);
             }
         }
     }
