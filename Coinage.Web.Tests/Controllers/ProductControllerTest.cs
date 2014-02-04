@@ -1,6 +1,7 @@
 ﻿using Coinage.Domain.Abstract.Services;
 using Coinage.Domain.Concrete.Entities;
 using Coinage.Web.Controllers;
+using Coinage.Web.Models.Product;
 using Moq;
 using NUnit.Framework;
 using System.Collections.Generic;
@@ -41,9 +42,9 @@ namespace Coinage.Web.Tests.Controllers
 
                 // Assert
                 Assert.IsNotNull(result);
-                var resultModel = ((Product)result.Model);
-                Assert.IsInstanceOf<Product>(result.Model);
-                Assert.AreEqual(existingProductId, resultModel.Id);
+                Assert.IsInstanceOf<ProductDetailsModel>(result.Model);
+                var resultModel = ((ProductDetailsModel)result.Model);
+                Assert.AreEqual("First Product", resultModel.Name);
             }
         }
 
