@@ -50,6 +50,7 @@
     <Compile Include="Entities\BasketTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\BasketServiceTest.cs" />
+    <Compile Include="Services\CustomerServiceTest.cs" />
     <Compile Include="Services\ProductServiceTest.cs" />
   </ItemGroup>
   <ItemGroup>
