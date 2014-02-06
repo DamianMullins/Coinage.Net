@@ -1,8 +1,8 @@
-﻿using System.Linq;
-using Coinage.Domain.Abstract.Data;
+﻿using Coinage.Domain.Abstract.Data;
 using Coinage.Domain.Abstract.Services;
 using Coinage.Domain.Concrete.Entities;
 using System;
+using System.Linq;
 
 namespace Coinage.Domain.Concrete.Services
 {
@@ -25,9 +25,7 @@ namespace Coinage.Domain.Concrete.Services
             if (customerGuid == Guid.Empty) return null;
 
             Customer customer = _customerRepository.Table
-                .Where(c => c.CustomerGuid == customerGuid)
-                .OrderByDescending(c => c.CreatedOn)
-                .FirstOrDefault();
+                .FirstOrDefault(c => c.CustomerGuid == customerGuid);
 
             return customer;
         }
@@ -37,9 +35,7 @@ namespace Coinage.Domain.Concrete.Services
             if (string.IsNullOrEmpty(email)) return null;
 
             Customer customer = _customerRepository.Table
-                .Where(c => c.Email == email)
-                .OrderByDescending(c => c.CreatedOn)
-                .FirstOrDefault();
+                .FirstOrDefault(c => c.Email == email);
 
             return customer;
         }
