@@ -3,16 +3,19 @@ using Coinage.Domain.Abstract.Services;
 using Coinage.Domain.Concrete.Entities;
 using System;
 using System.Linq;
+using Coinage.Domain.Concrete.Enums;
 
 namespace Coinage.Domain.Concrete.Services
 {
     public class CustomerService : ICustomerService
     {
         private readonly IRepository<Customer> _customerRepository;
+        private readonly IRepository<CustomerRole> _customerRoleRepository;
 
-        public CustomerService(IRepository<Customer> customerRepository)
+        public CustomerService(IRepository<Customer> customerRepository, IRepository<CustomerRole> customerRoleRepository)
         {
             _customerRepository = customerRepository;
+            _customerRoleRepository = customerRoleRepository;
         }
 
         public Customer GetCustomerById(int id)
@@ -47,8 +50,12 @@ namespace Coinage.Domain.Concrete.Services
                 Active = true
             };
 
-            // TODO: Implement Customer roles & retrieve guest role
-            //customer.Roles.Add
+            CustomerRole guestRole = GetCustomerRole(CustomerRoleNames.Guests);
+            if (guestRole == null)
+            {
+                throw new Exception("Guests role could not be loaded");
+            }
+            customer.Roles.Add(guestRole);
 
             EntityActionResponse response = Create(customer);
             return response.Successful ? customer : null;
@@ -99,5 +106,14 @@ namespace Coinage.Domain.Concrete.Services
             }
             return response;
         }
+
+        #region Customer roles
+
+        public virtual CustomerRole GetCustomerRole(CustomerRoleNames role)
+        {
+            return _customerRoleRepository.Table.OrderBy(cr => cr.Id).FirstOrDefault(cr => cr.Id == (int)role);
+        }
+
+        #endregion
     }
 }

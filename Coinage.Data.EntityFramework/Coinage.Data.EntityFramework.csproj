@@ -50,6 +50,7 @@
   <ItemGroup>
     <Compile Include="Configuration\BasketConfiguration.cs" />
     <Compile Include="Configuration\BasketItemConfiguration.cs" />
+    <Compile Include="Configuration\CustomerRoleConfiguration.cs" />
     <Compile Include="Configuration\CustomerConfiguration.cs" />
     <Compile Include="Configuration\ProductConfiguration.cs" />
     <Compile Include="Context\CoinageDbContext.cs" />
@@ -70,6 +71,10 @@
     <Compile Include="Migrations\201402031417203_Customer_Update_Email.cs" />
     <Compile Include="Migrations\201402031417203_Customer_Update_Email.Designer.cs">
       <DependentUpon>201402031417203_Customer_Update_Email.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201402071118051_Customer_Add_Roles.cs" />
+    <Compile Include="Migrations\201402071118051_Customer_Add_Roles.Designer.cs">
+      <DependentUpon>201402071118051_Customer_Add_Roles.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -96,6 +101,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201402031417203_Customer_Update_Email.resx">
       <DependentUpon>201402031417203_Customer_Update_Email.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201402071118051_Customer_Add_Roles.resx">
+      <DependentUpon>201402071118051_Customer_Add_Roles.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

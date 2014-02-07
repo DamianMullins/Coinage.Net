@@ -1,10 +1,12 @@
-﻿using Coinage.Domain.Abstract.Authentication;
-using Coinage.Domain.Concrete.Entities;
-using System;
+﻿using System;
 using System.Web;
 using System.Web.Security;
+using Coinage.Domain.Abstract.Authentication;
+using Coinage.Domain.Abstract.Services;
+using Coinage.Domain.Concrete.Entities;
+using Coinage.Domain.Concrete.Extensions;
 
-namespace Coinage.Domain.Abstract.Services
+namespace Coinage.Domain.Concrete.Services.Authentication
 {
     public class FormsAuthenticationService : IAuthenticationService
     {
@@ -73,7 +75,7 @@ namespace Coinage.Domain.Abstract.Services
             var formsIdentity = (FormsIdentity)_httpContext.User.Identity;
             var customer = GetAuthenticatedCustomerFromTicket(formsIdentity.Ticket);
 
-            if (customer != null && customer.Active) // && customer.Isregistered())
+            if (customer != null && customer.Active && customer.IsRegistered())
             {
                 _cachedCustomer = customer;
             }

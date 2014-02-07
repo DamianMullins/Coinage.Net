@@ -6,6 +6,7 @@ using Coinage.Domain.Abstract.Authentication;
 using Coinage.Domain.Abstract.Data;
 using Coinage.Domain.Abstract.Services;
 using Coinage.Domain.Concrete.Services;
+using Coinage.Domain.Concrete.Services.Authentication;
 using Coinage.Web.Framework;
 using Ninject;
 using Ninject.Web.Common;

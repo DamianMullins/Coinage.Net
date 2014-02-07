@@ -303,16 +303,18 @@ namespace Coinage.Domain.Tests.Services
         private class TestableCustomerService : CustomerService
         {
             public readonly Mock<IRepository<Customer>> CustomerRepository;
+            public readonly Mock<IRepository<CustomerRole>> CustomerRoleRepository;
 
-            private TestableCustomerService(Mock<IRepository<Customer>> customerRepository)
-                : base(customerRepository.Object)
+            private TestableCustomerService(Mock<IRepository<Customer>> customerRepository, Mock<IRepository<CustomerRole>> customerRoleRepository)
+                : base(customerRepository.Object, customerRoleRepository.Object)
             {
                 CustomerRepository = customerRepository;
+                CustomerRoleRepository = customerRoleRepository;
             }
 
             public static TestableCustomerService Create()
             {
-                return new TestableCustomerService(new Mock<IRepository<Customer>>());
+                return new TestableCustomerService(new Mock<IRepository<Customer>>(), new Mock<IRepository<CustomerRole>>());
             }
 
             public void SetupRepoTable(IEnumerable<Customer> customers)

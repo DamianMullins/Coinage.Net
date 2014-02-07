@@ -4,6 +4,7 @@ using Coinage.Domain.Abstract.Services;
 using Coinage.Domain.Concrete.Entities;
 using System;
 using System.Web;
+using Coinage.Domain.Concrete.Extensions;
 
 namespace Coinage.Web.Framework
 {
@@ -42,7 +43,7 @@ namespace Coinage.Web.Framework
                         if (Guid.TryParse(customerCookie.Value, out customerGuid))
                         {
                             Customer customerFromCookie = _customerService.GetCustomerByGuid(customerGuid);
-                            if (customerFromCookie != null) // TODO: Implement customer extension methods && !customerByCookie.IsRegistered())
+                            if (customerFromCookie != null  && !customerFromCookie.IsRegistered())
                             {
                                 customer = customerFromCookie;
                             }
