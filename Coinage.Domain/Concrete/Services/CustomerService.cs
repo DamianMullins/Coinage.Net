@@ -91,7 +91,6 @@ namespace Coinage.Domain.Concrete.Services
             {
                 try
                 {
-                    customer.CreatedOn = DateTime.Now;
                     _customerRepository.Insert(customer);
                     response.Successful = true;
                 }

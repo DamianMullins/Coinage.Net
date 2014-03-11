@@ -66,7 +66,6 @@ namespace Coinage.Domain.Concrete.Services
             {
                 try
                 {
-                    product.CreatedOn = DateTime.Now;
                     _productRepository.Insert(product);
                     response.Successful = true;
                 }

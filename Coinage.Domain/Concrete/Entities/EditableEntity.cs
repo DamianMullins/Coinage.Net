@@ -7,5 +7,10 @@ namespace Coinage.Domain.Concrete.Entities
     {
         public DateTime CreatedOn { get; set; }
         public DateTime? ModifiedOn { get; set; }
+
+        protected EditableEntity()
+        {
+            CreatedOn = DateTime.Now;
+        }
     }
 }

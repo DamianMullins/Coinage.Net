@@ -67,8 +67,7 @@ namespace Coinage.Domain.Concrete.Services
                     basketItem = new BasketItem
                     {
                         Quantity = quantity,
-                        ProductId = product.Id,
-                        CreatedOn = DateTime.Now
+                        ProductId = product.Id
                     };
                     basket.BasketItems.Add(basketItem);
                     return Update(basket);
@@ -143,7 +142,6 @@ namespace Coinage.Domain.Concrete.Services
             {
                 try
                 {
-                    basket.CreatedOn = DateTime.Now;
                     _basketRepository.Insert(basket);
                     response.Successful = true;
                 }
