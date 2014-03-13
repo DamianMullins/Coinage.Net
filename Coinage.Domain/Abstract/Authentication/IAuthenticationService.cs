@@ -5,6 +5,11 @@ namespace Coinage.Domain.Abstract.Authentication
     public interface IAuthenticationService
     {
         /// <summary>
+        /// 
+        /// </summary>
+        Customer CurrentCustomer { get; set; }
+
+        /// <summary>
         /// Sign a Customer in.
         /// </summary>
         /// <param name="customer">Customer to sign in.</param>

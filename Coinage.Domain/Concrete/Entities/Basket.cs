@@ -12,7 +12,7 @@ namespace Coinage.Domain.Concrete.Entities
 
         #region Navigation Properties
 
-        public virtual ICollection<BasketItem> BasketItems { get; protected internal set; }
+        public virtual ICollection<BasketItem> BasketItems { get; private set; }
 
         #endregion
 

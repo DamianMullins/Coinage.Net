@@ -14,6 +14,16 @@ namespace Coinage.Data.EntityFramework
         private readonly IDbContext _context;
         private IDbSet<T> _entities;
 
+        private IDbSet<T> Entities
+        {
+            get { return _entities ?? (_entities = _context.Set<T>()); }
+        }
+
+        public IQueryable<T> Table
+        {
+            get { return Entities; }
+        }
+
         public EfRepository(IDbContext context)
         {
             _context = context;
@@ -36,8 +46,7 @@ namespace Coinage.Data.EntityFramework
             }
             catch (DbEntityValidationException dbException)
             {
-                var fail = new Exception("", dbException);
-                throw fail;
+                throw new Exception("Insert failed", dbException);
             }
         }
 
@@ -57,8 +66,7 @@ namespace Coinage.Data.EntityFramework
             }
             catch (DbEntityValidationException dbException)
             {
-                var fail = new Exception("", dbException);
-                throw fail;
+                throw new Exception("Update failed", dbException);
             }
         }
 
@@ -74,19 +82,8 @@ namespace Coinage.Data.EntityFramework
             }
             catch (DbEntityValidationException dbException)
             {
-                var fail = new Exception("", dbException);
-                throw fail;
+                throw new Exception("Delete failed", dbException);
             }
-        }
-
-        public IQueryable<T> Table
-        {
-            get { return Entities; }
-        }
-
-        private IDbSet<T> Entities
-        {
-            get { return _entities ?? (_entities = _context.Set<T>()); }
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Coinage.Domain.Abstract;
+using Coinage.Domain.Abstract.Authentication;
 using Coinage.Domain.Abstract.Data;
 using Coinage.Domain.Abstract.Services;
 using Coinage.Domain.Concrete.Entities;
@@ -9,13 +10,13 @@ namespace Coinage.Domain.Concrete.Services
 {
     public class BasketService : IBasketService
     {
-        private readonly IWorkContext _workContext;
+        private readonly IAuthenticationService _authenticationService;
         private readonly IRepository<Basket> _basketRepository;
         private readonly IRepository<BasketItem> _basketItemRepository;
 
-        public BasketService(IWorkContext workContext, IRepository<Basket> basketRepository, IRepository<BasketItem> basketItemRepository)
+        public BasketService(IAuthenticationService authenticationService, IRepository<Basket> basketRepository, IRepository<BasketItem> basketItemRepository)
         {
-            _workContext = workContext;
+            _authenticationService = authenticationService;
             _basketRepository = basketRepository;
             _basketItemRepository = basketItemRepository;
         }
@@ -27,7 +28,7 @@ namespace Coinage.Domain.Concrete.Services
 
         public Basket GetCustomerBasket()
         {
-            Customer customer = _workContext.CurrentCustomer;
+            Customer customer = _authenticationService.CurrentCustomer;
             Basket basket = _basketRepository.Table.FirstOrDefault(b => b.CustomerId == customer.Id);
 
             if (basket == null)

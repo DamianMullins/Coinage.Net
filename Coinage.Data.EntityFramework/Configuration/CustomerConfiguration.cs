@@ -18,7 +18,14 @@ namespace Coinage.Data.EntityFramework.Configuration
 
             #region Navigation Properties
 
-            HasMany(p => p.Roles).WithMany().Map(m => m.ToTable("Customer_CustomerRole"));
+            HasMany(p => p.Roles)
+                .WithMany()
+                .Map(m =>
+                     {
+                         m.MapLeftKey("CustomerId");
+                         m.MapRightKey("CustomerRoleId");
+                         m.ToTable("Customer_CustomerRole");
+                     });
 
             #endregion
         }

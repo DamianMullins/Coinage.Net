@@ -1,5 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using Coinage.Domain.Abstract;
+using Coinage.Domain.Abstract.Authentication;
 using Coinage.Domain.Abstract.Data;
 using Coinage.Domain.Concrete;
 using Coinage.Domain.Concrete.Entities;
@@ -500,21 +501,21 @@ namespace Coinage.Domain.Tests.Services
 
         private class TestableBasketService : BasketService
         {
-            public readonly Mock<IWorkContext> WorkContext;
+            public readonly Mock<IAuthenticationService> AuthenticationService;
             public readonly Mock<IRepository<Basket>> BasketRepository;
             public readonly Mock<IRepository<BasketItem>> BasketItemRepository;
 
-            private TestableBasketService(Mock<IWorkContext> workContext, Mock<IRepository<Basket>> basketRepository, Mock<IRepository<BasketItem>> basketItemRepository)
-                : base(workContext.Object, basketRepository.Object, basketItemRepository.Object)
+            private TestableBasketService(Mock<IAuthenticationService> authenticationService, Mock<IRepository<Basket>> basketRepository, Mock<IRepository<BasketItem>> basketItemRepository)
+                : base(authenticationService.Object, basketRepository.Object, basketItemRepository.Object)
             {
-                WorkContext = workContext;
+                AuthenticationService = authenticationService;
                 BasketRepository = basketRepository;
                 BasketItemRepository = basketItemRepository;
             }
 
             public static TestableBasketService Create()
             {
-                return new TestableBasketService(new Mock<IWorkContext>(), new Mock<IRepository<Basket>>(), new Mock<IRepository<BasketItem>>());
+                return new TestableBasketService(new Mock<IAuthenticationService>(), new Mock<IRepository<Basket>>(), new Mock<IRepository<BasketItem>>());
             }
 
             public void SetupRepoTable(IEnumerable<Basket> baskets)
@@ -533,7 +534,7 @@ namespace Coinage.Domain.Tests.Services
 
             public void SetupWorkContextCurrentCustomer(Customer customer)
             {
-                WorkContext
+                AuthenticationService
                     .Setup(s => s.CurrentCustomer)
                     .Returns(customer);
             }

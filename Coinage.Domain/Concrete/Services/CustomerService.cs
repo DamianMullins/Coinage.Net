@@ -50,7 +50,7 @@ namespace Coinage.Domain.Concrete.Services
                 Active = true
             };
 
-            CustomerRole guestRole = GetCustomerRole(CustomerRoleNames.Guests);
+            CustomerRole guestRole = GetCustomerRole(CustomerRoleName.Guest);
             if (guestRole == null)
             {
                 throw new Exception("Guests role could not be loaded");
@@ -108,7 +108,7 @@ namespace Coinage.Domain.Concrete.Services
 
         #region Customer roles
 
-        public virtual CustomerRole GetCustomerRole(CustomerRoleNames role)
+        public virtual CustomerRole GetCustomerRole(CustomerRoleName role)
         {
             return _customerRoleRepository.Table.OrderBy(cr => cr.Id).FirstOrDefault(cr => cr.Id == (int)role);
         }

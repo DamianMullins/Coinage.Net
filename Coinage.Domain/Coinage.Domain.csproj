@@ -42,10 +42,9 @@
   <ItemGroup>
     <Compile Include="Abstract\Authentication\IAuthenticationService.cs" />
     <Compile Include="Abstract\Entites\ITimestamps.cs" />
-    <Compile Include="Abstract\IWorkContext.cs" />
     <Compile Include="Abstract\Security\IEncryptionService.cs" />
     <Compile Include="Abstract\Services\ICustomerRegistrationService.cs" />
-    <Compile Include="Concrete\Enums\CustomerRoleNames.cs" />
+    <Compile Include="Concrete\Enums\CustomerRoleName.cs" />
     <Compile Include="Concrete\Extensions\CustomerExtensions.cs" />
     <Compile Include="Concrete\Services\CustomerRegistrationService.cs" />
     <Compile Include="Concrete\Services\Authentication\FormsAuthenticationService.cs" />

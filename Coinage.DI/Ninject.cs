@@ -17,8 +17,6 @@ namespace Coinage.DI
     {
         public static void AddBindings(IKernel kernel)
         {
-            kernel.Bind<IWorkContext>().To<WebWorkContext>().InRequestScope();
-
             // DB Context
             kernel.Bind<IDbContext>().To<CoinageDbContext>().InRequestScope();
 

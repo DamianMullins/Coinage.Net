@@ -2,10 +2,10 @@
 
 namespace Coinage.Domain.Concrete.Enums
 {
-    public enum CustomerRoleNames
+    public enum CustomerRoleName
     {
-        Administrators = 1,
+        Administrator = 1,
         Registered = 2,
-        Guests = 3
+        Guest = 3
     }
 }

@@ -10,10 +10,58 @@ namespace Coinage.Domain.Concrete.Services.Authentication
 {
     public class FormsAuthenticationService : IAuthenticationService
     {
+        private const string CustomerCookieName = "coinage.customer";
+
         private readonly ICustomerService _customerService;
         private readonly HttpContextBase _httpContext;
 
-        private Customer _cachedCustomer;
+        private Customer _currentCustomer;
+        public Customer CurrentCustomer
+        {
+            get
+            {
+                if (_currentCustomer != null) return _currentCustomer;
+
+                Customer customer = GetAuthenticatedCustomer();
+
+                // Load guest Customer
+                if (customer == null || !customer.Active)
+                {
+                    HttpCookie customerCookie = GetCustomerCookie();
+                    if (customerCookie != null && !string.IsNullOrEmpty(customerCookie.Value))
+                    {
+                        Guid customerGuid;
+                        if (Guid.TryParse(customerCookie.Value, out customerGuid))
+                        {
+                            Customer customerFromCookie = _customerService.GetCustomerByGuid(customerGuid);
+                            if (customerFromCookie != null && !customerFromCookie.IsRegistered())
+                            {
+                                customer = customerFromCookie;
+                            }
+                        }
+                    }
+                }
+
+                // Create new guest Customer
+                if (customer == null || !customer.Active)
+                {
+                    customer = _customerService.InsertGuestCustomer();
+                }
+
+                if (customer.Active)
+                {
+                    SetCustomerCookie(customer.CustomerGuid);
+                    _currentCustomer = customer;
+                }
+
+                return _currentCustomer;
+            }
+            set
+            {
+                SetCustomerCookie(value.CustomerGuid);
+                _currentCustomer = value;
+            }
+        }
 
         public FormsAuthenticationService(ICustomerService customerService, HttpContextBase httpContext)
         {
@@ -24,12 +72,12 @@ namespace Coinage.Domain.Concrete.Services.Authentication
         public void SignIn(Customer customer, bool createPersistentCookie)
         {
             DateTime now = DateTime.Now;
-            var ticket = new FormsAuthenticationTicket(1, 
-                customer.Email, 
-                now, 
+            var ticket = new FormsAuthenticationTicket(1,
+                customer.Email,
+                now,
                 now.Add(FormsAuthentication.Timeout),
-                createPersistentCookie, 
-                customer.Email, 
+                createPersistentCookie,
+                customer.Email,
                 FormsAuthentication.FormsCookiePath);
 
             string encryptedTicket = FormsAuthentication.Encrypt(ticket);
@@ -51,20 +99,20 @@ namespace Coinage.Domain.Concrete.Services.Authentication
             }
 
             _httpContext.Response.Cookies.Add(cookie);
-            _cachedCustomer = customer;
+            _currentCustomer = customer;
         }
 
         public void SignOut()
         {
-            _cachedCustomer = null;
+            _currentCustomer = null;
             FormsAuthentication.SignOut();
         }
 
         public Customer GetAuthenticatedCustomer()
         {
-            if (_cachedCustomer != null)
+            if (_currentCustomer != null)
             {
-                return _cachedCustomer;
+                return _currentCustomer;
             }
 
             if (_httpContext == null || !_httpContext.Request.IsAuthenticated || !(_httpContext.User.Identity is FormsIdentity))
@@ -77,10 +125,30 @@ namespace Coinage.Domain.Concrete.Services.Authentication
 
             if (customer != null && customer.Active && customer.IsRegistered())
             {
-                _cachedCustomer = customer;
+                _currentCustomer = customer;
             }
 
-            return _cachedCustomer;
+            return _currentCustomer;
+        }
+
+        private HttpCookie GetCustomerCookie()
+        {
+            return _httpContext == null ? null : _httpContext.Request.Cookies[CustomerCookieName];
+        }
+
+        private void SetCustomerCookie(Guid customerGuid)
+        {
+            if (_httpContext == null) return;
+
+            var cookie = new HttpCookie(CustomerCookieName)
+            {
+                HttpOnly = true,
+                Value = customerGuid.ToString(),
+                Expires = customerGuid == Guid.Empty ? DateTime.Now.AddMonths(-1) : DateTime.Now.AddYears(1)
+            };
+
+            _httpContext.Response.Cookies.Remove(CustomerCookieName);
+            _httpContext.Response.Cookies.Add(cookie);
         }
 
         private Customer GetAuthenticatedCustomerFromTicket(FormsAuthenticationTicket ticket)

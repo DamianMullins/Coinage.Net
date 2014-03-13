@@ -76,6 +76,10 @@
     <Compile Include="Migrations\201402071118051_Customer_Add_Roles.Designer.cs">
       <DependentUpon>201402071118051_Customer_Add_Roles.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201403130728496_Customer_Update_CustomerRoleRelationship.cs" />
+    <Compile Include="Migrations\201403130728496_Customer_Update_CustomerRoleRelationship.Designer.cs">
+      <DependentUpon>201403130728496_Customer_Update_CustomerRoleRelationship.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -104,6 +108,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201402071118051_Customer_Add_Roles.resx">
       <DependentUpon>201402071118051_Customer_Add_Roles.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201403130728496_Customer_Update_CustomerRoleRelationship.resx">
+      <DependentUpon>201403130728496_Customer_Update_CustomerRoleRelationship.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

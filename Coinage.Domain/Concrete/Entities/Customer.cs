@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 
 namespace Coinage.Domain.Concrete.Entities
 {
@@ -14,14 +13,14 @@ namespace Coinage.Domain.Concrete.Entities
 
         #region Navigation Properties
 
-        public virtual ICollection<CustomerRole> Roles { get; protected internal set; }
+        public virtual ICollection<CustomerRole> Roles { get; set; }
 
         #endregion
 
         public Customer()
         {
             CustomerGuid = Guid.NewGuid();
-            Roles = new Collection<CustomerRole>();
+            Roles = new HashSet<CustomerRole>();
         }
     }
 }
