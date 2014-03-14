@@ -43,10 +43,10 @@
     <Compile Include="Abstract\Authentication\IAuthenticationService.cs" />
     <Compile Include="Abstract\Entites\ITimestamps.cs" />
     <Compile Include="Abstract\Security\IEncryptionService.cs" />
-    <Compile Include="Abstract\Services\ICustomerRegistrationService.cs" />
     <Compile Include="Concrete\Enums\CustomerRoleName.cs" />
     <Compile Include="Concrete\Extensions\CustomerExtensions.cs" />
-    <Compile Include="Concrete\Services\CustomerRegistrationService.cs" />
+    <Compile Include="Concrete\Models\CustomerRegistrationRequest.cs" />
+    <Compile Include="Concrete\Models\CustomerRegistrationResult.cs" />
     <Compile Include="Concrete\Services\Authentication\FormsAuthenticationService.cs" />
     <Compile Include="Abstract\Services\IBasketService.cs" />
     <Compile Include="Abstract\Services\IEditableService.cs" />

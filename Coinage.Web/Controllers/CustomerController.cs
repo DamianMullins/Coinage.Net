@@ -2,15 +2,17 @@
 using Coinage.Domain.Abstract.Services;
 using Coinage.Domain.Concrete.Entities;
 using Coinage.Domain.Concrete.Extensions;
-using Coinage.Web.Models.Customer;
+using Coinage.Domain.Concrete.Models;
+using Coinage.Web.Models;
 using System.Web.Mvc;
+using Coinage.Web.Models.Customer;
 
 namespace Coinage.Web.Controllers
 {
     public class CustomerController : Controller
     {
         private readonly IAuthenticationService _authenticationService;
-        private ICustomerService _customerService;
+        private readonly ICustomerService _customerService;
 
         public CustomerController(IAuthenticationService authenticationService, ICustomerService customerService)
         {
@@ -39,7 +41,11 @@ namespace Coinage.Web.Controllers
             if (ModelState.IsValid)
             {
                 Customer customer = _authenticationService.CurrentCustomer;
+
+                var registrationRequest = new CustomerRegistrationRequest(customer, model.Email, model.Password);
+                CustomerRegistrationResult registrationResult = _customerService.RegisterCustomer(registrationRequest);
             }
+            return View(model);
         }
-	}
+    }
 }

@@ -4,9 +4,11 @@ using Coinage.Data.EntityFramework.Context;
 using Coinage.Domain.Abstract;
 using Coinage.Domain.Abstract.Authentication;
 using Coinage.Domain.Abstract.Data;
+using Coinage.Domain.Abstract.Security;
 using Coinage.Domain.Abstract.Services;
 using Coinage.Domain.Concrete.Services;
 using Coinage.Domain.Concrete.Services.Authentication;
+using Coinage.Domain.Concrete.Services.Security;
 using Coinage.Web.Framework;
 using Ninject;
 using Ninject.Web.Common;
@@ -29,6 +31,9 @@ namespace Coinage.DI
             kernel.Bind<IBasketService>().To<BasketService>().InRequestScope();
 
             kernel.Bind<IAuthenticationService>().To<FormsAuthenticationService>().InRequestScope();
+
+            // Encryption
+            kernel.Bind<IEncryptionService>().To<EncryptionService>().InRequestScope();
         }
     }
 }

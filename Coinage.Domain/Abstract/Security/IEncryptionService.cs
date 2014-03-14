@@ -18,5 +18,13 @@ namespace Coinage.Domain.Abstract.Security
         /// <param name="saltkey">Salk key</param>
         /// <returns>Password hash</returns>
         string CreatePasswordHash(string password, string saltkey);
+
+        ///// <summary>
+        ///// Encrypt text
+        ///// </summary>
+        ///// <param name="plainText">Text to encrypt</param>
+        ///// <param name="encryptionPrivateKey">Encryption private key</param>
+        ///// <returns>Encrypted text</returns>
+        //string EncryptText(string plainText, string encryptionPrivateKey = "");
     }
 }

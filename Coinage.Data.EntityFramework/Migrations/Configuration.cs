@@ -1,5 +1,6 @@
 namespace Coinage.Data.EntityFramework.Migrations
 {
+    using Coinage.Domain.Concrete.Entities;
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Migrations;
@@ -26,6 +27,12 @@ namespace Coinage.Data.EntityFramework.Migrations
             //      new Person { FullName = "Rowan Miller" }
             //    );
             //
+
+            // TODO: figure out how to run this only when databse is created?
+            //context.Set<CustomerRole>().Add(new CustomerRole { Name = "Administrator", Active = true });
+            //context.Set<CustomerRole>().Add(new CustomerRole { Name = "Registered", Active = true });
+            //context.Set<CustomerRole>().Add(new CustomerRole { Name = "Guest", Active = true });
+            //context.SaveChanges();
         }
     }
 }

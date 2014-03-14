@@ -1,9 +1,13 @@
-﻿using Coinage.Domain.Abstract.Data;
+﻿using System.Data;
+using Coinage.Domain.Abstract.Data;
+using Coinage.Domain.Abstract.Security;
 using Coinage.Domain.Abstract.Services;
 using Coinage.Domain.Concrete.Entities;
 using System;
 using System.Linq;
 using Coinage.Domain.Concrete.Enums;
+using Coinage.Domain.Concrete.Extensions;
+using Coinage.Domain.Concrete.Models;
 
 namespace Coinage.Domain.Concrete.Services
 {
@@ -11,11 +15,13 @@ namespace Coinage.Domain.Concrete.Services
     {
         private readonly IRepository<Customer> _customerRepository;
         private readonly IRepository<CustomerRole> _customerRoleRepository;
+        private readonly IEncryptionService _encryptionService;
 
-        public CustomerService(IRepository<Customer> customerRepository, IRepository<CustomerRole> customerRoleRepository)
+        public CustomerService(IRepository<Customer> customerRepository, IRepository<CustomerRole> customerRoleRepository, IEncryptionService encryptionService)
         {
             _customerRepository = customerRepository;
             _customerRoleRepository = customerRoleRepository;
+            _encryptionService = encryptionService;
         }
 
         public Customer GetCustomerById(int id)
@@ -59,6 +65,54 @@ namespace Coinage.Domain.Concrete.Services
 
             EntityActionResponse response = Create(customer);
             return response.Successful ? customer : null;
+        }
+
+        public CustomerRegistrationResult RegisterCustomer(CustomerRegistrationRequest request)
+        {
+            if (request == null) throw new ArgumentNullException("request");
+
+            var result = new CustomerRegistrationResult();
+
+            if (request.Customer.IsRegistered())
+            {
+                result.Errors.Add("Customer is already registered.");
+            }
+
+            if (GetCustomerByEmail(request.Email) != null)
+            {
+                result.Errors.Add("The specified email already exists.");
+            }
+
+            if (!result.Success)
+            {
+                return result;
+            }
+
+            // TODO:Check user email does not already exist
+
+            string saltKey = _encryptionService.CreateSaltKey(5);
+            request.Customer.PasswordSalt = saltKey;
+            request.Customer.Password = _encryptionService.CreatePasswordHash(request.Password, saltKey);
+            
+            CustomerRole registeredRole = GetCustomerRoleByName(CustomerRoleName.Registered);
+            if (registeredRole == null) throw new Exception("'Registered' role could not be loaded");
+            request.Customer.Roles.Add(registeredRole);
+
+            CustomerRole guestRole = request.Customer.Roles.FirstOrDefault(role => role.Id == (int)CustomerRoleName.Guest);
+            if (guestRole != null)
+            {
+                request.Customer.Roles.Remove(guestRole);
+            }
+
+            _customerRepository.Update(request.Customer);
+
+            return result;
+        }
+
+        public CustomerRole GetCustomerRoleByName(CustomerRoleName roleName)
+        {
+            // TODO: caching
+            return _customerRoleRepository.Table.OrderBy(cr => cr.Id).FirstOrDefault(cr => cr.Id == (int)roleName);
         }
 
         public EntityActionResponse Update(Customer customer)

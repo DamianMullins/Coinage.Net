@@ -1,5 +1,7 @@
 ﻿using System;
 using Coinage.Domain.Concrete.Entities;
+using Coinage.Domain.Concrete.Enums;
+using Coinage.Domain.Concrete.Models;
 
 namespace Coinage.Domain.Abstract.Services
 {
@@ -34,5 +36,14 @@ namespace Coinage.Domain.Abstract.Services
         /// </summary>
         /// <returns>A Customer object.</returns>
         Customer InsertGuestCustomer();
+
+        CustomerRegistrationResult RegisterCustomer(CustomerRegistrationRequest request);
+
+        /// <summary>
+        /// Gets a customer name.
+        /// </summary>
+        /// <param name="roleName">Customer role name.</param>
+        /// <returns></returns>
+        CustomerRole GetCustomerRoleByName(CustomerRoleName roleName);
     }
 }

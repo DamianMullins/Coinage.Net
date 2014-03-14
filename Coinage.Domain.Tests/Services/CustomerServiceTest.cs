@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Coinage.Domain.Abstract.Data;
+using Coinage.Domain.Abstract.Security;
 using Coinage.Domain.Concrete;
 using Coinage.Domain.Concrete.Entities;
 using Coinage.Domain.Concrete.Services;
@@ -304,17 +305,19 @@ namespace Coinage.Domain.Tests.Services
         {
             public readonly Mock<IRepository<Customer>> CustomerRepository;
             public readonly Mock<IRepository<CustomerRole>> CustomerRoleRepository;
+            private Mock<IEncryptionService> EncryptionService;
 
-            private TestableCustomerService(Mock<IRepository<Customer>> customerRepository, Mock<IRepository<CustomerRole>> customerRoleRepository)
-                : base(customerRepository.Object, customerRoleRepository.Object)
+            private TestableCustomerService(Mock<IRepository<Customer>> customerRepository, Mock<IRepository<CustomerRole>> customerRoleRepository, Mock<IEncryptionService> encryptionService)
+                : base(customerRepository.Object, customerRoleRepository.Object, encryptionService.Object)
             {
                 CustomerRepository = customerRepository;
                 CustomerRoleRepository = customerRoleRepository;
+                EncryptionService = encryptionService;
             }
 
             public static TestableCustomerService Create()
             {
-                return new TestableCustomerService(new Mock<IRepository<Customer>>(), new Mock<IRepository<CustomerRole>>());
+                return new TestableCustomerService(new Mock<IRepository<Customer>>(), new Mock<IRepository<CustomerRole>>(), new Mock<IEncryptionService>());
             }
 
             public void SetupRepoTable(IEnumerable<Customer> customers)
