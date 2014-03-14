@@ -199,6 +199,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\BasketController.cs" />
+    <Compile Include="Controllers\CustomerController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ProductController.cs" />
     <Compile Include="Global.asax.cs">
@@ -206,6 +207,7 @@
     </Compile>
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Basket\BasketModel.cs" />
+    <Compile Include="Models\Customer\RegisterModel.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\Product\ProductDetailsModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -283,6 +285,7 @@
     <Content Include="Views\Basket\Index.cshtml" />
     <Content Include="Views\Product\_AddToBasket.cshtml" />
     <Content Include="Views\Basket\_BasketItem.cshtml" />
+    <Content Include="Views\Customer\Register.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

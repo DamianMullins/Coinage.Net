@@ -98,6 +98,7 @@ namespace Coinage.Domain.Concrete.Services
                     // Update item
                     basketItem.Quantity = quantity;
                     basketItem.ModifiedOn = DateTime.Now;
+                    basket.ModifiedOn = DateTime.Now;
                     _basketItemRepository.Update(basketItem);
                 }
                 else
