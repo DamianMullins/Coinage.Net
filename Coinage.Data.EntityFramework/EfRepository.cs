@@ -62,6 +62,12 @@ namespace Coinage.Data.EntityFramework
                     Entities.Attach(entity);
                     entry.State = EntityState.Modified;
                 }
+
+                if (entity is EditableEntity)
+                {
+                    (entity as EditableEntity).ModifiedOn = DateTime.Now;
+                }
+
                 _context.SaveChanges();
             }
             catch (DbEntityValidationException dbException)

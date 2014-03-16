@@ -1,6 +1,4 @@
-﻿using System.Linq;
-using Coinage.Domain.Abstract;
-using Coinage.Domain.Abstract.Services;
+﻿using Coinage.Domain.Abstract.Services;
 using Coinage.Domain.Concrete;
 using Coinage.Domain.Concrete.Entities;
 using Coinage.Web.Models.Basket;

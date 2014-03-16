@@ -59,7 +59,6 @@ namespace Coinage.Domain.Concrete.Services
                 {
                     // Existing item
                     basketItem.Quantity += quantity;
-                    basketItem.ModifiedOn = DateTime.Now;
                     return Update(basket);
                 }
                 else
@@ -86,19 +85,15 @@ namespace Coinage.Domain.Concrete.Services
             try
             {
                 Basket basket = GetCustomerBasket();
-                BasketItem basketItem = _basketItemRepository.GetById(basketItemId);
+                //BasketItem basketItem = _basketItemRepository.GetById(basketItemId);
+                BasketItem basketItem = basket.BasketItems.FirstOrDefault(bi => bi.Id == basketItemId);
 
                 if (basketItem == null) throw new NullReferenceException("Basket Item was not found");
-
-                // Verify that we are updating the correct basket
-                if (!basket.BasketItems.Contains(basketItem)) throw new Exception("Basket Item was not found");
 
                 if (quantity > 0)
                 {
                     // Update item
                     basketItem.Quantity = quantity;
-                    basketItem.ModifiedOn = DateTime.Now;
-                    basket.ModifiedOn = DateTime.Now;
                     _basketItemRepository.Update(basketItem);
                 }
                 else
@@ -106,6 +101,8 @@ namespace Coinage.Domain.Concrete.Services
                     // Delete item
                     _basketItemRepository.Delete(basketItem);
                 }
+
+                _basketRepository.Update(basket);
                 return new EntityActionResponse { Successful = true };
             }
             catch (Exception exception)
@@ -121,7 +118,6 @@ namespace Coinage.Domain.Concrete.Services
             {
                 try
                 {
-                    basket.ModifiedOn = DateTime.Now;
                     _basketRepository.Update(basket);
                     response.Successful = true;
                 }

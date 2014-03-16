@@ -43,7 +43,6 @@ namespace Coinage.Domain.Concrete.Services
             {
                 try
                 {
-                    product.ModifiedOn = DateTime.Now;
                     _productRepository.Update(product);
                     response.Successful = true;
                 }

@@ -122,7 +122,6 @@ namespace Coinage.Domain.Concrete.Services
             {
                 try
                 {
-                    customer.ModifiedOn = DateTime.Now;
                     _customerRepository.Update(customer);
                     response.Successful = true;
                 }
