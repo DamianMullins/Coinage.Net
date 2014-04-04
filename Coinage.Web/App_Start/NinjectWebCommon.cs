@@ -1,18 +1,19 @@
+using System;
+using System.Reflection;
+using System.Web;
+using System.Web.ModelBinding;
+using Coinage.Web;
 using FluentValidation;
 using FluentValidation.Mvc;
-using System.Reflection;
-using System.Web.ModelBinding;
+using Microsoft.Web.Infrastructure.DynamicModuleHelper;
+using Ninject;
+using Ninject.Web.Common;
 
-[assembly: WebActivator.PreApplicationStartMethod(typeof(Coinage.Web.App_Start.NinjectWebCommon), "Start")]
-[assembly: WebActivator.ApplicationShutdownMethodAttribute(typeof(Coinage.Web.App_Start.NinjectWebCommon), "Stop")]
+[assembly: WebActivatorEx.PreApplicationStartMethod(typeof(NinjectWebCommon), "Start")]
+[assembly: WebActivatorEx.ApplicationShutdownMethodAttribute(typeof(NinjectWebCommon), "Stop")]
 
-namespace Coinage.Web.App_Start
+namespace Coinage.Web
 {
-    using Microsoft.Web.Infrastructure.DynamicModuleHelper;
-    using Ninject;
-    using Ninject.Web.Common;
-    using System;
-    using System.Web;
 
     public static class NinjectWebCommon
     {
@@ -43,18 +44,26 @@ namespace Coinage.Web.App_Start
         private static IKernel CreateKernel()
         {
             var kernel = new StandardKernel();
-            kernel.Bind<Func<IKernel>>().ToMethod(ctx => () => new Bootstrapper().Kernel);
-            kernel.Bind<IHttpModule>().To<HttpApplicationInitializationHttpModule>();
+            try
+            {
+                kernel.Bind<Func<IKernel>>().ToMethod(ctx => () => new Bootstrapper().Kernel);
+                kernel.Bind<IHttpModule>().To<HttpApplicationInitializationHttpModule>();
 
-            RegisterServices(kernel);
+                RegisterServices(kernel);
 
-            // Configure Fluent Validation
-            FluentValidationModelValidatorProvider.Configure(provider => provider.ValidatorFactory = new NinjectValidatorFactory(kernel));
-            DataAnnotationsModelValidatorProvider.AddImplicitRequiredAttributeForValueTypes = false;
-            AssemblyScanner.FindValidatorsInAssembly(Assembly.GetExecutingAssembly())
-                           .ForEach(match => kernel.Bind(match.InterfaceType).To(match.ValidatorType));
-            
-            return kernel;
+                // Configure Fluent Validation
+                FluentValidationModelValidatorProvider.Configure(provider => provider.ValidatorFactory = new NinjectValidatorFactory(kernel));
+                DataAnnotationsModelValidatorProvider.AddImplicitRequiredAttributeForValueTypes = false;
+                AssemblyScanner.FindValidatorsInAssembly(Assembly.GetExecutingAssembly())
+                               .ForEach(match => kernel.Bind(match.InterfaceType).To(match.ValidatorType));
+
+                return kernel;
+            }
+            catch
+            {
+                kernel.Dispose();
+                throw;
+            }
         }
 
         /// <summary>
