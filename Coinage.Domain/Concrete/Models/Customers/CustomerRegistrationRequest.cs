@@ -1,6 +1,6 @@
 ﻿using Coinage.Domain.Concrete.Entities;
 
-namespace Coinage.Domain.Concrete.Models
+namespace Coinage.Domain.Concrete.Models.Customers
 {
     public class CustomerRegistrationRequest
     {

@@ -1,13 +1,12 @@
-﻿using System.Data;
-using Coinage.Domain.Abstract.Data;
+﻿using Coinage.Domain.Abstract.Data;
 using Coinage.Domain.Abstract.Security;
 using Coinage.Domain.Abstract.Services;
 using Coinage.Domain.Concrete.Entities;
-using System;
-using System.Linq;
 using Coinage.Domain.Concrete.Enums;
 using Coinage.Domain.Concrete.Extensions;
-using Coinage.Domain.Concrete.Models;
+using Coinage.Domain.Concrete.Models.Customers;
+using System;
+using System.Linq;
 
 namespace Coinage.Domain.Concrete.Services
 {

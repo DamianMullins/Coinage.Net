@@ -1,8 +1,7 @@
-﻿using System.Linq;
-using Coinage.Domain.Abstract.Services;
+﻿using Coinage.Domain.Abstract.Services;
 using Coinage.Domain.Concrete.Entities;
 using Coinage.Web.Controllers;
-using Coinage.Web.Models.Product;
+using Coinage.Web.Models.Products;
 using Moq;
 using NUnit.Framework;
 using System.Collections.Generic;

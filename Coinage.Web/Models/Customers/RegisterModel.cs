@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 
-namespace Coinage.Web.Models.Customer
+namespace Coinage.Web.Models.Customers
 {
     public class RegisterModel
     {

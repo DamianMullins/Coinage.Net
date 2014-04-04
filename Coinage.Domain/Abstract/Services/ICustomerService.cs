@@ -1,8 +1,8 @@
-﻿using System;
-using Coinage.Domain.Concrete;
+﻿using Coinage.Domain.Concrete;
 using Coinage.Domain.Concrete.Entities;
 using Coinage.Domain.Concrete.Enums;
-using Coinage.Domain.Concrete.Models;
+using Coinage.Domain.Concrete.Models.Customers;
+using System;
 
 namespace Coinage.Domain.Abstract.Services
 {

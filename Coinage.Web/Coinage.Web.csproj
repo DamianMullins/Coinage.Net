@@ -210,11 +210,11 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Models\Basket\BasketModel.cs" />
-    <Compile Include="Models\Customer\RegisterModel.cs" />
-    <Compile Include="Models\Product\FeaturedProductsModel.cs" />
-    <Compile Include="Models\Product\LatestProductModel.cs" />
-    <Compile Include="Models\Product\ProductDetailsModel.cs" />
+    <Compile Include="Models\Baskets\BasketModel.cs" />
+    <Compile Include="Models\Customers\RegisterModel.cs" />
+    <Compile Include="Models\Products\FeaturedProductsModel.cs" />
+    <Compile Include="Models\Products\LatestProductModel.cs" />
+    <Compile Include="Models\Products\ProductDetailsModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="App_Start\NinjectValidatorFactory.cs" />

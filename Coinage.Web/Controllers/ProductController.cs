@@ -1,7 +1,6 @@
-﻿using System.Collections.Generic;
-using Coinage.Domain.Abstract.Services;
+﻿using Coinage.Domain.Abstract.Services;
 using Coinage.Domain.Concrete.Entities;
-using Coinage.Web.Models.Product;
+using Coinage.Web.Models.Products;
 using System.Web.Mvc;
 
 namespace Coinage.Web.Controllers

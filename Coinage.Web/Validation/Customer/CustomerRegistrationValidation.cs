@@ -1,4 +1,4 @@
-﻿using Coinage.Web.Models.Customer;
+﻿using Coinage.Web.Models.Customers;
 using FluentValidation;
 
 namespace Coinage.Web.Validation.Customer

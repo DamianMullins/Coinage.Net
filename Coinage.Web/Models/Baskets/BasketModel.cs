@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Coinage.Web.Models.Basket
+namespace Coinage.Web.Models.Baskets
 {
     public class BasketModel
     {

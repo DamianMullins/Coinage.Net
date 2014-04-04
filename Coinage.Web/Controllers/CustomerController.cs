@@ -3,10 +3,9 @@ using Coinage.Domain.Abstract.Services;
 using Coinage.Domain.Concrete;
 using Coinage.Domain.Concrete.Entities;
 using Coinage.Domain.Concrete.Extensions;
-using Coinage.Domain.Concrete.Models;
-using Coinage.Web.Models;
+using Coinage.Domain.Concrete.Models.Customers;
+using Coinage.Web.Models.Customers;
 using System.Web.Mvc;
-using Coinage.Web.Models.Customer;
 
 namespace Coinage.Web.Controllers
 {
