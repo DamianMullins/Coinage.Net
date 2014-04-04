@@ -205,7 +205,7 @@ namespace Coinage.Domain.Tests.Services
                 Assert.IsNotNull(result);
                 Assert.IsNotNull(result.Exception);
                 Assert.IsInstanceOf<ArgumentNullException>(result.Exception);
-                Assert.IsFalse(result.Successful);
+                Assert.IsFalse(result.Success);
             }
 
             [Test]
@@ -224,7 +224,7 @@ namespace Coinage.Domain.Tests.Services
                 Assert.IsNotNull(result);
                 Assert.IsNotNull(result.Exception);
                 Assert.IsInstanceOf<Exception>(result.Exception);
-                Assert.IsFalse(result.Successful);
+                Assert.IsFalse(result.Success);
                 Assert.AreEqual(exception.Message, result.Exception.Message);
             }
 
@@ -240,7 +240,7 @@ namespace Coinage.Domain.Tests.Services
 
                 // Assert
                 Assert.IsNotNull(result);
-                Assert.IsTrue(result.Successful);
+                Assert.IsTrue(result.Success);
                 Assert.IsNull(result.Exception);
             }
         }
@@ -261,7 +261,7 @@ namespace Coinage.Domain.Tests.Services
                 Assert.IsNotNull(result);
                 Assert.IsNotNull(result.Exception);
                 Assert.IsInstanceOf<ArgumentNullException>(result.Exception);
-                Assert.IsFalse(result.Successful);
+                Assert.IsFalse(result.Success);
             }
 
             [Test]
@@ -280,7 +280,7 @@ namespace Coinage.Domain.Tests.Services
                 Assert.IsNotNull(result);
                 Assert.IsNotNull(result.Exception);
                 Assert.IsInstanceOf<Exception>(result.Exception);
-                Assert.IsFalse(result.Successful);
+                Assert.IsFalse(result.Success);
                 Assert.AreEqual(exception.Message, result.Exception.Message);
             }
 
@@ -296,7 +296,7 @@ namespace Coinage.Domain.Tests.Services
 
                 // Assert
                 Assert.IsNotNull(result);
-                Assert.IsTrue(result.Successful);
+                Assert.IsTrue(result.Success);
                 Assert.IsNull(result.Exception);
             }
         }

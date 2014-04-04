@@ -37,7 +37,7 @@ namespace Coinage.Domain.Concrete.Services
                 basket = new Basket { CustomerId = customer.Id };
                 EntityActionResponse response = Create(basket);
 
-                if (!response.Successful)
+                if (!response.Success)
                 {
                     throw new Exception("Could not create basket.", response.Exception);
                 }
@@ -103,7 +103,7 @@ namespace Coinage.Domain.Concrete.Services
                 }
 
                 _basketRepository.Update(basket);
-                return new EntityActionResponse { Successful = true };
+                return new EntityActionResponse();
             }
             catch (Exception exception)
             {
@@ -119,7 +119,6 @@ namespace Coinage.Domain.Concrete.Services
                 try
                 {
                     _basketRepository.Update(basket);
-                    response.Successful = true;
                 }
                 catch (Exception ex)
                 {
@@ -141,7 +140,6 @@ namespace Coinage.Domain.Concrete.Services
                 try
                 {
                     _basketRepository.Insert(basket);
-                    response.Successful = true;
                 }
                 catch (Exception ex)
                 {

@@ -57,7 +57,7 @@ namespace Coinage.Web.Controllers
             Product product = _productService.GetProductById(model.ProductId);
             EntityActionResponse response = _basketService.AddProductToBasket(basket, product, model.Quantity);
 
-            if (response.Successful)
+            if (response.Success)
             {
                 SuccessAlert(string.Format("{0} was added to your basket", product.Name));
             }
@@ -77,7 +77,7 @@ namespace Coinage.Web.Controllers
         {
             EntityActionResponse response = _basketService.UpdateProductInBasket(model.Id, model.ProductId, model.Quantity);
 
-            if (response.Successful)
+            if (response.Success)
             {
                 SuccessAlert("Basket was updated");
             }

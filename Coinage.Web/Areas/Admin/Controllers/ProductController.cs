@@ -39,7 +39,7 @@ namespace Coinage.Web.Areas.Admin.Controllers
             {
                 EntityActionResponse response = _productService.Update(product);
 
-                if (response.Successful)
+                if (response.Success)
                 {
                     SuccessAlert(string.Format("{0} was updated successfully", product.Name));
                 }
@@ -63,7 +63,7 @@ namespace Coinage.Web.Areas.Admin.Controllers
             {
                 EntityActionResponse response = _productService.Create(product);
 
-                if (response.Successful)
+                if (response.Success)
                 {
                     SuccessAlert(string.Format("{0} was created successfully", product.Name));
                     return RedirectToAction("Edit", new { id = product.Id });

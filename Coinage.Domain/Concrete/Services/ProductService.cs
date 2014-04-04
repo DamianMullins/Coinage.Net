@@ -44,7 +44,6 @@ namespace Coinage.Domain.Concrete.Services
                 try
                 {
                     _productRepository.Update(product);
-                    response.Successful = true;
                 }
                 catch (Exception ex)
                 {
@@ -66,7 +65,6 @@ namespace Coinage.Domain.Concrete.Services
                 try
                 {
                     _productRepository.Insert(product);
-                    response.Successful = true;
                 }
                 catch (Exception ex)
                 {

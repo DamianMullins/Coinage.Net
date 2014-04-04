@@ -1,5 +1,6 @@
 ﻿using Coinage.Domain.Abstract.Authentication;
 using Coinage.Domain.Abstract.Services;
+using Coinage.Domain.Concrete;
 using Coinage.Domain.Concrete.Entities;
 using Coinage.Domain.Concrete.Extensions;
 using Coinage.Domain.Concrete.Models;
@@ -44,7 +45,7 @@ namespace Coinage.Web.Controllers
                 Customer customer = _authenticationService.CurrentCustomer;
 
                 var registrationRequest = new CustomerRegistrationRequest(customer, model.Email, model.Password, model.FirstName, model.LastName, model.Phone);
-                CustomerRegistrationResult registrationResult = _customerService.RegisterCustomer(registrationRequest);
+                EntityActionResponse registrationResult = _customerService.RegisterCustomer(registrationRequest);
 
                 if (registrationResult.Success)
                 {

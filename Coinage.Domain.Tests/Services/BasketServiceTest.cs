@@ -122,7 +122,7 @@ namespace Coinage.Domain.Tests.Services
 
                 // Assert
                 Assert.IsNotNull(response);
-                Assert.IsFalse(response.Successful);
+                Assert.IsFalse(response.Success);
                 Assert.IsInstanceOf<ArgumentNullException>(response.Exception);
                 service.BasketRepository.Verify(b => b.Update(It.IsAny<Basket>()), Times.Never);
             }
@@ -141,7 +141,7 @@ namespace Coinage.Domain.Tests.Services
 
                 // Assert
                 Assert.IsNotNull(response);
-                Assert.IsFalse(response.Successful);
+                Assert.IsFalse(response.Success);
                 Assert.IsInstanceOf<ArgumentNullException>(response.Exception);
                 Assert.AreEqual(0, basket.BasketItems.Count);
                 service.BasketRepository.Verify(b => b.Update(It.IsAny<Basket>()), Times.Never);
@@ -161,7 +161,7 @@ namespace Coinage.Domain.Tests.Services
 
                 // Assert
                 Assert.IsNotNull(response);
-                Assert.IsFalse(response.Successful);
+                Assert.IsFalse(response.Success);
                 Assert.IsInstanceOf<Exception>(response.Exception);
                 Assert.AreEqual(0, basket.BasketItems.Count);
                 service.BasketRepository.Verify(b => b.Update(It.IsAny<Basket>()), Times.Never);
@@ -181,7 +181,7 @@ namespace Coinage.Domain.Tests.Services
 
                 // Assert
                 Assert.IsNotNull(response);
-                Assert.IsFalse(response.Successful);
+                Assert.IsFalse(response.Success);
                 Assert.IsInstanceOf<Exception>(response.Exception);
                 Assert.AreEqual(0, basket.BasketItems.Count);
                 service.BasketRepository.Verify(b => b.Update(It.IsAny<Basket>()), Times.Never);
@@ -201,7 +201,7 @@ namespace Coinage.Domain.Tests.Services
 
                 // Assert
                 Assert.IsNotNull(response);
-                Assert.IsTrue(response.Successful);
+                Assert.IsTrue(response.Success);
                 Assert.AreEqual(1, basket.BasketItems.Count);
                 Assert.AreEqual(1, basket.TotalItems); // Bonus assertion!
                 Assert.AreEqual(1, basket.BasketItems.First().Quantity);
@@ -224,7 +224,7 @@ namespace Coinage.Domain.Tests.Services
 
                 // Assert
                 Assert.IsNotNull(response);
-                Assert.IsTrue(response.Successful);
+                Assert.IsTrue(response.Success);
                 Assert.AreEqual(2, basket.BasketItems.Count);
                 Assert.AreEqual(2, basket.TotalItems); // Bonus assertion!
                 service.BasketRepository.Verify(b => b.Update(It.IsAny<Basket>()), Times.Once);
@@ -245,7 +245,7 @@ namespace Coinage.Domain.Tests.Services
 
                 // Assert
                 Assert.IsNotNull(response);
-                Assert.IsTrue(response.Successful);
+                Assert.IsTrue(response.Success);
                 Assert.AreEqual(1, basket.BasketItems.Count);
                 Assert.AreEqual(2, basket.TotalItems);
                 Assert.AreEqual(2, basket.BasketItems.First().Quantity);
@@ -269,7 +269,7 @@ namespace Coinage.Domain.Tests.Services
 
                 // Assert
                 Assert.IsNotNull(response);
-                Assert.IsTrue(response.Successful);
+                Assert.IsTrue(response.Success);
                 Assert.AreEqual(2, basket.BasketItems.Count);
                 Assert.AreEqual(3, basket.TotalItems);
                 Assert.AreEqual(2, basket.BasketItems.First(b => b.ProductId == product.Id).Quantity);
@@ -295,7 +295,7 @@ namespace Coinage.Domain.Tests.Services
 
                 // Assert
                 Assert.IsNotNull(response);
-                Assert.IsFalse(response.Successful);
+                Assert.IsFalse(response.Success);
                 Assert.IsInstanceOf<NullReferenceException>(response.Exception);
             }
 
@@ -314,7 +314,7 @@ namespace Coinage.Domain.Tests.Services
 
                 // Assert
                 Assert.IsNotNull(response);
-                Assert.IsFalse(response.Successful);
+                Assert.IsFalse(response.Success);
             }
 
             [Test]
@@ -334,7 +334,7 @@ namespace Coinage.Domain.Tests.Services
 
                 // Assert
                 Assert.IsNotNull(response);
-                Assert.IsFalse(response.Successful);
+                Assert.IsFalse(response.Success);
             }
 
             [Test]
@@ -357,7 +357,7 @@ namespace Coinage.Domain.Tests.Services
 
                 // Assert
                 Assert.IsNotNull(response);
-                Assert.IsTrue(response.Successful);
+                Assert.IsTrue(response.Success);
                 service.BasketItemRepository.Verify(bi => bi.Delete(It.IsAny<BasketItem>()), Times.Once);
             }
 
@@ -381,7 +381,7 @@ namespace Coinage.Domain.Tests.Services
 
                 // Assert
                 Assert.IsNotNull(response);
-                Assert.IsTrue(response.Successful);
+                Assert.IsTrue(response.Success);
                 Assert.AreEqual(quantity, basketItem.Quantity);
                 service.BasketItemRepository.Verify(bi => bi.Update(It.IsAny<BasketItem>()), Times.Once);
             }
@@ -403,7 +403,7 @@ namespace Coinage.Domain.Tests.Services
                 Assert.IsNotNull(result);
                 Assert.IsNotNull(result.Exception);
                 Assert.IsInstanceOf<ArgumentNullException>(result.Exception);
-                Assert.IsFalse(result.Successful);
+                Assert.IsFalse(result.Success);
             }
 
             [Test]
@@ -422,7 +422,7 @@ namespace Coinage.Domain.Tests.Services
                 Assert.IsNotNull(result);
                 Assert.IsNotNull(result.Exception);
                 Assert.IsInstanceOf<Exception>(result.Exception);
-                Assert.IsFalse(result.Successful);
+                Assert.IsFalse(result.Success);
                 Assert.AreEqual(exception.Message, result.Exception.Message);
             }
 
@@ -438,7 +438,7 @@ namespace Coinage.Domain.Tests.Services
 
                 // Assert
                 Assert.IsNotNull(result);
-                Assert.IsTrue(result.Successful);
+                Assert.IsTrue(result.Success);
                 Assert.IsNull(result.Exception);
             }
         }
@@ -459,7 +459,7 @@ namespace Coinage.Domain.Tests.Services
                 Assert.IsNotNull(result);
                 Assert.IsNotNull(result.Exception);
                 Assert.IsInstanceOf<ArgumentNullException>(result.Exception);
-                Assert.IsFalse(result.Successful);
+                Assert.IsFalse(result.Success);
             }
 
             [Test]
@@ -478,7 +478,7 @@ namespace Coinage.Domain.Tests.Services
                 Assert.IsNotNull(result);
                 Assert.IsNotNull(result.Exception);
                 Assert.IsInstanceOf<Exception>(result.Exception);
-                Assert.IsFalse(result.Successful);
+                Assert.IsFalse(result.Success);
                 Assert.AreEqual(exception.Message, result.Exception.Message);
             }
 
@@ -494,7 +494,7 @@ namespace Coinage.Domain.Tests.Services
 
                 // Assert
                 Assert.IsNotNull(result);
-                Assert.IsTrue(result.Successful);
+                Assert.IsTrue(result.Success);
                 Assert.IsNull(result.Exception);
             }
         }

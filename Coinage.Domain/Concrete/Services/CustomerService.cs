@@ -64,29 +64,29 @@ namespace Coinage.Domain.Concrete.Services
             customer.Roles.Add(guestRole);
 
             EntityActionResponse response = Create(customer);
-            return response.Successful ? customer : null;
+            return response.Success ? customer : null;
         }
 
-        public CustomerRegistrationResult RegisterCustomer(CustomerRegistrationRequest request)
+        public EntityActionResponse RegisterCustomer(CustomerRegistrationRequest request)
         {
             if (request == null) throw new ArgumentNullException("request");
             if (request.Customer == null) throw new ArgumentNullException("customer is null");
 
-            var result = new CustomerRegistrationResult();
+            var response = new EntityActionResponse();
 
             if (request.Customer.IsRegistered())
             {
-                result.Errors.Add("Customer is already registered.");
+                response.Errors.Add("Customer is already registered.");
             }
 
             if (GetCustomerByEmail(request.Email) != null)
             {
-                result.Errors.Add("The specified email already exists.");
+                response.Errors.Add("The specified email already exists.");
             }
 
-            if (!result.Success)
+            if (!response.Success)
             {
-                return result;
+                return response;
             }
 
             // TODO:Check user email does not already exist
@@ -114,7 +114,7 @@ namespace Coinage.Domain.Concrete.Services
 
             _customerRepository.Update(request.Customer);
 
-            return result;
+            return response;
         }
 
         public CustomerRole GetCustomerRoleByName(CustomerRoleName roleName)
@@ -131,7 +131,6 @@ namespace Coinage.Domain.Concrete.Services
                 try
                 {
                     _customerRepository.Update(customer);
-                    response.Successful = true;
                 }
                 catch (Exception ex)
                 {
@@ -153,7 +152,6 @@ namespace Coinage.Domain.Concrete.Services
                 try
                 {
                     _customerRepository.Insert(customer);
-                    response.Successful = true;
                 }
                 catch (Exception ex)
                 {

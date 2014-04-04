@@ -1,4 +1,5 @@
 ﻿using System;
+using Coinage.Domain.Concrete;
 using Coinage.Domain.Concrete.Entities;
 using Coinage.Domain.Concrete.Enums;
 using Coinage.Domain.Concrete.Models;
@@ -37,7 +38,7 @@ namespace Coinage.Domain.Abstract.Services
         /// <returns>A Customer object.</returns>
         Customer InsertGuestCustomer();
 
-        CustomerRegistrationResult RegisterCustomer(CustomerRegistrationRequest request);
+        EntityActionResponse RegisterCustomer(CustomerRegistrationRequest request);
 
         /// <summary>
         /// Gets a customer name.
