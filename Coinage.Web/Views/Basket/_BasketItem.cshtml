@@ -8,7 +8,7 @@
                 <img src="http://placehold.it/75x75&text=@Model.ItemName" alt="@Model.ItemName" class="media-object" />
             </a>
         </div>
-        <div class="col-md-4">@Html.ActionLink(Model.ItemName, "Index", "Product")</div>
+        <div class="col-md-4">@Html.ActionLink(Model.ItemName, "Index", "Product", new { id = Model.ProductId }, null)</div>
         <div class="col-md-2">@Html.TextBoxFor(i => i.Quantity)</div>
         <div class="col-md-1">@Model.UnitPrice</div>
         <div class="col-md-1">@Model.SubTotal</div>
