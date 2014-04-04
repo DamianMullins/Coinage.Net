@@ -1,14 +1,14 @@
-﻿@model List<Coinage.Domain.Concrete.Entities.Product>
+﻿@model Coinage.Web.Models.Product.FeaturedProductsModel
 @{
     Layout = null;
     bool firstItem = true;
 }
 
-@if (Model.Any())
+@if (Model.Products.Any())
 {
     <div id="carousel-example-generic" class="slide carousel" data-ride="carousel">
         <div class="carousel-inner">
-            @foreach (var product in Model)
+            @foreach (var product in Model.Products)
             {
                 <div class="item @(firstItem ? "active" : "")">
                     <img src="http://placehold.it/1170x450&text=@product.Name" alt="@product.Name">

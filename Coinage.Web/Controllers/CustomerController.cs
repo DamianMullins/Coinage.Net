@@ -33,6 +33,7 @@ namespace Coinage.Web.Controllers
         {
             if (_authenticationService.CurrentCustomer.IsRegistered())
             {
+                // TODO
                 // Already registered so create a new record
                 _authenticationService.SignOut();
                 _customerService.InsertGuestCustomer();
@@ -42,10 +43,26 @@ namespace Coinage.Web.Controllers
             {
                 Customer customer = _authenticationService.CurrentCustomer;
 
-                var registrationRequest = new CustomerRegistrationRequest(customer, model.Email, model.Password);
+                var registrationRequest = new CustomerRegistrationRequest(customer, model.Email, model.Password, model.FirstName, model.LastName, model.Phone);
                 CustomerRegistrationResult registrationResult = _customerService.RegisterCustomer(registrationRequest);
+
+                if (registrationResult.Success)
+                {
+                    // TODO: Newsletter subscription
+
+                    // TODO: Sign in
+
+                    // TODO: Email notify
+
+                    return RedirectToAction("RegisterResult");
+                }
             }
             return View(model);
+        }
+
+        public ActionResult RegisterResult()
+        {
+            return View();
         }
     }
 }

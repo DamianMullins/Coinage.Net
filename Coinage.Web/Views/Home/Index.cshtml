@@ -2,4 +2,6 @@
     ViewBag.Title = "Home Page";
 }
 
-@Html.Action("FeaturedList", "Product")
+@Html.Action("Featured", "Product")
+
+@Html.Action("Latest", "Product", new { count = 15 })

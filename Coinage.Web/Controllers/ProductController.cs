@@ -1,4 +1,5 @@
-﻿using Coinage.Domain.Abstract.Services;
+﻿using System.Collections.Generic;
+using Coinage.Domain.Abstract.Services;
 using Coinage.Domain.Concrete.Entities;
 using Coinage.Web.Models.Product;
 using System.Web.Mvc;
@@ -24,11 +25,11 @@ namespace Coinage.Web.Controllers
             {
                 var model = new ProductDetailsModel
                 {
-                    Name = product.Name, 
+                    Name = product.Name,
                     Description = product.Description,
                     ProductPrice = new ProductDetailsModel.ProductPriceModel
                     {
-                        ProductId = product.Id, 
+                        ProductId = product.Id,
                         PriceValue = product.Price
                     },
                     AddToBasket = new ProductDetailsModel.AddToBasketModel
@@ -48,10 +49,17 @@ namespace Coinage.Web.Controllers
         }
 
         [ChildActionOnly]
-        public ActionResult FeaturedList()
+        public ActionResult Featured()
         {
-            var products = _productService.GetFeaturedProducts();
-            return View(products);
+            var model = new FeaturedProductsModel { Products = _productService.GetFeaturedProducts() };
+            return View(model);
+        }
+
+        [ChildActionOnly]
+        public ActionResult Latest(int count)
+        {
+             var model = new LatestProductModel { Products = _productService.GetLatestProducts(count) };
+            return View(model);
         }
     }
 }

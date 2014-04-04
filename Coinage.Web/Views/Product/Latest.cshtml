@@ -1,0 +1,21 @@
+﻿@model Coinage.Web.Models.Product.LatestProductModel
+@{
+    Layout = null;
+}
+
+@if (Model.Products.Any())
+{
+    <ul>
+        @foreach (var product in Model.Products)
+        {
+            <li>
+                <img src="http://placehold.it/200x200&text=@product.Name" alt="@product.Name">
+                <div>
+                    <h3>@product.Name</h3>
+                    <p>@product.Description</p>
+                    <p>@Html.ActionLink("View »", "Index", "Product", new { id = product.Id }, null)
+                </div>
+            </li>
+        }
+    </ul>
+}

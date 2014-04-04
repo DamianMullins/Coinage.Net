@@ -206,6 +206,8 @@
     </Compile>
     <Compile Include="Models\Basket\BasketModel.cs" />
     <Compile Include="Models\Customer\RegisterModel.cs" />
+    <Compile Include="Models\Product\FeaturedProductsModel.cs" />
+    <Compile Include="Models\Product\LatestProductModel.cs" />
     <Compile Include="Models\Product\ProductDetailsModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
@@ -268,13 +270,15 @@
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Product\Index.cshtml" />
     <Content Include="Views\Product\List.cshtml" />
-    <Content Include="Views\Product\FeaturedList.cshtml" />
+    <Content Include="Views\Product\Featured.cshtml" />
     <Content Include="Views\Shared\_Alerts.cshtml" />
     <Content Include="Views\Product\_SingleListProduct.cshtml" />
     <Content Include="Views\Basket\Index.cshtml" />
     <Content Include="Views\Product\_AddToBasket.cshtml" />
     <Content Include="Views\Basket\_BasketItem.cshtml" />
     <Content Include="Views\Customer\Register.cshtml" />
+    <Content Include="Views\Product\Latest.cshtml" />
+    <Content Include="Views\Customer\RegisterResult.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

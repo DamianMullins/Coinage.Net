@@ -1,4 +1,5 @@
-﻿using Coinage.Domain.Abstract.Services;
+﻿using System.Linq;
+using Coinage.Domain.Abstract.Services;
 using Coinage.Domain.Concrete.Entities;
 using Coinage.Web.Controllers;
 using Coinage.Web.Models.Product;
@@ -88,26 +89,26 @@ namespace Coinage.Web.Tests.Controllers
             }
         }
 
-        public class FeaturedList
+        public class Featured
         {
             [Test]
-            public void FeaturedList_RequestWithNoProducts_ReturnsWithView()
+            public void Featured_RequestWithNoProducts_ReturnsWithView()
             {
                 // Arrange
                 var controller = TestableProductController.Create();
                 controller.SetupProductServiceGetFeaturedProducts(new List<Product>());
 
                 // Act
-                var result = controller.FeaturedList() as ViewResult;
+                var result = controller.Featured() as ViewResult;
 
                 // Assert
                 Assert.IsNotNull(result);
-                Assert.IsInstanceOf<List<Product>>(result.Model);
-                Assert.IsTrue(((List<Product>)result.Model).Count == 0);
+                Assert.IsInstanceOf<FeaturedProductsModel>(result.Model);
+                Assert.IsTrue(((FeaturedProductsModel)result.Model).Products.Count == 0);
             }
 
             [Test]
-            public void FeaturedList_RequestWithProducts_ReturnsWithView()
+            public void Featured_RequestWithProducts_ReturnsWithView()
             {
                 // Arrange
                 var controller = TestableProductController.Create();
@@ -119,14 +120,56 @@ namespace Coinage.Web.Tests.Controllers
                 controller.SetupProductServiceGetFeaturedProducts(products);
 
                 // Act
-                var result = controller.FeaturedList() as ViewResult;
+                var result = controller.Featured() as ViewResult;
 
                 // Assert
                 Assert.IsNotNull(result);
-                Assert.IsInstanceOf<List<Product>>(result.Model);
-                Assert.IsTrue(((List<Product>)result.Model).Count == 2);
-                Assert.AreEqual(1, ((List<Product>)result.Model)[0].Id);
-                Assert.AreEqual(2, ((List<Product>)result.Model)[1].Id);
+                Assert.IsInstanceOf<FeaturedProductsModel>(result.Model);
+                Assert.IsTrue(((FeaturedProductsModel)result.Model).Products.Count == 2);
+                Assert.AreEqual(1, ((FeaturedProductsModel)result.Model).Products[0].Id);
+                Assert.AreEqual(2, ((FeaturedProductsModel)result.Model).Products[1].Id);
+            }
+        }
+
+        public class Latest
+        {
+            [Test]
+            public void Latest_RequestWithNoProducts_ReturnsWithView()
+            {
+                // Arrange`
+                int numberOfProducts = 1;
+                var controller = TestableProductController.Create();
+                controller.SetupProductServiceGetLatestProducts(new List<Product>());
+
+                // Act
+                var result = controller.Latest(numberOfProducts) as ViewResult;
+
+                // Assert
+                Assert.IsNotNull(result);
+                Assert.IsInstanceOf<LatestProductModel>(result.Model);
+                Assert.IsTrue(((LatestProductModel)result.Model).Products.Count == 0);
+            }
+
+            [Test]
+            public void Latest_RequestWithProducts_ReturnsWithView()
+            {
+                // Arrange
+                int numberOfProducts = 1;
+                var controller = TestableProductController.Create();
+                var products = new List<Product>
+                {
+                    new Product {Id = 1, Name = "First Product"}
+                };
+                controller.SetupProductServiceGetLatestProducts(products);
+
+                // Act
+                var result = controller.Latest(numberOfProducts) as ViewResult;
+
+                // Assert - can't test for correct number of products returned
+                Assert.IsNotNull(result);
+                Assert.IsInstanceOf<LatestProductModel>(result.Model);
+                Assert.IsTrue(((LatestProductModel)result.Model).Products.Count == 1);
+                Assert.AreEqual(1, ((LatestProductModel)result.Model).Products[0].Id);
             }
         }
 
@@ -158,6 +201,13 @@ namespace Coinage.Web.Tests.Controllers
             {
                 ProductService
                     .Setup(s => s.GetFeaturedProducts())
+                    .Returns(products);
+            }
+
+            public void SetupProductServiceGetLatestProducts(List<Product> products)
+            {
+                ProductService
+                    .Setup(s => s.GetLatestProducts(It.IsAny<int>()))
                     .Returns(products);
             }
 

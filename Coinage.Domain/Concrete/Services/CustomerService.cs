@@ -70,6 +70,7 @@ namespace Coinage.Domain.Concrete.Services
         public CustomerRegistrationResult RegisterCustomer(CustomerRegistrationRequest request)
         {
             if (request == null) throw new ArgumentNullException("request");
+            if (request.Customer == null) throw new ArgumentNullException("customer is null");
 
             var result = new CustomerRegistrationResult();
 
@@ -78,7 +79,7 @@ namespace Coinage.Domain.Concrete.Services
                 result.Errors.Add("Customer is already registered.");
             }
 
-            if (GetCustomerByEmail(request.Email) != null)
+            if (GetCustomerByEmail(request.Customer.Email) != null)
             {
                 result.Errors.Add("The specified email already exists.");
             }
@@ -90,9 +91,16 @@ namespace Coinage.Domain.Concrete.Services
 
             // TODO:Check user email does not already exist
 
+            request.Customer.Email = request.Email;
+
             string saltKey = _encryptionService.CreateSaltKey(5);
             request.Customer.PasswordSalt = saltKey;
             request.Customer.Password = _encryptionService.CreatePasswordHash(request.Password, saltKey);
+
+            request.Customer.FirstName = request.FirstName;
+            request.Customer.LastName = request.LastName;
+            request.Customer.Phone = request.Phone;
+            request.Customer.Active = true;
             
             CustomerRole registeredRole = GetCustomerRoleByName(CustomerRoleName.Registered);
             if (registeredRole == null) throw new Exception("'Registered' role could not be loaded");
