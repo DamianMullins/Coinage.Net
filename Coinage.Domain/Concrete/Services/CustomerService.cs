@@ -89,8 +89,6 @@ namespace Coinage.Domain.Concrete.Services
                 return response;
             }
 
-            // TODO:Check user email does not already exist
-
             request.Customer.Email = request.Email;
 
             string saltKey = _encryptionService.CreateSaltKey(5);
