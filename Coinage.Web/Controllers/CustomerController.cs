@@ -9,7 +9,7 @@ using Coinage.Web.Models.Customer;
 
 namespace Coinage.Web.Controllers
 {
-    public class CustomerController : Controller
+    public class CustomerController : BaseController
     {
         private readonly IAuthenticationService _authenticationService;
         private readonly ICustomerService _customerService;
@@ -55,6 +55,10 @@ namespace Coinage.Web.Controllers
                     // TODO: Email notify
 
                     return RedirectToAction("RegisterResult");
+                }
+                else
+                {
+                    ErrorAlert(registrationResult.ErrorMessage);
                 }
             }
             return View(model);

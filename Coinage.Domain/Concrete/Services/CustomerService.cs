@@ -79,7 +79,7 @@ namespace Coinage.Domain.Concrete.Services
                 result.Errors.Add("Customer is already registered.");
             }
 
-            if (GetCustomerByEmail(request.Customer.Email) != null)
+            if (GetCustomerByEmail(request.Email) != null)
             {
                 result.Errors.Add("The specified email already exists.");
             }
