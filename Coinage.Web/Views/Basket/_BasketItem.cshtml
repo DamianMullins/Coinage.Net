@@ -10,8 +10,8 @@
         </div>
         <div class="col-md-4">@Html.ActionLink(Model.ItemName, "Index", "Product", new { id = Model.ProductId }, null)</div>
         <div class="col-md-2">@Html.TextBoxFor(i => i.Quantity)</div>
-        <div class="col-md-1">@Model.UnitPrice</div>
-        <div class="col-md-1">@Model.SubTotal</div>
+        <div class="col-md-1">&pound;@Model.UnitPrice</div>
+        <div class="col-md-1">&pound;@Model.SubTotal</div>
         <div class="col-md-1">
             <input type="submit" value="Update" class="btn btn-default" />
             @Html.HiddenFor(i => i.Id)
