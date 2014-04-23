@@ -2,7 +2,7 @@
 
 namespace Coinage.Web.Validation.Product
 {
-    public class ProductValidation : AbstractValidator<Domain.Concrete.Entities.Product>
+    public class ProductValidation : AbstractValidator<Domain.Entites.Product>
     {
         public ProductValidation()
         {

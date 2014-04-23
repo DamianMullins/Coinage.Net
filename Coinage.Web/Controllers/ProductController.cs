@@ -1,5 +1,5 @@
-﻿using Coinage.Domain.Abstract.Services;
-using Coinage.Domain.Concrete.Entities;
+﻿using Coinage.Domain.Entites;
+using Coinage.Domain.Services;
 using Coinage.Web.Models.Products;
 using System.Web.Mvc;
 

@@ -1,9 +1,9 @@
-﻿using Coinage.Domain.Abstract.Authentication;
-using Coinage.Domain.Abstract.Services;
-using Coinage.Domain.Concrete;
-using Coinage.Domain.Concrete.Entities;
-using Coinage.Domain.Concrete.Extensions;
-using Coinage.Domain.Concrete.Models.Customers;
+﻿using Coinage.Domain.Authentication;
+using Coinage.Domain.Entites;
+using Coinage.Domain.Extensions;
+using Coinage.Domain.Models;
+using Coinage.Domain.Models.Customers;
+using Coinage.Domain.Services;
 using Coinage.Web.Models.Customers;
 using System.Web.Mvc;
 

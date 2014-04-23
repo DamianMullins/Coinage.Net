@@ -1,5 +1,5 @@
-﻿using Coinage.Domain.Concrete.Entities;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using Coinage.Domain.Entites;
 
 namespace Coinage.Web.Models.Products
 {

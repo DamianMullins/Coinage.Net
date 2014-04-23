@@ -1,15 +1,12 @@
 ﻿
 using Coinage.Data.EntityFramework;
 using Coinage.Data.EntityFramework.Context;
-using Coinage.Domain.Abstract;
-using Coinage.Domain.Abstract.Authentication;
-using Coinage.Domain.Abstract.Data;
-using Coinage.Domain.Abstract.Security;
-using Coinage.Domain.Abstract.Services;
-using Coinage.Domain.Concrete.Services;
-using Coinage.Domain.Concrete.Services.Authentication;
-using Coinage.Domain.Concrete.Services.Security;
-using Coinage.Web.Framework;
+using Coinage.Domain.Authentication;
+using Coinage.Domain.Data;
+using Coinage.Domain.Security;
+using Coinage.Domain.Services;
+using Coinage.Domain.Services.Authentication;
+using Coinage.Domain.Services.Security;
 using Ninject;
 using Ninject.Web.Common;
 

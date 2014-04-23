@@ -1,14 +1,13 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using Coinage.Domain.Abstract.Data;
-using Coinage.Domain.Abstract.Security;
-using Coinage.Domain.Concrete;
-using Coinage.Domain.Concrete.Entities;
-using Coinage.Domain.Concrete.Services;
+﻿using Coinage.Domain.Data;
+using Coinage.Domain.Entites;
+using Coinage.Domain.Models;
+using Coinage.Domain.Security;
+using Coinage.Domain.Services;
 using Moq;
 using NUnit.Framework;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Coinage.Domain.Tests.Services
 {

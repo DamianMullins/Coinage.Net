@@ -1,10 +1,10 @@
 ﻿using Coinage.Data.EntityFramework.Context;
-using Coinage.Domain.Abstract.Data;
-using Coinage.Domain.Concrete.Entities;
 using System;
 using System.Data.Entity;
 using System.Data.Entity.Validation;
 using System.Linq;
+using Coinage.Domain.Data;
+using Coinage.Domain.Entites;
 
 namespace Coinage.Data.EntityFramework
 {

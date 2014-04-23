@@ -40,30 +40,25 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Abstract\Authentication\IAuthenticationService.cs" />
-    <Compile Include="Abstract\Entites\ITimestamps.cs" />
-    <Compile Include="Abstract\Security\IEncryptionService.cs" />
-    <Compile Include="Concrete\Enums\CustomerRoleName.cs" />
-    <Compile Include="Concrete\Extensions\CustomerExtensions.cs" />
-    <Compile Include="Concrete\Models\Customers\CustomerRegistrationRequest.cs" />
-    <Compile Include="Concrete\Services\Authentication\FormsAuthenticationService.cs" />
-    <Compile Include="Abstract\Services\IBasketService.cs" />
-    <Compile Include="Abstract\Services\IEditableService.cs" />
-    <Compile Include="Abstract\Services\ICustomerService.cs" />
-    <Compile Include="Abstract\Services\IProductService.cs" />
-    <Compile Include="Concrete\Entities\Customer.cs" />
-    <Compile Include="Concrete\Entities\Basket.cs" />
-    <Compile Include="Concrete\Entities\BasketItem.cs" />
-    <Compile Include="Concrete\Entities\CustomerRole.cs" />
-    <Compile Include="Concrete\Entities\EditableEntity.cs" />
-    <Compile Include="Concrete\Entities\Entity.cs" />
-    <Compile Include="Concrete\Entities\Product.cs" />
-    <Compile Include="Concrete\EntityActionResponse.cs" />
-    <Compile Include="Concrete\Services\BasketService.cs" />
-    <Compile Include="Concrete\Services\CustomerService.cs" />
-    <Compile Include="Concrete\Services\ProductService.cs" />
-    <Compile Include="Abstract\Data\IRepository.cs" />
-    <Compile Include="Concrete\Services\Security\EncryptionService.cs" />
+    <Compile Include="Authentication\IAuthenticationService.cs" />
+    <Compile Include="Entites\ITimestamps.cs" />
+    <Compile Include="Security\IEncryptionService.cs" />
+    <Compile Include="Enums\CustomerRoleName.cs" />
+    <Compile Include="Extensions\CustomerExtensions.cs" />
+    <Compile Include="Models\Customers\CustomerRegistrationRequest.cs" />
+    <Compile Include="Services\IBasketService.cs" />
+    <Compile Include="Services\IEditableService.cs" />
+    <Compile Include="Services\ICustomerService.cs" />
+    <Compile Include="Services\IProductService.cs" />
+    <Compile Include="Entites\Customer.cs" />
+    <Compile Include="Entites\Basket.cs" />
+    <Compile Include="Entites\BasketItem.cs" />
+    <Compile Include="Entites\CustomerRole.cs" />
+    <Compile Include="Entites\EditableEntity.cs" />
+    <Compile Include="Entites\Entity.cs" />
+    <Compile Include="Entites\Product.cs" />
+    <Compile Include="Models\EntityActionResponse.cs" />
+    <Compile Include="Data\IRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup />

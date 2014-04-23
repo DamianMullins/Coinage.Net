@@ -1,5 +1,5 @@
-﻿using Coinage.Domain.Concrete.Entities;
-using System.Data.Entity.ModelConfiguration;
+﻿using System.Data.Entity.ModelConfiguration;
+using Coinage.Domain.Entites;
 
 namespace Coinage.Data.EntityFramework.Configuration
 {

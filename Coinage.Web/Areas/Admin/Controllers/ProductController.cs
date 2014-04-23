@@ -1,8 +1,8 @@
-﻿using Coinage.Domain.Abstract.Services;
-using Coinage.Domain.Concrete;
-using Coinage.Domain.Concrete.Entities;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Web.Mvc;
+using Coinage.Domain.Entites;
+using Coinage.Domain.Models;
+using Coinage.Domain.Services;
 
 namespace Coinage.Web.Areas.Admin.Controllers
 {

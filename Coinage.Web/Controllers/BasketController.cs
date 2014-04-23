@@ -1,6 +1,6 @@
-﻿using Coinage.Domain.Abstract.Services;
-using Coinage.Domain.Concrete;
-using Coinage.Domain.Concrete.Entities;
+﻿using Coinage.Domain.Entites;
+using Coinage.Domain.Models;
+using Coinage.Domain.Services;
 using Coinage.Web.Models.Baskets;
 using Coinage.Web.Models.Products;
 using System.Web;

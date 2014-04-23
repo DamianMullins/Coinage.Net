@@ -1,4 +1,4 @@
-﻿using Coinage.Domain.Concrete.Entities;
+﻿using Coinage.Domain.Entites;
 using NUnit.Framework;
 
 namespace Coinage.Domain.Tests.Entities

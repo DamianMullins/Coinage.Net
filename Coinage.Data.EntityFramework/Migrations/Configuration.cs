@@ -1,6 +1,5 @@
 namespace Coinage.Data.EntityFramework.Migrations
 {
-    using Coinage.Domain.Concrete.Entities;
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Migrations;

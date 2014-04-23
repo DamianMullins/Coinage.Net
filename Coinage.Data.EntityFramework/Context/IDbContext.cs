@@ -1,4 +1,4 @@
-﻿using Coinage.Domain.Concrete.Entities;
+﻿using Coinage.Domain.Entites;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 

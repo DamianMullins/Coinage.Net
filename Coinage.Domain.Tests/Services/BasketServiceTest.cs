@@ -1,10 +1,8 @@
-﻿using System.Collections.ObjectModel;
-using Coinage.Domain.Abstract;
-using Coinage.Domain.Abstract.Authentication;
-using Coinage.Domain.Abstract.Data;
-using Coinage.Domain.Concrete;
-using Coinage.Domain.Concrete.Entities;
-using Coinage.Domain.Concrete.Services;
+﻿using Coinage.Domain.Authentication;
+using Coinage.Domain.Data;
+using Coinage.Domain.Entites;
+using Coinage.Domain.Models;
+using Coinage.Domain.Services;
 using Moq;
 using NUnit.Framework;
 using System;
