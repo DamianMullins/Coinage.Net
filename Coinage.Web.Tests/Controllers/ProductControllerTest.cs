@@ -1,4 +1,7 @@
-﻿using Coinage.Domain.Entites;
+﻿using System;
+using System.Linq;
+using System.Threading.Tasks;
+using Coinage.Domain.Entites;
 using Coinage.Domain.Services;
 using Coinage.Web.Controllers;
 using Coinage.Web.Models.Products;
@@ -15,30 +18,30 @@ namespace Coinage.Web.Tests.Controllers
         public class Index
         {
             [Test]
-            public void Index_RequestWithNonExistingProductId_ReturnsHttpNotFound()
+            public async Task Index_RequestWithNonExistingProductId_ReturnsHttpNotFound()
             {
                 // Arrange
                 var controller = TestableProductController.Create();
                 int nonExitingProductId = 3;
 
                 // Act
-                ActionResult result = controller.Index(nonExitingProductId);
+                var result = await controller.Index(nonExitingProductId);
 
                 // Assert
                 Assert.IsInstanceOf<HttpNotFoundResult>(result);
             }
 
             [Test]
-            public void Index_RequestWithExistingProductId_ReturnsWithView()
+            public async Task Index_RequestWithExistingProductId_ReturnsWithView()
             {
                 // Arrange
                 var controller = TestableProductController.Create();
                 var product = new Product { Id = 1, Name = "First Product" };
-                controller.SetupProductServiceGetProduct(product);
+                controller.SetupProductServiceGetProductByIdAsync(product);
                 int existingProductId = 1;
 
                 // Act
-                var result = controller.Index(existingProductId) as ViewResult;
+                var result = await controller.Index(existingProductId) as ViewResult;
 
                 // Assert
                 Assert.IsNotNull(result);
@@ -51,14 +54,14 @@ namespace Coinage.Web.Tests.Controllers
         public class List
         {
             [Test]
-            public void List_RequestWithNoProducts_ReturnsWithView()
+            public async Task List_RequestWithNoProducts_ReturnsWithView()
             {
                 // Arrange
                 var controller = TestableProductController.Create();
-                controller.SetupProductServiceGetProducts(new List<Product>());
+                controller.SetupProductServiceGetProductsAsync(new List<Product>());
 
                 // Act
-                var result = controller.List() as ViewResult;
+                var result = await controller.List();
 
                 // Assert
                 Assert.IsNotNull(result);
@@ -67,7 +70,7 @@ namespace Coinage.Web.Tests.Controllers
             }
 
             [Test]
-            public void List_RequestWithProducts_ReturnsWithView()
+            public async Task List_RequestWithProducts_ReturnsWithView()
             {
                 // Arrange
                 var controller = TestableProductController.Create();
@@ -76,10 +79,10 @@ namespace Coinage.Web.Tests.Controllers
                     new Product {Id = 1, Name = "First Product"},
                     new Product {Id = 2, Name = "Second Product"}
                 };
-                controller.SetupProductServiceGetProducts(products);
+                controller.SetupProductServiceGetProductsAsync(products);
 
                 // Act
-                ViewResult result = controller.List() as ViewResult;
+                var result = await controller.List();
 
                 // Assert
                 Assert.IsNotNull(result);
@@ -103,7 +106,7 @@ namespace Coinage.Web.Tests.Controllers
                 // Assert
                 Assert.IsNotNull(result);
                 Assert.IsInstanceOf<FeaturedProductsModel>(result.Model);
-                Assert.IsTrue(((FeaturedProductsModel)result.Model).Products.Count == 0);
+                Assert.IsTrue(((FeaturedProductsModel)result.Model).Products.ToList().Count == 0);
             }
 
             [Test]
@@ -124,9 +127,9 @@ namespace Coinage.Web.Tests.Controllers
                 // Assert
                 Assert.IsNotNull(result);
                 Assert.IsInstanceOf<FeaturedProductsModel>(result.Model);
-                Assert.IsTrue(((FeaturedProductsModel)result.Model).Products.Count == 2);
-                Assert.AreEqual(1, ((FeaturedProductsModel)result.Model).Products[0].Id);
-                Assert.AreEqual(2, ((FeaturedProductsModel)result.Model).Products[1].Id);
+                Assert.IsTrue(((FeaturedProductsModel)result.Model).Products.ToList().Count == 2);
+                Assert.AreEqual(1, ((FeaturedProductsModel)result.Model).Products.ToList()[0].Id);
+                Assert.AreEqual(2, ((FeaturedProductsModel)result.Model).Products.ToList()[1].Id);
             }
         }
 
@@ -146,7 +149,7 @@ namespace Coinage.Web.Tests.Controllers
                 // Assert
                 Assert.IsNotNull(result);
                 Assert.IsInstanceOf<LatestProductModel>(result.Model);
-                Assert.IsTrue(((LatestProductModel)result.Model).Products.Count == 0);
+                Assert.IsTrue(((LatestProductModel)result.Model).Products.ToList().Count == 0);
             }
 
             [Test]
@@ -167,8 +170,8 @@ namespace Coinage.Web.Tests.Controllers
                 // Assert - can't test for correct number of products returned
                 Assert.IsNotNull(result);
                 Assert.IsInstanceOf<LatestProductModel>(result.Model);
-                Assert.IsTrue(((LatestProductModel)result.Model).Products.Count == 1);
-                Assert.AreEqual(1, ((LatestProductModel)result.Model).Products[0].Id);
+                Assert.IsTrue(((LatestProductModel)result.Model).Products.ToList().Count == 1);
+                Assert.AreEqual(1, ((LatestProductModel)result.Model).Products.ToList()[0].Id);
             }
         }
 
@@ -189,32 +192,32 @@ namespace Coinage.Web.Tests.Controllers
                 return new TestableProductController(new Mock<IProductService>(), new Mock<IBasketService>());
             }
 
-            public void SetupProductServiceGetProducts(List<Product> products)
+            public void SetupProductServiceGetProductsAsync(IEnumerable<Product> products)
             {
                 ProductService
-                    .Setup(s => s.GetProducts())
-                    .Returns(products);
+                    .Setup(s => s.GetProductsAsync())
+                    .Returns(Task.FromResult(products));
             }
 
-            public void SetupProductServiceGetFeaturedProducts(List<Product> products)
+            public void SetupProductServiceGetFeaturedProducts(IEnumerable<Product> products)
             {
                 ProductService
                     .Setup(s => s.GetFeaturedProducts())
                     .Returns(products);
             }
 
-            public void SetupProductServiceGetLatestProducts(List<Product> products)
+            public void SetupProductServiceGetLatestProducts(IEnumerable<Product> products)
             {
                 ProductService
                     .Setup(s => s.GetLatestProducts(It.IsAny<int>()))
                     .Returns(products);
             }
 
-            public void SetupProductServiceGetProduct(Product product)
+            public void SetupProductServiceGetProductByIdAsync(Product product)
             {
                 ProductService
-                    .Setup(s => s.GetProductById(It.IsAny<int>()))
-                    .Returns(product);
+                    .Setup(s => s.GetProductByIdAsync(It.IsAny<int>()))
+                    .Returns(Task.FromResult(product));
             }
         }
     }

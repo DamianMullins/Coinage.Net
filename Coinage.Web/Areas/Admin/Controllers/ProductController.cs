@@ -1,8 +1,9 @@
-﻿using System.Collections.Generic;
-using System.Web.Mvc;
-using Coinage.Domain.Entites;
+﻿using Coinage.Domain.Entites;
 using Coinage.Domain.Models;
 using Coinage.Domain.Services;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using System.Web.Mvc;
 
 namespace Coinage.Web.Areas.Admin.Controllers
 {
@@ -15,15 +16,15 @@ namespace Coinage.Web.Areas.Admin.Controllers
             _productService = productService;
         }
 
-        public ActionResult Index()
+        public async Task<ViewResult> Index()
         {
-            List<Product> products = _productService.GetProducts();
+            IEnumerable<Product> products = await _productService.GetProductsAsync();
             return View(products);
         }
 
-        public ActionResult Edit(int id)
+        public async Task<ActionResult> Edit(int id)
         {
-            Product product = _productService.GetProductById(id);
+            Product product = await _productService.GetProductByIdAsync(id);
 
             if (product != null)
             {
@@ -33,11 +34,11 @@ namespace Coinage.Web.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public ActionResult Edit(Product product)
+        public async Task<ViewResult> Edit(Product product)
         {
             if (ModelState.IsValid)
             {
-                EntityActionResponse response = _productService.Update(product);
+                EntityActionResponse response = await _productService.UpdateAsync(product);
 
                 if (response.Success)
                 {

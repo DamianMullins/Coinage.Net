@@ -3,7 +3,8 @@ using Coinage.Domain.Models;
 
 namespace Coinage.Domain.Services
 {
-    public interface IEditableService<in T> where T : EditableEntity
+    public interface IEditableService<in T>
+        where T : EditableEntity
     {
         /// <summary>
         /// Update an entity.

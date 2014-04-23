@@ -1,20 +1,21 @@
 ﻿using Coinage.Data.EntityFramework.Context;
+using Coinage.Domain.Data;
+using Coinage.Domain.Entites;
 using System;
+using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.Entity.Validation;
 using System.Linq;
-using Coinage.Domain.Data;
-using Coinage.Domain.Entites;
+using System.Linq.Expressions;
 
 namespace Coinage.Data.EntityFramework
 {
-    public class EfRepository<T> : IRepository<T> 
+    public class EfRepository<T> : IRepository<T>
         where T : Entity
     {
-        private readonly IDbContext _context;
-        private IDbSet<T> _entities;
-
-        private IDbSet<T> Entities
+        protected readonly IDbContext _context;
+        protected IDbSet<T> _entities;
+        protected IDbSet<T> Entities
         {
             get { return _entities ?? (_entities = _context.Set<T>()); }
         }
@@ -29,9 +30,30 @@ namespace Coinage.Data.EntityFramework
             _context = context;
         }
 
-        public T GetById(object id)
+        public int Count()
         {
-            return Entities.Find(id);
+            return Entities.Count();
+        }
+
+        public int Count(Expression<Func<T, bool>> predicate)
+        {
+            return Entities.Count(predicate);
+        }
+
+        public IEnumerable<T> GetAll()
+        {
+            // Careful with this one
+            return Entities.AsEnumerable();
+        }
+
+        public T Find(Expression<Func<T, bool>> predicate)
+        {
+            return Entities.FirstOrDefault(predicate);
+        }
+
+        public IEnumerable<T> FindAll(Expression<Func<T, bool>> predicate)
+        {
+            return Entities.Where(predicate).AsEnumerable();
         }
 
         public void Insert(T entity)

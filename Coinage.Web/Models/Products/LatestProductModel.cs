@@ -1,11 +1,11 @@
-﻿using System.Collections.Generic;
-using Coinage.Domain.Entites;
+﻿using Coinage.Domain.Entites;
+using System.Collections.Generic;
 
 namespace Coinage.Web.Models.Products
 {
     public class LatestProductModel
     {
-        public List<Product> Products { get; set; }
+        public IEnumerable<Product> Products { get; set; }
 
         public LatestProductModel()
         {

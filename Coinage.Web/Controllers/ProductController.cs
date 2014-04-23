@@ -1,4 +1,5 @@
-﻿using Coinage.Domain.Entites;
+﻿using System.Threading.Tasks;
+using Coinage.Domain.Entites;
 using Coinage.Domain.Services;
 using Coinage.Web.Models.Products;
 using System.Web.Mvc;
@@ -16,9 +17,9 @@ namespace Coinage.Web.Controllers
             _basketService = basketService;
         }
 
-        public ActionResult Index(int id)
+        public async Task<ActionResult> Index(int id)
         {
-            Product product = _productService.GetProductById(id);
+            Product product = await _productService.GetProductByIdAsync(id);
 
             if (product != null)
             {
@@ -41,9 +42,9 @@ namespace Coinage.Web.Controllers
             return HttpNotFound("Product was not found.");
         }
 
-        public ActionResult List()
+        public async Task<ViewResult> List()
         {
-            var products = _productService.GetProducts();
+            var products = await _productService.GetProductsAsync();
             return View(products);
         }
 
@@ -55,9 +56,9 @@ namespace Coinage.Web.Controllers
         }
 
         [ChildActionOnly]
-        public ActionResult Latest(int count)
+        public ViewResult Latest(int count)
         {
-             var model = new LatestProductModel { Products = _productService.GetLatestProducts(count) };
+            var model = new LatestProductModel { Products = _productService.GetLatestProducts(count) };
             return View(model);
         }
     }

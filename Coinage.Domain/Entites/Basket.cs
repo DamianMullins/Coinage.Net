@@ -25,12 +25,26 @@ namespace Coinage.Domain.Entites
 
         public int TotalItems
         {
-            get { return BasketItems.Sum(item => item.Quantity); }
+            get
+            {
+                if (BasketItems.Any())
+                {
+                    return BasketItems.Sum(item => item.Quantity);
+                }
+                return 0;
+            }
         }
 
         public decimal TotalAmount
         {
-            get { return BasketItems.Sum(item => item.Product.Price * item.Quantity); }
+            get
+            {
+                if (BasketItems.Any())
+                {
+                    return BasketItems.Sum(item => item.Product.Price * item.Quantity);
+                }
+                return 0m;
+            }
         }
 
         /// <summary>

@@ -41,12 +41,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Authentication\IAuthenticationService.cs" />
+    <Compile Include="Data\IRepositoryAsync.cs" />
     <Compile Include="Entites\ITimestamps.cs" />
     <Compile Include="Security\IEncryptionService.cs" />
     <Compile Include="Enums\CustomerRoleName.cs" />
     <Compile Include="Extensions\CustomerExtensions.cs" />
     <Compile Include="Models\Customers\CustomerRegistrationRequest.cs" />
     <Compile Include="Services\IBasketService.cs" />
+    <Compile Include="Services\IEditableServiceAsync.cs" />
     <Compile Include="Services\IEditableService.cs" />
     <Compile Include="Services\ICustomerService.cs" />
     <Compile Include="Services\IProductService.cs" />

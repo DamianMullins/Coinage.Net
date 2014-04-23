@@ -3,6 +3,7 @@ using Coinage.Domain.Models;
 using Coinage.Domain.Services;
 using Coinage.Web.Models.Baskets;
 using Coinage.Web.Models.Products;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 
@@ -24,10 +25,10 @@ namespace Coinage.Web.Controllers
             _httpContext = httpContext;
         }
 
-        public ActionResult Index()
+        public async Task<ViewResult> Index()
         {
             var model = new BasketModel();
-            Basket basket = _basketService.GetCustomerBasket();
+            Basket basket = await _basketService.GetCustomerBasketAsync();
 
             if (basket != null)
             {
@@ -51,11 +52,12 @@ namespace Coinage.Web.Controllers
         }
 
         [HttpPost]
-        public ActionResult AddToBasket(ProductDetailsModel.AddToBasketModel model)
+        public async Task<ActionResult> AddToBasket(ProductDetailsModel.AddToBasketModel model)
         {
-            Basket basket = _basketService.GetCustomerBasket();
-            Product product = _productService.GetProductById(model.ProductId);
-            EntityActionResponse response = _basketService.AddProductToBasket(basket, product, model.Quantity);
+            // TODO test speeds when using Task.WhenAll()
+            Basket basket = await _basketService.GetCustomerBasketAsync();
+            Product product = await _productService.GetProductByIdAsync(model.ProductId);
+            EntityActionResponse response = await _basketService.AddProductToBasketAsync(basket, product, model.Quantity);
 
             if (response.Success)
             {
@@ -73,9 +75,9 @@ namespace Coinage.Web.Controllers
         }
 
         [HttpPost]
-        public ActionResult UpdateBasketItem(BasketModel.BasketItemModel model)
+        public async Task<ActionResult> UpdateBasketItem(BasketModel.BasketItemModel model)
         {
-            EntityActionResponse response = _basketService.UpdateProductInBasket(model.Id, model.ProductId, model.Quantity);
+            EntityActionResponse response = await _basketService.UpdateProductInBasketAsync(model.Id, model.ProductId, model.Quantity);
 
             if (response.Success)
             {

@@ -1,4 +1,5 @@
-﻿using Coinage.Domain.Authentication;
+﻿using System.Threading.Tasks;
+using Coinage.Domain.Authentication;
 using System;
 using System.Linq;
 using Coinage.Domain.Data;
@@ -10,42 +11,101 @@ namespace Coinage.Domain.Services
     public class BasketService : IBasketService
     {
         private readonly IAuthenticationService _authenticationService;
-        private readonly IRepository<Basket> _basketRepository;
-        private readonly IRepository<BasketItem> _basketItemRepository;
+        private readonly IRepositoryAsync<Basket> _basketRepository;
+        private readonly IRepositoryAsync<BasketItem> _basketItemRepository;
 
-        public BasketService(IAuthenticationService authenticationService, IRepository<Basket> basketRepository, IRepository<BasketItem> basketItemRepository)
+        public BasketService(IAuthenticationService authenticationService, IRepositoryAsync<Basket> basketRepository, IRepositoryAsync<BasketItem> basketItemRepository)
         {
             _authenticationService = authenticationService;
             _basketRepository = basketRepository;
             _basketItemRepository = basketItemRepository;
         }
 
-        public Basket GetBasket(int id)
+        public EntityActionResponse Update(Basket basket)
         {
-            return _basketRepository.GetById(id);
+            if (basket == null) return new EntityActionResponse { Exception = new ArgumentNullException("basket") };
+
+            var response = new EntityActionResponse();
+            try
+            {
+                _basketRepository.Update(basket);
+            }
+            catch (Exception ex)
+            {
+                response.Exception = ex;
+            }
+            return response;
         }
 
-        public Basket GetCustomerBasket()
+        public EntityActionResponse Create(Basket basket)
+        {
+            if (basket == null) return new EntityActionResponse { Exception = new ArgumentNullException("basket") };
+
+            var response = new EntityActionResponse();
+            try
+            {
+                _basketRepository.Insert(basket);
+            }
+            catch (Exception ex)
+            {
+                response.Exception = ex;
+            }
+            return response;
+        }
+
+        public async Task<EntityActionResponse> UpdateAsync(Basket basket)
+        {
+            if (basket == null) return new EntityActionResponse { Exception = new ArgumentNullException("basket") };
+
+            var response = new EntityActionResponse();
+            try
+            {
+                await _basketRepository.UpdateAsync(basket);
+            }
+            catch (Exception ex)
+            {
+                response.Exception = ex;
+            }
+            return response;
+        }
+
+        public async Task<EntityActionResponse> CreateAsync(Basket basket)
+        {
+            if (basket == null) return new EntityActionResponse { Exception = new ArgumentNullException("basket") };
+
+            var response = new EntityActionResponse();
+            try
+            {
+                await _basketRepository.InsertAsync(basket);
+            }
+            catch (Exception ex)
+            {
+                response.Exception = ex;
+            }
+            return response;
+        }
+
+        public async Task<Basket> GetBasketAsync(int id)
+        {
+            return await _basketRepository.FindAsync(b => b.Id == id);
+        }
+
+        public async Task<Basket> GetCustomerBasketAsync()
         {
             Customer customer = _authenticationService.CurrentCustomer;
-            Basket basket = _basketRepository.Table.FirstOrDefault(b => b.CustomerId == customer.Id);
+            Basket basket = await _basketRepository.FindAsync(b => b.CustomerId == customer.Id);
 
             if (basket == null)
             {
-                // Create new Basket
                 basket = new Basket { CustomerId = customer.Id };
-                EntityActionResponse response = Create(basket);
+                EntityActionResponse response = await CreateAsync(basket);
 
-                if (!response.Success)
-                {
-                    throw new Exception("Could not create basket.", response.Exception);
-                }
+                if (!response.Success) throw new Exception("Could not create basket.", response.Exception);
             }
-
             return basket;
         }
 
-        public EntityActionResponse AddProductToBasket(Basket basket, Product product, int quantity)
+        public async Task<EntityActionResponse> AddProductToBasketAsync(Basket basket, Product product, int quantity)
         {
             if (basket == null) return new EntityActionResponse { Exception = new ArgumentNullException("basket") };
             if (product == null) return new EntityActionResponse { Exception = new ArgumentNullException("product") };
@@ -56,22 +116,17 @@ namespace Coinage.Domain.Services
                 BasketItem basketItem = basket.BasketItems.FirstOrDefault(b => b.ProductId == product.Id);
                 if (basketItem != null)
                 {
-                    // Existing item
                     basketItem.Quantity += quantity;
-                    return Update(basket);
                 }
                 else
                 {
-                    // New item
-                    basketItem = new BasketItem
+                    basket.BasketItems.Add(new BasketItem
                     {
                         Quantity = quantity,
                         ProductId = product.Id
-                    };
-                    basket.BasketItems.Add(basketItem);
-                    return Update(basket);
+                    });
                 }
-
+                return await UpdateAsync(basket);
             }
             catch (Exception exception)
             {
@@ -79,77 +134,33 @@ namespace Coinage.Domain.Services
             }
         }
 
-        public EntityActionResponse UpdateProductInBasket(int basketItemId, int productId, int quantity)
+        public async Task<EntityActionResponse> UpdateProductInBasketAsync(int basketItemId, int productId, int quantity)
         {
             try
             {
-                Basket basket = GetCustomerBasket();
-                //BasketItem basketItem = _basketItemRepository.GetById(basketItemId);
-                BasketItem basketItem = basket.BasketItems.FirstOrDefault(bi => bi.Id == basketItemId);
+                Basket basket = await GetCustomerBasketAsync();
+                if (basket == null) return new EntityActionResponse { Exception = new ArgumentException("Basket was not found") };
 
+                BasketItem basketItem = basket.BasketItems.FirstOrDefault(bi => bi.Id == basketItemId);
                 if (basketItem == null) throw new NullReferenceException("Basket Item was not found");
 
                 if (quantity > 0)
                 {
-                    // Update item
                     basketItem.Quantity = quantity;
-                    _basketItemRepository.Update(basketItem);
+                    await _basketItemRepository.UpdateAsync(basketItem);
                 }
                 else
                 {
-                    // Delete item
                     _basketItemRepository.Delete(basketItem);
                 }
 
-                _basketRepository.Update(basket);
+                await _basketRepository.UpdateAsync(basket);
                 return new EntityActionResponse();
             }
             catch (Exception exception)
             {
                 return new EntityActionResponse { Exception = exception };
             }
-        }
-
-        public EntityActionResponse Update(Basket basket)
-        {
-            var response = new EntityActionResponse();
-            if (basket != null)
-            {
-                try
-                {
-                    _basketRepository.Update(basket);
-                }
-                catch (Exception ex)
-                {
-                    response.Exception = ex;
-                }
-            }
-            else
-            {
-                response.Exception = new ArgumentNullException("basket");
-            }
-            return response;
-        }
-
-        public EntityActionResponse Create(Basket basket)
-        {
-            var response = new EntityActionResponse();
-            if (basket != null)
-            {
-                try
-                {
-                    _basketRepository.Insert(basket);
-                }
-                catch (Exception ex)
-                {
-                    response.Exception = ex;
-                }
-            }
-            else
-            {
-                response.Exception = new ArgumentNullException("basket");
-            }
-            return response;
         }
     }
 }

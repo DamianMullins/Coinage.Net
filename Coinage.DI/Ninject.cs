@@ -1,5 +1,4 @@
-﻿
-using Coinage.Data.EntityFramework;
+﻿using Coinage.Data.EntityFramework;
 using Coinage.Data.EntityFramework.Context;
 using Coinage.Domain.Authentication;
 using Coinage.Domain.Data;
@@ -16,11 +15,12 @@ namespace Coinage.DI
     {
         public static void AddBindings(IKernel kernel)
         {
-            // DB Context
+            // DbContext
             kernel.Bind<IDbContext>().To<CoinageDbContext>().InRequestScope();
 
-            // Repository
+            // Repositories
             kernel.Bind(typeof(IRepository<>)).To(typeof(EfRepository<>)).InRequestScope();
+            kernel.Bind(typeof(IRepositoryAsync<>)).To(typeof(EfRepositoryAsync<>)).InRequestScope();
 
             // Services
             kernel.Bind<ICustomerService>().To<CustomerService>().InRequestScope();

@@ -1,4 +1,5 @@
-﻿using Coinage.Domain.Data;
+﻿using System.Linq.Expressions;
+using Coinage.Domain.Data;
 using Coinage.Domain.Entites;
 using Coinage.Domain.Models;
 using Coinage.Domain.Services;
@@ -25,8 +26,8 @@ namespace Coinage.Domain.Tests.Services
                 var result = service.GetProducts();
 
                 // Assert
-                Assert.IsInstanceOf<List<Product>>(result);
-                Assert.AreEqual(0, result.Count);
+                Assert.IsInstanceOf<IEnumerable<Product>>(result);
+                Assert.AreEqual(0, result.ToList().Count);
             }
 
             [Test]
@@ -39,14 +40,14 @@ namespace Coinage.Domain.Tests.Services
                     new Product {Id = 1, Name = "First Product"},
                     new Product {Id = 2, Name = "Second Product"}
                 };
-                service.SetupRepoGetProducts(products);
+                service.SetupRepoGetAll(products);
 
                 // Act
                 var result = service.GetProducts();
 
                 // Assert
-                Assert.IsInstanceOf<List<Product>>(result);
-                Assert.AreEqual(2, result.Count);
+                Assert.IsInstanceOf<IEnumerable<Product>>(result);
+                Assert.AreEqual(2, result.ToList().Count);
             }
         }
         public class GetFeaturedProducts
@@ -61,8 +62,9 @@ namespace Coinage.Domain.Tests.Services
                 var result = service.GetFeaturedProducts();
 
                 // Assert
-                Assert.IsInstanceOf<List<Product>>(result);
-                Assert.AreEqual(0, result.Count);
+                Assert.IsNotNull(result);
+                Assert.IsInstanceOf<IEnumerable<Product>>(result);
+                Assert.AreEqual(0, result.ToList().Count);
             }
 
             [Test]
@@ -72,17 +74,19 @@ namespace Coinage.Domain.Tests.Services
                 var service = TestableProductService.Create();
                 var products = new List<Product>
                 {
-                    new Product {Id = 1, Name = "First Product", IsFeatured = true},
-                    new Product {Id = 2, Name = "Second Product", IsFeatured = false}
+                    new Product {Id = 1, IsFeatured = false},
+                    new Product {Id = 2, IsFeatured = true}
                 };
-                service.SetupRepoGetProducts(products);
+                service.SetupRepoFindAll(products, p => p.IsFeatured);
 
                 // Act
                 var result = service.GetFeaturedProducts();
 
                 // Assert
-                Assert.IsInstanceOf<List<Product>>(result);
-                Assert.AreEqual(1, result.Count);
+                Assert.IsNotNull(result);
+                Assert.IsInstanceOf<IEnumerable<Product>>(result);
+                Assert.AreEqual(1, result.ToList().Count);;
+                Assert.AreEqual(2, result.ToList()[0].Id);
             }
 
             [Test]
@@ -92,17 +96,18 @@ namespace Coinage.Domain.Tests.Services
                 var service = TestableProductService.Create();
                 var products = new List<Product>
                 {
-                    new Product {Id = 1, Name = "First Product", IsFeatured = true},
-                    new Product {Id = 2, Name = "Second Product", IsFeatured = true}
+                    new Product {Id = 1, IsFeatured = true},
+                    new Product {Id = 2, IsFeatured = true}
                 };
-                service.SetupRepoGetProducts(products);
+                service.SetupRepoFindAll(products, p => p.IsFeatured);
 
                 // Act
                 var result = service.GetFeaturedProducts();
 
                 // Assert
-                Assert.IsInstanceOf<List<Product>>(result);
-                Assert.AreEqual(2, result.Count);
+                Assert.IsNotNull(result);
+                Assert.IsInstanceOf<IEnumerable<Product>>(result);
+                Assert.AreEqual(2, result.ToList().Count);
             }
 
             [Test]
@@ -112,17 +117,18 @@ namespace Coinage.Domain.Tests.Services
                 var service = TestableProductService.Create();
                 var products = new List<Product>
                 {
-                    new Product {Id = 1, Name = "First Product", IsFeatured = false},
-                    new Product {Id = 2, Name = "Second Product", IsFeatured = false}
+                    new Product { IsFeatured = false},
+                    new Product { IsFeatured = false}
                 };
-                service.SetupRepoGetProducts(products);
+                service.SetupRepoFindAll(products, p => p.IsFeatured);
 
                 // Act
                 var result = service.GetFeaturedProducts();
 
                 // Assert
-                Assert.IsInstanceOf<List<Product>>(result);
-                Assert.AreEqual(0, result.Count);
+                Assert.IsNotNull(result);
+                Assert.IsInstanceOf<IEnumerable<Product>>(result);
+                Assert.AreEqual(0, result.ToList().Count);
             }
         }
 
@@ -139,8 +145,9 @@ namespace Coinage.Domain.Tests.Services
                 var result = service.GetLatestProducts(count);
 
                 // Assert
-                Assert.IsInstanceOf<List<Product>>(result);
-                Assert.AreEqual(0, result.Count);
+                Assert.IsNotNull(result);
+                Assert.IsInstanceOf<IEnumerable<Product>>(result);
+                Assert.AreEqual(0, result.ToList().Count);
             }
 
             [Test]
@@ -153,17 +160,18 @@ namespace Coinage.Domain.Tests.Services
                     new Product {Id = 1, Name = "First Product", CreatedOn = DateTime.Now.AddHours(-1)},
                     new Product {Id = 2, Name = "Second Product", CreatedOn = DateTime.Now}
                 };
-                service.SetupRepoGetProducts(products);
+                service.SetupRepoTable(products);
                 int count = 100;
 
                 // Act
                 var result = service.GetLatestProducts(count);
 
                 // Assert
-                Assert.IsInstanceOf<List<Product>>(result);
-                Assert.AreEqual(2, result.Count);
-                Assert.AreEqual(2, result[0].Id);
-                Assert.AreEqual(1, result[1].Id);
+                Assert.IsNotNull(result);
+                Assert.IsInstanceOf<IEnumerable<Product>>(result);
+                Assert.AreEqual(2, result.ToList().Count);
+                Assert.AreEqual(2, result.ToList()[0].Id);
+                Assert.AreEqual(1, result.ToList()[1].Id);
             }
 
             [Test]
@@ -178,17 +186,18 @@ namespace Coinage.Domain.Tests.Services
                     new Product {Id = 3, Name = "Third Product", CreatedOn = DateTime.Now.AddHours(-1)},
                     new Product {Id = 4, Name = "Fourth Product", CreatedOn = DateTime.Now}
                 };
-                service.SetupRepoGetProducts(products);
+                service.SetupRepoTable(products);
                 int count = 2;
 
                 // Act
                 var result = service.GetLatestProducts(count);
 
                 // Assert
-                Assert.IsInstanceOf<List<Product>>(result);
-                Assert.AreEqual(2, result.Count);
-                Assert.AreEqual(4, result[0].Id);
-                Assert.AreEqual(3, result[1].Id);
+                Assert.IsNotNull(result);
+                Assert.IsInstanceOf<IEnumerable<Product>>(result);
+                Assert.AreEqual(2, result.ToList().Count);
+                Assert.AreEqual(4, result.ToList()[0].Id);
+                Assert.AreEqual(3, result.ToList()[1].Id);
             }
         }
 
@@ -214,7 +223,7 @@ namespace Coinage.Domain.Tests.Services
                 // Arrange
                 var service = TestableProductService.Create();
                 var product = new Product { Id = 1 };
-                service.SetupRepoGetById(product);
+                service.SetupRepoFind(product);
 
                 // Act
                 var result = service.GetProductById(product.Id);
@@ -331,9 +340,9 @@ namespace Coinage.Domain.Tests.Services
 
         private class TestableProductService : ProductService
         {
-            public readonly Mock<IRepository<Product>> ProductRepository;
+            public readonly Mock<IRepositoryAsync<Product>> ProductRepository;
 
-            private TestableProductService(Mock<IRepository<Product>> productRepository)
+            private TestableProductService(Mock<IRepositoryAsync<Product>> productRepository)
                 : base(productRepository.Object)
             {
                 ProductRepository = productRepository;
@@ -341,21 +350,35 @@ namespace Coinage.Domain.Tests.Services
 
             public static TestableProductService Create()
             {
-                return new TestableProductService(new Mock<IRepository<Product>>());
+                return new TestableProductService(new Mock<IRepositoryAsync<Product>>());
             }
 
-            public void SetupRepoGetProducts(IEnumerable<Product> products)
+            public void SetupRepoTable(IEnumerable<Product> products)
             {
                 ProductRepository
                     .Setup(s => s.Table)
-                    .Returns(products.AsQueryable());
+                    .Returns(products.AsQueryable);
             }
 
-            public void SetupRepoGetById(Product product)
+            public void SetupRepoGetAll(IEnumerable<Product> products)
             {
                 ProductRepository
-                    .Setup(s => s.GetById(It.IsAny<int>()))
+                    .Setup(s => s.GetAll())
+                    .Returns(products);
+            }
+
+            public void SetupRepoFind(Product product)
+            {
+                ProductRepository
+                    .Setup(s => s.Find(It.IsAny<Expression<Func<Product, bool>>>()))
                     .Returns(product);
+            }
+
+            public void SetupRepoFindAll(IEnumerable<Product> products, Func<Product, bool> predicate)
+            {
+                ProductRepository
+                    .Setup(s => s.FindAll(It.IsAny<Expression<Func<Product, bool>>>()))
+                    .Returns(products.Where(predicate));
             }
         }
     }

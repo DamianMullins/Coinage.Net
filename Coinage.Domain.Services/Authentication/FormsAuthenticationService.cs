@@ -1,9 +1,10 @@
-﻿using Coinage.Domain.Authentication;
+﻿using System.Runtime.CompilerServices;
+using Coinage.Domain.Authentication;
+using Coinage.Domain.Entites;
+using Coinage.Domain.Extensions;
 using System;
 using System.Web;
 using System.Web.Security;
-using Coinage.Domain.Entites;
-using Coinage.Domain.Extensions;
 
 namespace Coinage.Domain.Services.Authentication
 {
@@ -33,6 +34,7 @@ namespace Coinage.Domain.Services.Authentication
                         if (Guid.TryParse(customerCookie.Value, out customerGuid))
                         {
                             Customer customerFromCookie = _customerService.GetCustomerByGuid(customerGuid);
+
                             if (customerFromCookie != null && !customerFromCookie.IsRegistered())
                             {
                                 customer = customerFromCookie;
@@ -107,29 +109,30 @@ namespace Coinage.Domain.Services.Authentication
             FormsAuthentication.SignOut();
         }
 
-        public Customer GetAuthenticatedCustomer()
+        private Customer GetAuthenticatedCustomer()
         {
-            if (_currentCustomer != null)
-            {
-                return _currentCustomer;
-            }
+            if (_currentCustomer != null) return _currentCustomer;
+            if (_httpContext == null || !_httpContext.Request.IsAuthenticated || !(_httpContext.User.Identity is FormsIdentity)) return null;
 
-            if (_httpContext == null || !_httpContext.Request.IsAuthenticated || !(_httpContext.User.Identity is FormsIdentity))
+            var formsIdentity = (FormsIdentity)_httpContext.User.Identity;
+
+            try
+            {
+                Customer customer = GetAuthenticatedCustomerFromTicket(formsIdentity.Ticket);
+
+                if (customer != null && customer.Active && customer.IsRegistered())
+                {
+                    _currentCustomer = customer;
+                }
+            }
+            catch (Exception)
             {
                 return null;
             }
 
-            var formsIdentity = (FormsIdentity)_httpContext.User.Identity;
-            var customer = GetAuthenticatedCustomerFromTicket(formsIdentity.Ticket);
-
-            if (customer != null && customer.Active && customer.IsRegistered())
-            {
-                _currentCustomer = customer;
-            }
-
             return _currentCustomer;
         }
-
+        
         private HttpCookie GetCustomerCookie()
         {
             return _httpContext == null ? null : _httpContext.Request.Cookies[CustomerCookieName];
@@ -156,12 +159,10 @@ namespace Coinage.Domain.Services.Authentication
 
             string email = ticket.UserData;
 
-            if (string.IsNullOrWhiteSpace(email))
-            {
-                return null;
-            }
+            if (string.IsNullOrEmpty(email)) throw new ArgumentException("User email was not found", "ticket");
 
-            Customer customer = _customerService.GetCustomerByEmail(email);
+            var task = _customerService.GetCustomerByEmailAsync(email);
+            Customer customer = task.Result;
             return customer;
         }
     }

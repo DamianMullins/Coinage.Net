@@ -1,4 +1,5 @@
-﻿using Coinage.Domain.Entites;
+﻿using System.Threading.Tasks;
+using Coinage.Domain.Entites;
 
 namespace Coinage.Domain.Authentication
 {
@@ -21,10 +22,16 @@ namespace Coinage.Domain.Authentication
         /// </summary>
         void SignOut();
 
-        /// <summary>
-        /// Get the current authenticated Customer.
-        /// </summary>
-        /// <returns>A Customer object.</returns>
-        Customer GetAuthenticatedCustomer();
+        ///// <summary>
+        ///// Get the current authenticated Customer.
+        ///// </summary>
+        ///// <returns>A Customer object.</returns>
+        //Customer GetAuthenticatedCustomer();
+
+        ///// <summary>
+        ///// Asynchronously get the current authenticated Customer.
+        ///// </summary>
+        ///// <returns>A Customer object.</returns>
+        //Task<Customer> GetAuthenticatedCustomerAsync();
     }
 }

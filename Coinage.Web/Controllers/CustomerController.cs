@@ -5,6 +5,7 @@ using Coinage.Domain.Models;
 using Coinage.Domain.Models.Customers;
 using Coinage.Domain.Services;
 using Coinage.Web.Models.Customers;
+using System.Threading.Tasks;
 using System.Web.Mvc;
 
 namespace Coinage.Web.Controllers
@@ -22,29 +23,21 @@ namespace Coinage.Web.Controllers
 
         public ActionResult Register()
         {
-            var model = new RegisterModel();
+            if (_authenticationService.CurrentCustomer.IsRegistered()) return RedirectToAction("Index", "Home");
 
-            return View(model);
+            return View(new RegisterModel());
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Register(RegisterModel model, string returnUrl)
+        public async Task<ActionResult> Register(RegisterModel model, string returnUrl)
         {
-            if (_authenticationService.CurrentCustomer.IsRegistered())
-            {
-                // TODO
-                // Already registered so create a new record
-                _authenticationService.SignOut();
-                _customerService.InsertGuestCustomer();
-            }
-
             if (ModelState.IsValid)
             {
                 Customer customer = _authenticationService.CurrentCustomer;
 
                 var registrationRequest = new CustomerRegistrationRequest(customer, model.Email, model.Password, model.FirstName, model.LastName, model.Phone);
-                EntityActionResponse registrationResult = _customerService.RegisterCustomer(registrationRequest);
+                EntityActionResponse registrationResult = await _customerService.RegisterCustomerAsync(registrationRequest);
 
                 if (registrationResult.Success)
                 {

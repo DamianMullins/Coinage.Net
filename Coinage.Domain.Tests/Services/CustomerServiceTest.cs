@@ -1,4 +1,6 @@
-﻿using Coinage.Domain.Data;
+﻿using System.Linq.Expressions;
+using System.Threading.Tasks;
+using Coinage.Domain.Data;
 using Coinage.Domain.Entites;
 using Coinage.Domain.Models;
 using Coinage.Domain.Security;
@@ -14,44 +16,44 @@ namespace Coinage.Domain.Tests.Services
     [TestFixture]
     public class CustomerServiceTest
     {
-        public class GetCustomerById
+        public class GetCustomerByIdAsync
         {
             [Test]
-            public void GetCustomerById_NonExistentCustomerId_ReturnsNull()
+            public async Task GetCustomerByIdAsync_NonExistentCustomerId_ReturnsNull()
             {
                 // Arrange
                 var service = TestableCustomerService.Create();
                 int customerId = 1;
 
                 // Act
-                var result = service.GetCustomerById(customerId);
+                var result = await service.GetCustomerByIdAsync(customerId);
 
                 // Assert
                 Assert.IsNull(result);
             }
 
             [Test]
-            public void GetCustomerById_RepoThrowsError_RepoErrorIsThrown()
+            public async Task GetCustomerByIdAsync_RepoThrowsError_RepoErrorIsThrown()
             {
                 // Arrange
                 var service = TestableCustomerService.Create();
                 var customerId = 1;
-                service.CustomerRepository.Setup(c => c.GetById(It.IsAny<int>())).Throws(new Exception("Error message"));
+                service.CustomerRepository.Setup(c => c.FindAsync(It.IsAny<Expression<Func<Customer, bool>>>())).Throws(new Exception("Error message"));
 
                 // Act & Assert
-                Assert.Throws<Exception>(() => service.GetCustomerById(customerId));
+                Assert.Throws<Exception>(async () => await service.GetCustomerByIdAsync(customerId));
             }
 
             [Test]
-            public void GetCustomerById_ExistingCustomerId_ReturnsCustomer()
+            public async Task GetCustomerByIdAsync_ExistingCustomerId_ReturnsCustomer()
             {
                 // Arrange
                 var service = TestableCustomerService.Create();
                 var customer = new Customer { Id = 1 };
-                service.SetupRepoGetById(customer);
+                service.SetupRepoFindAsync(customer);
 
                 // Act
-                var result = service.GetCustomerById(customer.Id);
+                var result = await service.GetCustomerByIdAsync(customer.Id);
 
                 // Assert
                 Assert.IsNotNull(result);
@@ -59,61 +61,59 @@ namespace Coinage.Domain.Tests.Services
             }
         }
 
-        public class GetCustomerByGuid
+        public class GetCustomerByGuidAsync
         {
             [Test]
-            public void GetCustomerByGuid_EmptyGuid_ReturnsNull()
+            public async Task GetCustomerByGuidAsync_EmptyGuid_ReturnsNull()
             {
                 // Arrange
                 var service = TestableCustomerService.Create();
                 var customerGuid = Guid.NewGuid();
 
                 // Act
-                Customer result = service.GetCustomerByGuid(customerGuid);
+                Customer result = await service.GetCustomerByGuidAsync(customerGuid);
 
                 // Assert
                 Assert.IsNull(result);
             }
 
+            //[Test]
+            //public async Task GetCustomerByGuid_NonExistentCustomerGuid_ReturnsNull()
+            //{
+            //    // Arrange
+            //    var service = TestableCustomerService.Create();
+            //    var customerGuid = Guid.NewGuid();
+
+            //    // Act
+            //    Customer result = await service.GetCustomerByGuidAsync(customerGuid);
+
+            //    // Assert
+            //    Assert.IsNull(result);
+            //}
+
             [Test]
-            public void GetCustomerByGuid_NonExistentCustomerGuid_ReturnsNull()
+            public async Task GetCustomerByGuidAsync_RepoThrowsError_RepoErrorIsThrown()
             {
                 // Arrange
                 var service = TestableCustomerService.Create();
                 var customerGuid = Guid.NewGuid();
-                var customer = new Customer { CustomerGuid = Guid.NewGuid() };
-                service.SetupRepoTable(new[] { customer });
-
-                // Act
-                Customer result = service.GetCustomerByGuid(customerGuid);
-
-                // Assert
-                Assert.IsNull(result);
-            }
-
-            [Test]
-            public void GetCustomerByGuid_RepoThrowsError_RepoErrorIsThrown()
-            {
-                // Arrange
-                var service = TestableCustomerService.Create();
-                var customerGuid = Guid.NewGuid();
-                service.CustomerRepository.Setup(c => c.Table).Throws(new Exception("Error message"));
+                service.CustomerRepository.Setup(c => c.FindAsync(It.IsAny<Expression<Func<Customer, bool>>>())).Throws(new Exception("Error message"));
 
                 // Act & Assert
-                Assert.Throws<Exception>(() => service.GetCustomerByGuid(customerGuid));
+                Assert.Throws<Exception>(async () => await service.GetCustomerByGuidAsync(customerGuid));
             }
 
             [Test]
-            public void GetCustomerByGuid_ExistingCustomerGuid_ReturnsCustomer()
+            public async Task GetCustomerByGuidAsync_ExistingCustomerGuid_ReturnsCustomer()
             {
                 // Arrange
                 var service = TestableCustomerService.Create();
                 var customerGuid = Guid.NewGuid();
                 var customer = new Customer { CustomerGuid = customerGuid };
-                service.SetupRepoTable(new[] { customer, new Customer { CustomerGuid = Guid.NewGuid()} }); // Added an extra customer to prove that we get the correct result back
-                
+                service.SetupRepoFindAsync(customer);
+
                 // Act
-                Customer result = service.GetCustomerByGuid(customerGuid);
+                Customer result = await service.GetCustomerByGuidAsync(customerGuid);
 
                 // Assert
                 Assert.IsNotNull(result);
@@ -121,61 +121,56 @@ namespace Coinage.Domain.Tests.Services
             }
         }
 
-        public class GetCustomerByEmail
+        public class GetCustomerByEmailAsync
         {
             [Test]
-            public void GetCustomerByEmail_NullString_ReturnsNull()
+            public async Task GetCustomerByEmailAsync_NullString_ReturnsNull()
             {
                 // Arrange
                 var service = TestableCustomerService.Create();
                 string customerEmail = null;
 
+                // Act & Assert
+                Assert.Throws<ArgumentNullException>(async () => await service.GetCustomerByEmailAsync(customerEmail));
+            }
+
+            [Test]
+            public async Task GetCustomerByEmailAsync_NonExistentCustomerEmail_ReturnsNull()
+            {
+                // Arrange
+                var service = TestableCustomerService.Create();
+                var customerEmail = "test@test.com";
+
                 // Act
-                Customer result = service.GetCustomerByEmail(customerEmail);
+                Customer result = await service.GetCustomerByEmailAsync(customerEmail);
 
                 // Assert
                 Assert.IsNull(result);
             }
 
             [Test]
-            public void GetCustomerByEmail_NonExistentCustomerEmail_ReturnsNull()
+            public async Task GetCustomerByEmailAsync_RepoThrowsError_RepoErrorIsThrown()
             {
                 // Arrange
                 var service = TestableCustomerService.Create();
                 var customerEmail = "test@test.com";
-                var customer = new Customer { Email = "another-test@test.com"};
-                service.SetupRepoTable(new[] { customer });
-
-                // Act
-                Customer result = service.GetCustomerByEmail(customerEmail);
-
-                // Assert
-                Assert.IsNull(result);
-            }
-
-            [Test]
-            public void GetCustomerByEmail_RepoThrowsError_RepoErrorIsThrown()
-            {
-                // Arrange
-                var service = TestableCustomerService.Create();
-                var customerEmail = "test@test.com";
-                service.CustomerRepository.Setup(c => c.Table).Throws(new Exception("Error message"));
+                service.CustomerRepository.Setup(c => c.FindAsync(It.IsAny<Expression<Func<Customer, bool>>>())).Throws(new Exception("Error message"));
 
                 // Act & Assert
-                Assert.Throws<Exception>(() => service.GetCustomerByEmail(customerEmail));
+                Assert.Throws<Exception>(async () => await service.GetCustomerByEmailAsync(customerEmail));
             }
 
             [Test]
-            public void GetCustomerByEmail_ExistingCustomerGuid_ReturnsCustomer()
+            public async Task GetCustomerByEmailAsync_ExistingCustomerGuid_ReturnsCustomer()
             {
                 // Arrange
                 var service = TestableCustomerService.Create();
                 var customerEmail = "test@test.com";
                 var customer = new Customer { Email = customerEmail };
-                service.SetupRepoTable(new[] { customer, new Customer { Email = "another-test@test.com" } }); // Added an extra customer to prove that we get the correct result back
+                service.SetupRepoFindAsync(customer);
 
                 // Act
-                Customer result = service.GetCustomerByEmail(customerEmail);
+                Customer result = await service.GetCustomerByEmailAsync(customerEmail);
 
                 // Assert
                 Assert.IsNotNull(result);
@@ -188,36 +183,37 @@ namespace Coinage.Domain.Tests.Services
 
         }
 
-        public class Update
+        public class UpdateAsync
         {
             [Test]
-            public void Update_NullCustomer_ReturnsUnsuccessfulWithArgumentNullException()
+            public async Task UpdateAsync_NullCustomer_ReturnsUnsuccessfulWithArgumentNullException()
             {
                 // Arrange
                 var service = TestableCustomerService.Create();
                 Customer customer = null;
 
                 // Act
-                EntityActionResponse result = service.Update(customer);
+                EntityActionResponse result = await service.UpdateAsync(customer);
 
                 // Assert
                 Assert.IsNotNull(result);
                 Assert.IsNotNull(result.Exception);
                 Assert.IsInstanceOf<ArgumentNullException>(result.Exception);
                 Assert.IsFalse(result.Success);
+                service.CustomerRepository.Verify(b => b.UpdateAsync(It.IsAny<Customer>()), Times.Never);
             }
 
             [Test]
-            public void Update_CustomerRepoThrowsError_ReturnsUnsuccessful()
+            public async Task UpdateAsync_CustomerRepoThrowsError_ReturnsUnsuccessful()
             {
                 // Arrange
                 var service = TestableCustomerService.Create();
                 var exception = new Exception("Error");
-                service.CustomerRepository.Setup(r => r.Update(It.IsAny<Customer>())).Throws(exception);
+                service.CustomerRepository.Setup(r => r.UpdateAsync(It.IsAny<Customer>())).Throws(exception);
                 var customer = new Customer();
 
                 // Act
-                EntityActionResponse result = service.Update(customer);
+                EntityActionResponse result = await service.UpdateAsync(customer);
 
                 // Assert
                 Assert.IsNotNull(result);
@@ -228,52 +224,54 @@ namespace Coinage.Domain.Tests.Services
             }
 
             [Test]
-            public void Update_CustomerRepoUpdatesSuccessfully_ReturnsSuccessful()
+            public async Task UpdateAsync_CustomerRepoUpdatesSuccessfully_ReturnsSuccessful()
             {
                 // Arrange
                 var service = TestableCustomerService.Create();
                 var customer = new Customer();
 
                 // Act
-                EntityActionResponse result = service.Update(customer);
+                EntityActionResponse result = await service.UpdateAsync(customer);
 
                 // Assert
                 Assert.IsNotNull(result);
                 Assert.IsTrue(result.Success);
                 Assert.IsNull(result.Exception);
+                service.CustomerRepository.Verify(b => b.UpdateAsync(It.IsAny<Customer>()), Times.Once);
             }
         }
 
-        public class Create
+        public class CreateAsync
         {
             [Test]
-            public void Create_NullCustomer_ReturnsUnsuccessfulWithArgumentNullException()
+            public async Task CreateAsync_NullCustomer_ReturnsUnsuccessfulWithArgumentNullException()
             {
                 // Arrange
                 var service = TestableCustomerService.Create();
                 Customer customer = null;
 
                 // Act
-                EntityActionResponse result = service.Update(customer);
+                EntityActionResponse result = await service.CreateAsync(customer);
 
                 // Assert
                 Assert.IsNotNull(result);
                 Assert.IsNotNull(result.Exception);
                 Assert.IsInstanceOf<ArgumentNullException>(result.Exception);
                 Assert.IsFalse(result.Success);
+                service.CustomerRepository.Verify(b => b.InsertAsync(It.IsAny<Customer>()), Times.Never);
             }
 
             [Test]
-            public void Create_CustomerRepoThrowsError_ReturnsUnsuccessful()
+            public async Task CreateAsync_CustomerRepoThrowsError_ReturnsUnsuccessful()
             {
                 // Arrange
                 var service = TestableCustomerService.Create();
                 var exception = new Exception("Error");
-                service.CustomerRepository.Setup(r => r.Insert(It.IsAny<Customer>())).Throws(exception);
+                service.CustomerRepository.Setup(r => r.InsertAsync(It.IsAny<Customer>())).Throws(exception);
                 var customer = new Customer();
 
                 // Act
-                EntityActionResponse result = service.Create(customer);
+                EntityActionResponse result = await service.CreateAsync(customer);
 
                 // Assert
                 Assert.IsNotNull(result);
@@ -284,29 +282,30 @@ namespace Coinage.Domain.Tests.Services
             }
 
             [Test]
-            public void Create_CustomerRepoCreatesSuccessfully_ReturnsSuccessful()
+            public async Task CreateAsync_CustomerRepoCreatesSuccessfully_ReturnsSuccessful()
             {
                 // Arrange
                 var service = TestableCustomerService.Create();
                 var customer = new Customer();
 
                 // Act
-                EntityActionResponse result = service.Create(customer);
+                EntityActionResponse result = await service.CreateAsync(customer);
 
                 // Assert
                 Assert.IsNotNull(result);
                 Assert.IsTrue(result.Success);
                 Assert.IsNull(result.Exception);
+                service.CustomerRepository.Verify(b => b.InsertAsync(It.IsAny<Customer>()), Times.Once);
             }
         }
 
         private class TestableCustomerService : CustomerService
         {
-            public readonly Mock<IRepository<Customer>> CustomerRepository;
-            public readonly Mock<IRepository<CustomerRole>> CustomerRoleRepository;
+            public readonly Mock<IRepositoryAsync<Customer>> CustomerRepository;
+            public readonly Mock<IRepositoryAsync<CustomerRole>> CustomerRoleRepository;
             private Mock<IEncryptionService> EncryptionService;
 
-            private TestableCustomerService(Mock<IRepository<Customer>> customerRepository, Mock<IRepository<CustomerRole>> customerRoleRepository, Mock<IEncryptionService> encryptionService)
+            private TestableCustomerService(Mock<IRepositoryAsync<Customer>> customerRepository, Mock<IRepositoryAsync<CustomerRole>> customerRoleRepository, Mock<IEncryptionService> encryptionService)
                 : base(customerRepository.Object, customerRoleRepository.Object, encryptionService.Object)
             {
                 CustomerRepository = customerRepository;
@@ -316,21 +315,14 @@ namespace Coinage.Domain.Tests.Services
 
             public static TestableCustomerService Create()
             {
-                return new TestableCustomerService(new Mock<IRepository<Customer>>(), new Mock<IRepository<CustomerRole>>(), new Mock<IEncryptionService>());
+                return new TestableCustomerService(new Mock<IRepositoryAsync<Customer>>(), new Mock<IRepositoryAsync<CustomerRole>>(), new Mock<IEncryptionService>());
             }
 
-            public void SetupRepoTable(IEnumerable<Customer> customers)
+            public void SetupRepoFindAsync(Customer customer)
             {
                 CustomerRepository
-                    .Setup(s => s.Table)
-                    .Returns(customers.AsQueryable());
-            }
-
-            public void SetupRepoGetById(Customer customer)
-            {
-                CustomerRepository
-                    .Setup(s => s.GetById(It.IsAny<int>()))
-                    .Returns(customer);
+                    .Setup(s => s.FindAsync(It.IsAny<Expression<Func<Customer, bool>>>()))
+                    .Returns(Task.FromResult(customer));
             }
         }
     }

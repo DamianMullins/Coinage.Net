@@ -14,7 +14,7 @@ namespace Coinage.Domain.Extensions
         /// <param name="customerRoleName"></param>
         /// <param name="onlyActiveCustomerRoles">A value indicating whether we should look only in active customer roles</param>
         /// <returns>Result</returns>
-        public static bool IsInCustomerRole(this Customer customer, CustomerRoleName customerRoleName, bool onlyActiveCustomerRoles = true)
+        public static bool IsInCustomerRole(this Customer customer, CustomerRoles customerRoleName, bool onlyActiveCustomerRoles = true)
         {
             if (customer == null) throw new ArgumentNullException("customer");
 
@@ -32,7 +32,7 @@ namespace Coinage.Domain.Extensions
         /// <returns>Result</returns>
         public static bool IsRegistered(this Customer customer, bool onlyActiveCustomerRoles = true)
         {
-            return IsInCustomerRole(customer, CustomerRoleName.Registered, onlyActiveCustomerRoles);
+            return IsInCustomerRole(customer, CustomerRoles.Registered, onlyActiveCustomerRoles);
         }
     }
 }
